@@ -1,9 +1,11 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import NotFound from '../components/NotFound'
+import FoodWareHouse from '../components/FoodWarehouse'
+import Modal from '../components/common/Modal'
 
 import Layout from '../components/Layout'
 
@@ -23,6 +25,16 @@ export const Router = () => {
 							path="/adminPanel"
 							component={props => <Layout {...props} />}
 						/>
+
+						<Route
+							exact
+							path="/foodWarehouse"
+							component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
+						/>
+						<Route exact
+									 name="foodWarehouse"
+									 path="/foodWarehouse/:productId"
+									 component={<Modal/>} />
 
 						<Route path="*" component={NotFound} />
 					</Switch>
