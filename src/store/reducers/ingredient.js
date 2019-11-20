@@ -2,29 +2,62 @@ import * as INGREDIENT from '../constants/ingredient'
 
 export const initState = {
 	products: [],
-	loaded: false
-};
+	loaded: false,
+}
 
-export default function (state = initState, action) {
+export default function(state = initState, action) {
+
 	switch (action.type) {
 		case INGREDIENT.INGREDIENT_REQUEST_SENT:
-			return {...state};
+			return { ...state }
 		case INGREDIENT.FETCH_INGREDIENT:
 			return {
 				...state,
 				...{
 					products: action.data,
-					loaded: true
-				}
-			};
-		case INGREDIENT.FETCH_INGREDIENT_BY_ID:
+					loaded: true,
+				},
+			}
+		case INGREDIENT.INGREDIENT_REMOVE_PRODUCT:
+
+			let updatedIngredientList = state.products.filter(el => el._id !== action.data.data.id)
 			return {
 				...state,
 				...{
-					products: action.data,
-					loaded: true
+					products: updatedIngredientList,
+					loaded: true,
+				},
+			}
+		case INGREDIENT.ADD_INGREDIENT:
+			return {
+				...state,
+				...{
+					product:
+						{
+							...state.product,
+							...[action.data],
+						},
+					loaded: true,
+				},
+			}
+		case INGREDIENT.UPDATE_INGREDIENT:
+			const data = action.data
+
+			const updateIngredient = state.products.map(prod => {
+				if (prod._id === data.product._id) {
+					return { ...prod, ...data.product }
 				}
-			};
+				return prod
+			})
+
+			return {
+				...state,
+				...{
+					product: data,
+					loaded: true,
+				},
+			}
+
 		default:
 			return state
 	}

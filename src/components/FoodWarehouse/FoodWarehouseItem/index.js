@@ -19,7 +19,6 @@ import Modal from '../../common/Modal'
 import { Context } from '../../../context/tableContext'
 import reducer from './localTableReducer'
 
-
 import Button from '@material-ui/core/Button'
 import DialogContent from '@material-ui/core/DialogContent'
 
@@ -77,9 +76,15 @@ export default (props) => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 
-	const [state, dispatch] = useReducer(reducer, { open: false, product: [], openDeleteModal: false })
+	const [state, dispatch] = useReducer(reducer, {
+		open: false,
+		product: [],
+		openDeleteModal: false,
+		openCreateItem: false,
+	})
 
-	const { products, handleDeleteItem } = props
+	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem } = props
+
 	const { title = '', description = '', restInStock = null, price = null, _id = '' } = state.product
 
 	const handleChangePage = (event, newPage) => {
@@ -91,17 +96,54 @@ export default (props) => {
 		setPage(0)
 	}
 
+	const handlerDeleteNClose = id => {
+		handleDeleteItem(id)
 
-	useEffect(() => {
+		dispatch({
+			type: 'close',
+			open: false,
+		})
+	}
+	const handlerUpdateNClose = (id, date) => {
+		handlerUpdateItem(id, date)
+
+		dispatch({
+			type: 'save',
+			payload: state.product,
+			open: false,
+		})
+	}
 
 
-	}, [TableBody])
+	const handleChangeIngredient = e => {
+		dispatch({
+			type: 'onChangeInput',
+			payload: { [e.target.name]: e.target.value },
+			open: true,
+		})
+	}
 
-	console.log("PROPS---->", props.products)
+	const handleCreatNCloseIngredient = (data) => {
+		handlerCreateItem(data)
+		dispatch({
+			type: 'onChangeInput',
+			payload: state.product,
+			openCreateItem: false,
+		})
+	}
+
+	const handleCreateNewIngredient = e => {
+		dispatch({
+			type: 'onChangeInput',
+			payload: { [e.target.name]: e.target.value },
+			openCreateItem: true,
+		})
+	}
+
+	console.log("STATE---->", state.product)
 
 	return (
-		<Context.Provider value={{
-		}}>
+		<Context.Provider value={{}}>
 			<Paper className={classes.paper}>
 				<div className={classes.root}>
 					<Table className={classes.table} size="small" aria-label="a dense table">
@@ -128,7 +170,6 @@ export default (props) => {
 												column.id === 'button'
 													? <TableCell key={column.id} align={column.align}>
 														<Tooltip title="Edit" aria-label="edit">
-															{/*<Link to={`/foodWarehouse/${row._id}`}>*/}
 															<IconButton aria-label="edit" className={classes.margin}
 																					onClick={() => dispatch({
 																						type: 'edit',
@@ -187,8 +228,10 @@ export default (props) => {
 									id="standard-basic"
 									className={classes.textField}
 									label="Название"
+									name='title'
 									margin="normal"
-									defaultValue={title}
+									value={title}
+									onChange={handleChangeIngredient}
 								/>
 								<TextField
 									id="standard-number"
@@ -196,7 +239,9 @@ export default (props) => {
 									label="Цена"
 									type="number"
 									margin="normal"
-									defaultValue={price}
+									name='price'
+									value={price}
+									onChange={handleChangeIngredient}
 									InputLabelProps={{
 										shrink: true,
 									}}
@@ -207,7 +252,9 @@ export default (props) => {
 									label="Количество на складе"
 									type="number"
 									margin="normal"
-									defaultValue={restInStock}
+									name="restInStock"
+									value={restInStock}
+									onChange={handleChangeIngredient}
 									InputLabelProps={{
 										shrink: true,
 									}}
@@ -218,7 +265,9 @@ export default (props) => {
 									className={classes.textField}
 									label="Описание"
 									margin="normal"
-									defaultValue={description}
+									name="description"
+									value={description}
+									onChange={handleChangeIngredient}
 								/>
 							</div>
 						</form>
@@ -230,7 +279,7 @@ export default (props) => {
 						})}>
 							Закрыть
 						</Button>
-						<Button color="primary" onClick={() => handleDeleteItem(_id)}>
+						<Button color="primary" onClick={() => handlerUpdateNClose(_id, state.product)}>
 							Сохранить изменения
 						</Button>
 					</DialogActions>
@@ -250,13 +299,87 @@ export default (props) => {
 								})}>
 									Закрыть
 								</Button>
-								<Button color="primary" onClick={() => handleDeleteItem(_id)}>
+								<Button color="primary" onClick={() => handlerDeleteNClose(_id)}>
 									Удалить
 								</Button>
 							</DialogActions>
 						</Modal>
 						: null}
+					{state.openCreateItem ? <Modal data={state}>
+						<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+							Изменения ингредиента
+						</DialogTitle>
+						<DialogContent>
+							<form className={classes.container} noValidate autoComplete="off">
+								<div>
+									<TextField
+										id="standard-basic"
+										className={classes.textField}
+										label="Название"
+										name='title'
+										margin="normal"
+										value={title}
+										onChange={handleCreateNewIngredient}
+									/>
+									<TextField
+										id="standard-number"
+										className={classes.textField}
+										label="Цена"
+										type="number"
+										margin="normal"
+										name='price'
+										value={price}
+										onChange={handleCreateNewIngredient}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+									<TextField
+										id="standard-number"
+										className={classes.textField}
+										label="Количество на складе"
+										type="number"
+										margin="normal"
+										name="restInStock"
+										value={restInStock}
+										onChange={handleCreateNewIngredient}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+
+									<TextField
+										id="standard-basic"
+										className={classes.textField}
+										label="Описание"
+										margin="normal"
+										name="description"
+										value={description}
+										onChange={handleCreateNewIngredient}
+									/>
+								</div>
+							</form>
+						</DialogContent>
+						<DialogActions>
+							<Button autoFocus color="primary" onClick={() => dispatch({
+								type: 'close',
+								openCreateItem: false,
+							})}>
+								Закрыть
+							</Button>
+							<Button color="primary" onClick={() => handleCreatNCloseIngredient( state.product)}>
+								Сохранить изменения
+							</Button>
+						</DialogActions>
+					</Modal> : null}
 				</>
+				<Button variant="contained" color="primary" className={classes.button} onClick={() => dispatch({
+					type: 'openCreateItem',
+					payload: [],
+					openCreateItem: true,
+				})}>
+					Primary
+				</Button>
 			</Paper>
 		</Context.Provider>
 	)

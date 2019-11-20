@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ingAction from '../../store/actions/ingredient'
 import Ingredient from './FoodWarehouseItem'
@@ -16,13 +16,22 @@ export default () => {
 	}, [dispatch])
 
 	const handleDeleteItem = id => {
-		console.log('TEST DELETE----->')
 		dispatch(ingAction.deleteIngredientById(id))
+
 	}
+
+	const handlerUpdateItem = (id, date) => {
+		dispatch(ingAction.updateIngredientById(id, date))
+	}
+
+	const handlerCreateItem = (date) => {
+		dispatch(ingAction.addIngredient(date))
+	}
+
 
 	return (
 		<React.Fragment>
-			<Ingredient products={products} handleDeleteItem={handleDeleteItem}/>
+			<Ingredient products={products} handleDeleteItem={handleDeleteItem} handlerUpdateItem={handlerUpdateItem} handlerCreateItem={handlerCreateItem}/>
 		</React.Fragment>
 	)
 

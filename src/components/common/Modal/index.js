@@ -19,14 +19,14 @@ function PaperComponent(props) {
 
 export default function AlertDialog(props) {
 
-	const { dispatch, handleDeleteItem } = useContext(Context)
-	const { open, openDeleteModal } = props.data
+	const { dispatch, handleDeleteItem, } = useContext(Context)
+	const { open, openDeleteModal, openCreateItem } = props.data
 
 
 	return (
 		<div>
 			<Dialog
-				open={open || openDeleteModal}
+				open={open || openDeleteModal || openCreateItem}
 				// onClose={open || openDeleteModal}
 				PaperComponent={PaperComponent}
 				aria-labelledby="draggable-dialog-title"

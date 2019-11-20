@@ -14,8 +14,8 @@ export default class IngredientAPI extends Base {
 		return super.delete(`ingredients/${id}`)
 	}
 
-	updateIngredient(id) {
-		return super.put(`ingredients/${id}`, id).then(res => res.data)
+	updateIngredient(id, data) {
+		return super.put(`ingredients/${id}`, data).then(res => res.data)
 	}
 
 	getIngredientById(id) {
