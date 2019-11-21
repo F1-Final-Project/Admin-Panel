@@ -140,7 +140,7 @@ export default (props) => {
 		})
 	}
 
-	console.log("STATE---->", state.product)
+	console.log('RELAD---->', products)
 
 	return (
 		<Context.Provider value={{}}>

@@ -5,8 +5,10 @@ import Ingredient from './FoodWarehouseItem'
 
 
 export default () => {
+
+
 	const ingredients = useSelector(state => state.ingredient)
-	const { products } = ingredients
+	const { products, loaded } = ingredients
 
 	const dispatch = useDispatch()
 
@@ -17,21 +19,21 @@ export default () => {
 
 	const handleDeleteItem = id => {
 		dispatch(ingAction.deleteIngredientById(id))
-
 	}
 
-	const handlerUpdateItem = (id, date) => {
-		dispatch(ingAction.updateIngredientById(id, date))
+	const handlerUpdateItem = (id, data) => {
+		dispatch(ingAction.updateIngredientById(id, data))
 	}
 
-	const handlerCreateItem = (date) => {
-		dispatch(ingAction.addIngredient(date))
+	const handlerCreateItem = (data) => {
+		dispatch(ingAction.addIngredient(data))
 	}
 
+	console.log("PRODUCT----->", products)
 
 	return (
 		<React.Fragment>
-			<Ingredient products={products} handleDeleteItem={handleDeleteItem} handlerUpdateItem={handlerUpdateItem} handlerCreateItem={handlerCreateItem}/>
+			{loaded ? <Ingredient products={products} handleDeleteItem={handleDeleteItem} handlerUpdateItem={handlerUpdateItem} handlerCreateItem={handlerCreateItem}/> :<div>...LOAD</div> }
 		</React.Fragment>
 	)
 

@@ -43,7 +43,7 @@ export function addIngredient(data) {
 			.then(res => {
 				return dispatch({
 					type: INGREDIENT.ADD_INGREDIENT,
-					data: data,
+					data: res,
 				})
 			})
 	}

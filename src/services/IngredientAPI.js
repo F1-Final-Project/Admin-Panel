@@ -7,7 +7,7 @@ export default class IngredientAPI extends Base {
 	}
 
 	addIngredient(data) {
-		return super.post(`ingredients`, data)
+		return super.post(`ingredients`, data).then(res => res.data)
 	}
 
 	deleteIngredient(id) {
