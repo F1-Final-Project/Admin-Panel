@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default () => {
+export default (props) => {
 	return (
 		<React.Fragment>
-			<div>Layout</div>
+			<div>{props.children}</div>
 		</React.Fragment>
 	)
 }
