@@ -139,9 +139,9 @@ export default (props) => {
 
 		console.log('eeeee', productsItems)
 
-		if (e.target.checked) {
+		if (e.target.checked && Array.isArray(productsItems)) {
 			productsItems.push(name)
-		} else {
+		} else if(Array.isArray(productsItems)){
 			const index = productsItems.findIndex(i => i.id === name.id);
 			productsItems.splice(index, 1);
 		}
@@ -150,6 +150,19 @@ export default (props) => {
 			type: 'selectItems',
 			payload: productsItems,
 		})
+	}
+
+	const handleOpenCreateModal = data => {
+		return data.map(i => {
+			dispatch({
+				type: 'openCreateModal',
+				payload: i,
+				openCreateModal: true,
+			})
+
+		})
+
+
 	}
 
 
@@ -173,6 +186,10 @@ export default (props) => {
 			})
 		}
 	}
+
+
+
+	console.log('PRODUCT', state.product)
 
 	return (
 		<Context.Provider value={{
@@ -312,13 +329,10 @@ export default (props) => {
 						</DialogActions>
 					</Modal> : null}
 				</>
-				<Button variant="contained" color="primary" className={classes.button} onClick={() => dispatch({
-					type: 'openCreateModal',
-					payload: state.product,
-					openCreateModal: true,
-				})}>
+				<Button variant="contained" color="primary" className={classes.button} onClick={() => handleOpenCreateModal(state.product)}>
 					Create
 				</Button>
+
 				<Button variant="contained" color="primary" className={classes.button}
 								onClick={() => setCheckBoxSelect(checkBoxSelect)}>
 					Select
