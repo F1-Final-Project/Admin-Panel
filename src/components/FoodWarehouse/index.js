@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ingAction from '../../store/actions/ingredient'
-import Ingredient from './FoodWarehouseItem'
+import Ingredient from '../Table'
 
 
 export default () => {
@@ -29,7 +29,6 @@ export default () => {
 		dispatch(ingAction.addIngredient(data))
 	}
 
-	console.log("PRODUCT----->", products)
 
 	return (
 		<React.Fragment>

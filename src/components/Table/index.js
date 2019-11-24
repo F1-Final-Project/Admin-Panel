@@ -4,27 +4,28 @@ import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox'
 
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Modal from '../../common/Modal'
-import { Context } from '../../../context/tableContext'
+import Modal from '../common/Modal'
+import { Context } from '../../context/tableContext'
 import reducer from './localTableReducer'
 
 import Button from '@material-ui/core/Button'
 
-import * as sorted from '../../../lib/sortColums'
-import * as columnName from '../../../lib/columnTableName'
-import ModalInput from '../../common/Modal/ModalInput'
+import * as sorted from '../../lib/sortColums'
+import * as columnName from '../../lib/columnTableName'
+import ModalInput from '../common/Modal/ModalInput'
+import THead from './TableHead'
+import Toolbar from './ToolBar'
 
 
 const useStyles = makeStyles(theme => ({
@@ -65,6 +66,17 @@ const useStyles = makeStyles(theme => ({
 		marginRight: theme.spacing(1),
 		width: 200,
 	},
+	visuallyHidden: {
+		border: 0,
+		clip: 'rect(0 0 0 0)',
+		height: 1,
+		margin: -1,
+		overflow: 'hidden',
+		padding: 0,
+		position: 'absolute',
+		top: 20,
+		width: 1,
+	},
 }))
 
 export default (props) => {
@@ -72,14 +84,16 @@ export default (props) => {
 
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
+	const [checkBoxSelect, setCheckBoxSelect] = useState(true)
 
 	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem } = props
 
 	const [state, dispatch] = useReducer(reducer, {
 		openEditModal: false,
-		product: sorted.inputItems(products),
+		product: [sorted.inputItems(products)],
 		openDeleteModal: false,
 		openCreateModal: false,
+		selectItem: false,
 	})
 	const { _id = '' } = state.product
 
@@ -119,6 +133,26 @@ export default (props) => {
 			openCreateModal: false,
 		})
 	}
+
+	const handleSelectItem = (e, name) => {
+		const productsItems = state.product
+
+		console.log('eeeee', productsItems)
+
+		if (e.target.checked) {
+			productsItems.push(name)
+		} else {
+			const index = productsItems.findIndex(i => i.id === name.id);
+			productsItems.splice(index, 1);
+		}
+
+		dispatch({
+			type: 'selectItems',
+			payload: productsItems,
+		})
+	}
+
+
 	//
 	// const handleCreateNewIngredient = e => {
 	// 	dispatch({
@@ -128,38 +162,38 @@ export default (props) => {
 	// 	})
 	// }
 
+	const checked = rowID => {
+		if (Array.isArray(state.product)) {
+			state.product.find(i => {
+				if (!_id) {
+					return false
+				} else {
+					return i._id === rowID._id
+				}
+			})
+		}
+	}
+
 	return (
 		<Context.Provider value={{
 			dispatch, state,
 		}}>
 			<Paper className={classes.paper}>
+				<Toolbar/>
 				<div className={classes.root}>
 					<Table className={classes.table} size="small" aria-label="a dense table">
-						<TableHead className={classes.tHeader}>
-							<TableRow>
-								<TableCell padding="checkbox">
-									<Checkbox
-										indeterminate={1}
-										checked={1}
-										inputProps={{ 'aria-label': 'select all desserts' }}
-									/>
-								</TableCell>
-								{columnName.clmns(products).sort(sorted.compare).map(column => (
-									<TableCell
-										key={column.id}
-										align={column.align}
-										style={{ minWidth: column.minWidth }}
-										padding="checkbox"
-									>
-										{column.label}
-									</TableCell>
-								))}
-							</TableRow>
-						</TableHead>
+						<THead products={products} classes={classes} checkBoxSelect={checkBoxSelect}/>
 						<TableBody>
 							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
 								return (
 									<TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+										{checkBoxSelect && <TableCell padding="checkbox">
+											<Checkbox
+												id={row._id}
+												onChange={e => handleSelectItem(e, row)}
+												checked={checked(row._id)}
+											/>
+										</TableCell>}
 										{columnName.clmns(products).sort(sorted.compare).map(column => {
 											const value = row[column.id]
 											if (column.id === 'button') {
@@ -193,13 +227,14 @@ export default (props) => {
 													</TableCell>
 												} else if (Array.isArray(value)) {
 													return <TableCell key={column.id} align={column.align}>
-														{	value.map(i => i.title)}
+														{value.map(i => i.title)}
 													</TableCell>
 												} else {
 													return <TableCell key={column.id} align={column.align}>
-													{typeof value === 'object' ? '' : value}
+														{typeof value === 'object' ? '' : value}
 													</TableCell>
 												}
+
 											}
 										})}
 									</TableRow>
@@ -282,7 +317,11 @@ export default (props) => {
 					payload: state.product,
 					openCreateModal: true,
 				})}>
-					Primary
+					Create
+				</Button>
+				<Button variant="contained" color="primary" className={classes.button}
+								onClick={() => setCheckBoxSelect(checkBoxSelect)}>
+					Select
 				</Button>
 			</Paper>
 		</Context.Provider>

@@ -14,7 +14,7 @@ export default function(state, action) {
 				...{
 					openEditModal: action.openEditModal,
 					openDeleteModal: action.openDeleteModal,
-					openCreateModal: action.openCreateModal
+					openCreateModal: action.openCreateModal,
 				},
 			}
 		case 'deleteItem':
@@ -34,13 +34,13 @@ export default function(state, action) {
 				},
 			}
 		case 'onChangeInput':
-			let updatedIngredient = {...state.product, ...action.payload}
+			let updatedIngredient = { ...state.product, ...action.payload }
 			return {
 				state,
 				...{
 					product: updatedIngredient,
 					openEditModal: action.openEditModal,
-					openCreateModal: action.openCreateModal
+					openCreateModal: action.openCreateModal,
 				},
 			}
 
@@ -50,6 +50,14 @@ export default function(state, action) {
 				...{
 					product: action.payload,
 					openCreateModal: action.openCreateModal,
+				},
+			}
+
+		case 'selectItems':
+			return {
+				...state,
+				...{
+					product: action.payload,
 				},
 			}
 
