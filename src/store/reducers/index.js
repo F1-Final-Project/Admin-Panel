@@ -1,3 +1,7 @@
 import { combineReducers } from 'redux'
 
-export default combineReducers({})
+import ingredient from './ingredient'
+
+export default combineReducers({
+	ingredient,
+})
