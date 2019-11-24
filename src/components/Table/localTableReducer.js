@@ -12,6 +12,7 @@ export default function(state, action) {
 			return {
 				...state,
 				...{
+					product: action.payload,
 					openEditModal: action.openEditModal,
 					openDeleteModal: action.openDeleteModal,
 					openCreateModal: action.openCreateModal,
@@ -57,7 +58,7 @@ export default function(state, action) {
 			return {
 				...state,
 				...{
-					product: action.payload,
+					checkedProduct: action.payload,
 				},
 			}
 

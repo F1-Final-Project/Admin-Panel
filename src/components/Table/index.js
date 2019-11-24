@@ -88,13 +88,16 @@ export default (props) => {
 
 	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem } = props
 
-	const [state, dispatch] = useReducer(reducer, {
+	const initState = {
 		openEditModal: false,
-		product: [sorted.inputItems(products)],
+		product: sorted.inputItems(products),
+		checkedProduct: [sorted.inputItems(products)],
 		openDeleteModal: false,
 		openCreateModal: false,
 		selectItem: false,
-	})
+	}
+
+	const [state, dispatch] = useReducer(reducer, initState)
 	const { _id = '' } = state.product
 
 	const handleChangePage = (event, newPage) => {
@@ -111,6 +114,7 @@ export default (props) => {
 
 		dispatch({
 			type: 'closeModal',
+			payload: initState.product,
 			openEditModal: false,
 		})
 	}
@@ -135,7 +139,7 @@ export default (props) => {
 	}
 
 	const handleSelectItem = (e, name) => {
-		const productsItems = state.product
+		const productsItems = state.checkedProduct
 
 		console.log('eeeee', productsItems)
 
@@ -152,18 +156,6 @@ export default (props) => {
 		})
 	}
 
-	const handleOpenCreateModal = data => {
-		return data.map(i => {
-			dispatch({
-				type: 'openCreateModal',
-				payload: i,
-				openCreateModal: true,
-			})
-
-		})
-
-
-	}
 
 
 	//
@@ -281,6 +273,7 @@ export default (props) => {
 					<DialogActions>
 						<Button autoFocus color="primary" onClick={() => dispatch({
 							type: 'closeModal',
+							payload: initState.product,
 							openEditModal: false,
 						})}>
 							Закрыть
@@ -302,6 +295,7 @@ export default (props) => {
 							<DialogActions>
 								<Button autoFocus color="primary" onClick={() => dispatch({
 									type: 'closeModal',
+									payload: initState.product,
 									openEditModal: false,
 								})}>
 									Закрыть
@@ -319,6 +313,7 @@ export default (props) => {
 						<DialogActions>
 							<Button autoFocus color="primary" onClick={() => dispatch({
 								type: 'closeModal',
+								payload: initState.product,
 								openCreateModal: false,
 							})}>
 								Закрыть
@@ -329,7 +324,11 @@ export default (props) => {
 						</DialogActions>
 					</Modal> : null}
 				</>
-				<Button variant="contained" color="primary" className={classes.button} onClick={() => handleOpenCreateModal(state.product)}>
+				<Button variant="contained" color="primary" className={classes.button} onClick={() => dispatch({
+					type: 'openCreateModal',
+					payload: state.product,
+					openCreateModal: true,
+				})}>
 					Create
 				</Button>
 
