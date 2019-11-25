@@ -1,13 +1,16 @@
-import React from 'react';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-
+import React, { useContext } from 'react'
+import clsx from 'clsx'
+import { lighten, makeStyles } from '@material-ui/core/styles'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn'
+import NoteAddIcon from '@material-ui/icons/NoteAdd'
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'
+import CancelIcon from '@material-ui/icons/Cancel'
+import { Context } from '../../../context/tableContext'
+import * as sorted from '../../../lib/sorted'
 
 
 const useToolbarStyles = makeStyles(theme => ({
@@ -28,11 +31,14 @@ const useToolbarStyles = makeStyles(theme => ({
 	title: {
 		flex: '1 1 100%',
 	},
-}));
+}))
 
 export default props => {
-	const classes = useToolbarStyles();
-	const { numSelected } = props;
+	const classes = useToolbarStyles()
+	const { numSelected } = props
+	const { dispatch, state } = useContext(Context)
+	const { products } = props
+
 
 	return (
 		<Toolbar
@@ -46,23 +52,51 @@ export default props => {
 				</Typography>
 			) : (
 				<Typography className={classes.title} variant="h6" id="tableTitle">
-					Nutrition
+					Table list
 				</Typography>
 			)}
 
+			{state.openCheckBox ? (
+					<Tooltip title="Close selected">
+						<IconButton aria-label="close selected" onClick={() => dispatch({
+							type: 'checkedProduct',
+							payload: [],
+							checkBoxActive: [],
+						})}>
+							<CancelIcon/>
+						</IconButton>
+					</Tooltip>)
+				: (<Tooltip title="Select item">
+					<IconButton aria-label="select item" onClick={() => dispatch({
+						type: 'checkedProduct',
+						openCheckBox: true,
+						payload: state.checkedProduct,
+						checkBoxActive: [],
+					})}>
+						<PlaylistAddCheckIcon/>
+					</IconButton>
+				</Tooltip>)}
+
 			{numSelected > 0 ? (
-				<Tooltip title="Delete">
-					<IconButton aria-label="delete">
-						<DeleteIcon />
+				<Tooltip title="Create order sheet">
+					<IconButton aria-label="create order sheet" onClick={() => dispatch({
+						type: 'createList',
+						openCreateListModal: true,
+					})}>
+						<AssignmentTurnedInIcon/>
 					</IconButton>
 				</Tooltip>
 			) : (
-				<Tooltip title="Filter list">
-					<IconButton aria-label="filter list">
-						<FilterListIcon />
+				<Tooltip title="Create new item">
+					<IconButton aria-label="Create new item" onClick={() => dispatch({
+						type: 'openCreateModal',
+						payload: sorted.inputItems(products),
+						openCreateModal: true,
+					})}>
+						<NoteAddIcon/>
 					</IconButton>
 				</Tooltip>
 			)}
 		</Toolbar>
-	);
+	)
 };

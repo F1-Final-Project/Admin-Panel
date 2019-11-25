@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -21,84 +20,37 @@ import reducer from './localTableReducer'
 
 import Button from '@material-ui/core/Button'
 
-import * as sorted from '../../lib/sortColums'
+import * as sorted from '../../lib/sorted'
 import * as columnName from '../../lib/columnTableName'
 import ModalInput from '../common/Modal/ModalInput'
 import THead from './TableHead'
 import Toolbar from './ToolBar'
+import { useStyles } from './TableCSS'
 
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		width: '100%',
-		height: '100%',
-	},
-	paper: {
-		marginTop: theme.spacing(3),
-		width: '95%',
-		height: '100%',
-		overflowX: 'auto',
-		marginBottom: theme.spacing(2),
-		margin: '0 auto',
-	},
-	table: {
-		minWidth: 320,
-
-	},
-	fab: {
-		margin: theme.spacing(1),
-	},
-	extendedIcon: {
-		marginRight: theme.spacing(1),
-	},
-	margin: {
-		color: 'black',
-	},
-	tHeader: {
-		backgroundColor: '#bdbdbd',
-	},
-	container: {
-		display: 'flex',
-		flexWrap: 'wrap',
-	},
-	textField: {
-		marginLeft: theme.spacing(1),
-		marginRight: theme.spacing(1),
-		width: 200,
-	},
-	visuallyHidden: {
-		border: 0,
-		clip: 'rect(0 0 0 0)',
-		height: 1,
-		margin: -1,
-		overflow: 'hidden',
-		padding: 0,
-		position: 'absolute',
-		top: 20,
-		width: 1,
-	},
-}))
-
-export default (props) => {
+export default props => {
 	const classes = useStyles()
 
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-	const [checkBoxSelect, setCheckBoxSelect] = useState(true)
 
 	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem } = props
 
 	const initState = {
 		openEditModal: false,
-		product: sorted.inputItems(products),
-		checkedProduct: [sorted.inputItems(products)],
 		openDeleteModal: false,
 		openCreateModal: false,
+		openCreateListModal: false,
+		openCheckBox: false,
 		selectItem: false,
+		product: sorted.inputItems(products),
+		checkedProduct: [],
+		checkBoxActive: [],
 	}
 
 	const [state, dispatch] = useReducer(reducer, initState)
 	const { _id = '' } = state.product
+
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage)
@@ -141,13 +93,11 @@ export default (props) => {
 	const handleSelectItem = (e, name) => {
 		const productsItems = state.checkedProduct
 
-		console.log('eeeee', productsItems)
-
 		if (e.target.checked && Array.isArray(productsItems)) {
 			productsItems.push(name)
-		} else if(Array.isArray(productsItems)){
-			const index = productsItems.findIndex(i => i.id === name.id);
-			productsItems.splice(index, 1);
+		} else if (Array.isArray(productsItems)) {
+			const index = productsItems.findIndex(i => i.id === name.id)
+			productsItems.splice(index, 1)
 		}
 
 		dispatch({
@@ -157,50 +107,65 @@ export default (props) => {
 	}
 
 
+	const handleClickChecked = (event, name) => {
 
-	//
-	// const handleCreateNewIngredient = e => {
-	// 	dispatch({
-	// 		type: 'onChangeInput',
-	// 		payload: { [e.target.name]: e.target.value },
-	// 		openCreateModal: true,
-	// 	})
-	// }
+		const selectedIndex = state.checkBoxActive.indexOf(name)
+		let newSelected = []
 
-	const checked = rowID => {
-		if (Array.isArray(state.product)) {
-			state.product.find(i => {
-				if (!_id) {
-					return false
-				} else {
-					return i._id === rowID._id
-				}
-			})
+		if (selectedIndex === -1) {
+			newSelected = newSelected.concat(state.checkBoxActive, name)
+		} else if (selectedIndex === 0) {
+			newSelected = newSelected.concat(state.checkBoxActive.slice(1))
+		} else if (selectedIndex === state.checkBoxActive.length - 1) {
+			newSelected = newSelected.concat(state.checkBoxActive.slice(0, -1))
+		} else if (selectedIndex > 0) {
+			newSelected = newSelected.concat(
+				state.checkBoxActive.slice(0, selectedIndex),
+				state.checkBoxActive.slice(selectedIndex + 1),
+			)
 		}
+
+		dispatch({
+			type: 'checkBoxActive',
+			payload: newSelected,
+		})
 	}
 
+	const isSelected = name => state.checkBoxActive.indexOf(name) !== -1
 
-
-	console.log('PRODUCT', state.product)
+	const itemPriceDanger = item => {
+		if (item) {
+			return item < 30 ? classes.priceDanger : ''
+		}
+	}
 
 	return (
 		<Context.Provider value={{
 			dispatch, state,
 		}}>
 			<Paper className={classes.paper}>
-				<Toolbar/>
+				<Toolbar numSelected={state.checkBoxActive.length}
+								 products={products}
+				/>
 				<div className={classes.root}>
 					<Table className={classes.table} size="small" aria-label="a dense table">
-						<THead products={products} classes={classes} checkBoxSelect={checkBoxSelect}/>
+						<THead products={products} classes={classes}/>
 						<TableBody>
-							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+								const isItemSelected = isSelected(row.title)
+								const labelId = `enhanced-table-checkbox-${index}`
+
 								return (
-									<TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-										{checkBoxSelect && <TableCell padding="checkbox">
+									<TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+
+									>
+										{state.openCheckBox && <TableCell padding="checkbox">
 											<Checkbox
 												id={row._id}
+												inputProps={{ 'aria-labelledby': labelId }}
 												onChange={e => handleSelectItem(e, row)}
-												checked={checked(row._id)}
+												checked={isItemSelected}
+												onClick={event => handleClickChecked(event, row.title)}
 											/>
 										</TableCell>}
 										{columnName.clmns(products).sort(sorted.compare).map(column => {
@@ -228,6 +193,11 @@ export default (props) => {
 															<DeleteIcon fontSize="small"/>
 														</IconButton>
 													</Tooltip>
+												</TableCell>
+											} else if (column.id === 'restInStock') {
+												return <TableCell key={column.id} align={column.align}
+																					className={itemPriceDanger(row.restInStock)}>
+													{value}
 												</TableCell>
 											} else {
 												if (column.format && typeof value === 'number') {
@@ -324,18 +294,10 @@ export default (props) => {
 						</DialogActions>
 					</Modal> : null}
 				</>
-				<Button variant="contained" color="primary" className={classes.button} onClick={() => dispatch({
-					type: 'openCreateModal',
-					payload: state.product,
-					openCreateModal: true,
-				})}>
-					Create
-				</Button>
-
-				<Button variant="contained" color="primary" className={classes.button}
-								onClick={() => setCheckBoxSelect(checkBoxSelect)}>
-					Select
-				</Button>
+				{state.openCreateListModal ? <Modal data={state}>
+						{/*<Test products={state.checkedProduct}/>*/}
+					</Modal>
+					: null}
 			</Paper>
 		</Context.Provider>
 	)

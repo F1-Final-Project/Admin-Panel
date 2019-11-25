@@ -9,7 +9,6 @@ export const clmns = (array) => {
 			).filter(item => item !== '')
 
 		result.push({ id: 'button', label: 'ACTION' })
-		// result.push({ id: 'aCheckBox', label: 'CHECKBOX' })
 		return result
 	}
 	return result

@@ -1,3 +1,4 @@
+
 export default function(state, action) {
 	switch (action.type) {
 		case 'editItem':
@@ -36,8 +37,9 @@ export default function(state, action) {
 			}
 		case 'onChangeInput':
 			let updatedIngredient = { ...state.product, ...action.payload }
+
 			return {
-				state,
+				...state,
 				...{
 					product: updatedIngredient,
 					openEditModal: action.openEditModal,
@@ -61,6 +63,30 @@ export default function(state, action) {
 					checkedProduct: action.payload,
 				},
 			}
+		case 'createList':
+			return {
+				...state,
+				...{
+					openCreateListModal: action.openCreateListModal,
+				},
+			}
+		case 'checkedProduct':
+			return {
+				...state,
+				...{
+					openCheckBox: action.openCheckBox,
+					checkedProduct: action.payload,
+					checkBoxActive: action.checkBoxActive,
+				},
+			}
+		case 'checkBoxActive':
+			return {
+				...state,
+				...{
+					checkBoxActive: action.payload,
+				},
+			}
+
 
 		default:
 			return state

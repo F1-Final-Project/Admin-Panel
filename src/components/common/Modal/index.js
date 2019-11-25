@@ -14,12 +14,12 @@ function PaperComponent(props) {
 
 export default function AlertDialog(props) {
 
-	const { openEditModal, openDeleteModal, openCreateModal } = props.data
+	const { openEditModal, openDeleteModal, openCreateModal, openCreateListModal } = props.data
 
 	return (
 		<div>
 			<Dialog
-				open={openEditModal || openDeleteModal || openCreateModal}
+				open={openEditModal || openDeleteModal || openCreateModal || openCreateListModal}
 				PaperComponent={PaperComponent}
 				aria-labelledby="draggable-dialog-title"
 			>
