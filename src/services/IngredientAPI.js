@@ -3,7 +3,7 @@ import Base from './base'
 export default class IngredientAPI extends Base {
 
 	getAllIngredient() {
-		return super.get(`ingredients`).then(res => res.data)
+		return super.get(`dishes`).then(res => res.data)
 	}
 
 	addIngredient(data) {

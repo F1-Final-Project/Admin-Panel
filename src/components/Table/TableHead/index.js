@@ -27,7 +27,7 @@ export default (props) => {
 						padding={headCell.disablePadding ? 'none' : 'default'}
 					>
 						{headCell.id === 'price' ? (
-								<TableSortLabel>
+								<TableSortLabel key={headCell.id}>
 									{headCell.label}
 								</TableSortLabel>)
 							: (headCell.label)
