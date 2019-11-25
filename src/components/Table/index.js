@@ -107,7 +107,7 @@ export default props => {
 	}
 
 
-	const handleClickChecked = (event, name) => {
+	const handleClickCheckedItem = (event, name) => {
 
 		const selectedIndex = state.checkBoxActive.indexOf(name)
 		let newSelected = []
@@ -133,7 +133,7 @@ export default props => {
 
 	const isSelected = name => state.checkBoxActive.indexOf(name) !== -1
 
-	const itemPriceDanger = item => {
+	const itemEndsDanger = item => {
 		if (item) {
 			return item < 30 ? classes.priceDanger : ''
 		}
@@ -152,73 +152,74 @@ export default props => {
 						<THead products={products} classes={classes}/>
 						<TableBody>
 							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-								const isItemSelected = isSelected(row.title)
-								const labelId = `enhanced-table-checkbox-${index}`
+									const isItemSelected = isSelected(row.title)
+									const labelId = `enhanced-table-checkbox-${index}`
 
-								return (
-									<TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+									return (
+										<TableRow hover role="checkbox" tabIndex={-1} key={row.code}
 
-									>
-										{state.openCheckBox && <TableCell padding="checkbox">
-											<Checkbox
-												id={row._id}
-												inputProps={{ 'aria-labelledby': labelId }}
-												onChange={e => handleSelectItem(e, row)}
-												checked={isItemSelected}
-												onClick={event => handleClickChecked(event, row.title)}
-											/>
-										</TableCell>}
-										{columnName.clmns(products).sort(sorted.compare).map(column => {
-											const value = row[column.id]
-											if (column.id === 'button') {
-												return <TableCell key={column.id} align={column.align}>
-													<Tooltip title="Edit" aria-label="edit">
-														<IconButton aria-label="edit" className={classes.margin}
-																				onClick={() => dispatch({
-																					type: 'editItem',
-																					payload: row,
-																					openEditModal: true,
-																				})}>
-															<EditIcon fontSize="small"/>
-
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Delete" aria-label="delete">
-														<IconButton aria-label="delete" className={classes.margin} className={classes.margin}
-																				onClick={() => dispatch({
-																					type: 'deleteItem',
-																					payload: row,
-																					openDeleteModal: true,
-																				})}>
-															<DeleteIcon fontSize="small"/>
-														</IconButton>
-													</Tooltip>
-												</TableCell>
-											} else if (column.id === 'restInStock') {
-												return <TableCell key={column.id} align={column.align}
-																					className={itemPriceDanger(row.restInStock)}>
-													{value}
-												</TableCell>
-											} else {
-												if (column.format && typeof value === 'number') {
+										>
+											{state.openCheckBox && <TableCell padding="checkbox">
+												<Checkbox
+													id={row._id}
+													inputProps={{ 'aria-labelledby': labelId }}
+													onChange={e => handleSelectItem(e, row)}
+													checked={isItemSelected}
+													onClick={event => handleClickCheckedItem(event, row.title)}
+												/>
+											</TableCell>}
+											{columnName.clmns(products).sort(sorted.compare).map(column => {
+												const value = row[column.id]
+												if (column.id === 'button') {
 													return <TableCell key={column.id} align={column.align}>
-														{column.format(value)}
+														<Tooltip title="Edit" aria-label="edit">
+															<IconButton aria-label="edit" className={classes.margin}
+																					onClick={() => dispatch({
+																						type: 'editItem',
+																						payload: row,
+																						openEditModal: true,
+																					})}>
+																<EditIcon fontSize="small"/>
+
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Delete" aria-label="delete">
+															<IconButton aria-label="delete" className={classes.margin} className={classes.margin}
+																					onClick={() => dispatch({
+																						type: 'deleteItem',
+																						payload: row,
+																						openDeleteModal: true,
+																					})}>
+																<DeleteIcon fontSize="small"/>
+															</IconButton>
+														</Tooltip>
 													</TableCell>
-												} else if (Array.isArray(value)) {
-													return <TableCell key={column.id} align={column.align}>
-														{value.map(i => i.title)}
+												} else if (column.id === 'restInStock') {
+													return <TableCell key={column.id} align={column.align}
+																						className={itemEndsDanger(row.restInStock)}>
+														{value}
 													</TableCell>
 												} else {
-													return <TableCell key={column.id} align={column.align}>
-														{typeof value === 'object' ? '' : value}
-													</TableCell>
-												}
+													if (column.format && typeof value === 'number') {
+														return <TableCell key={column.id} align={column.align}>
+															{column.format(value)}
+														</TableCell>
+													} else if (Array.isArray(value)) {
+														return <TableCell key={column.id} align={column.align}>
+															{value.map(i => i.title)}
+														</TableCell>
+													} else {
+														return <TableCell key={column.id} align={column.align}>
+															{typeof value === 'object' ? '' : value}
+														</TableCell>
+													}
 
-											}
-										})}
-									</TableRow>
-								)
-							})}
+												}
+											})}
+										</TableRow>
+									)
+								},
+							)}
 						</TableBody>
 					</Table>
 				</div>
@@ -238,30 +239,9 @@ export default props => {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 
-				<>{state.openEditModal ? <Modal data={state}>
-					<ModalInput data={state} name={'Correct ingredient'} open={{ openEditModal: true }}/>
-					<DialogActions>
-						<Button autoFocus color="primary" onClick={() => dispatch({
-							type: 'closeModal',
-							payload: initState.product,
-							openEditModal: false,
-						})}>
-							Закрыть
-						</Button>
-						<Button color="primary" onClick={() => handlerUpdateNRequest(_id, state.product)}>
-							Сохранить изменения
-						</Button>
-					</DialogActions>
-				</Modal> : null}
-
-					{state.openDeleteModal
-						? <Modal data={state}>
-							<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-								Удаление
-							</DialogTitle>
-							<DialogContentText>
-								Вы уверены?
-							</DialogContentText>
+				<>{state.openEditModal ? (
+						<Modal data={state}>
+							<ModalInput data={state} name={'Correct ingredient'} open={{ openEditModal: true }}/>
 							<DialogActions>
 								<Button autoFocus color="primary" onClick={() => dispatch({
 									type: 'closeModal',
@@ -270,29 +250,55 @@ export default props => {
 								})}>
 									Закрыть
 								</Button>
-								<Button color="primary" onClick={() => handleDeleteItemNRequest(_id)}>
-									Удалить
+								<Button color="primary" onClick={() => handlerUpdateNRequest(_id, state.product)}>
+									Сохранить изменения
 								</Button>
 							</DialogActions>
-						</Modal>
+						</Modal>)
+					: null
+				}
+
+					{state.openDeleteModal ? (
+							<Modal data={state}>
+								<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+									Удаление
+								</DialogTitle>
+								<DialogContentText>
+									Вы уверены?
+								</DialogContentText>
+								<DialogActions>
+									<Button autoFocus color="primary" onClick={() => dispatch({
+										type: 'closeModal',
+										payload: initState.product,
+										openEditModal: false,
+									})}>
+										Закрыть
+									</Button>
+									<Button color="primary" onClick={() => handleDeleteItemNRequest(_id)}>
+										Удалить
+									</Button>
+								</DialogActions>
+							</Modal>)
 						: null}
 
-					{state.openCreateModal ? <Modal data={state}>
-						<ModalInput name={'Create ingredient'} open={{ openCreateModal: true }}/>
+					{state.openCreateModal ? (
+							<Modal data={state}>
+								<ModalInput name={'Create ingredient'} open={{ openCreateModal: true }}/>
 
-						<DialogActions>
-							<Button autoFocus color="primary" onClick={() => dispatch({
-								type: 'closeModal',
-								payload: initState.product,
-								openCreateModal: false,
-							})}>
-								Закрыть
-							</Button>
-							<Button color="primary" onClick={() => handleCreatItemNRequest(state.product)}>
-								Сохранить изменения
-							</Button>
-						</DialogActions>
-					</Modal> : null}
+								<DialogActions>
+									<Button autoFocus color="primary" onClick={() => dispatch({
+										type: 'closeModal',
+										payload: initState.product,
+										openCreateModal: false,
+									})}>
+										Закрыть
+									</Button>
+									<Button color="primary" onClick={() => handleCreatItemNRequest(state.product)}>
+										Сохранить изменения
+									</Button>
+								</DialogActions>
+							</Modal>)
+						: null}
 				</>
 				{state.openCreateListModal ? <Modal data={state}>
 						{/*<Test products={state.checkedProduct}/>*/}
