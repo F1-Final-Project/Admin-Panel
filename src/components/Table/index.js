@@ -34,7 +34,7 @@ export default props => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 
-	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem } = props
+	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem, handlerCreateOrderItem, orderCategories } = props
 
 	const initState = {
 		openEditModal: false,
@@ -139,6 +139,16 @@ export default props => {
 		}
 	}
 
+	const handleCreatOrderItemNRequest = data => {
+		handlerCreateOrderItem(data)
+
+		dispatch({
+			type: 'checkedProduct',
+			payload: [],
+			checkBoxActive: [],
+		})
+	}
+
 	return (
 		<Context.Provider value={{
 			dispatch, state,
@@ -146,6 +156,7 @@ export default props => {
 			<Paper className={classes.paper}>
 				<Toolbar numSelected={state.checkBoxActive.length}
 								 products={products}
+								 creatOrderItem={handleCreatOrderItemNRequest}
 				/>
 				<div className={classes.root}>
 					<Table className={classes.table} size="small" aria-label="a dense table">
@@ -284,7 +295,6 @@ export default props => {
 					{state.openCreateModal ? (
 							<Modal data={state}>
 								<ModalInput name={'Create ingredient'} open={{ openCreateModal: true }}/>
-
 								<DialogActions>
 									<Button autoFocus color="primary" onClick={() => dispatch({
 										type: 'closeModal',
@@ -301,7 +311,7 @@ export default props => {
 						: null}
 				</>
 				{state.openCreateListModal ? <Modal data={state}>
-						{/*<Test products={state.checkedProduct}/>*/}
+
 					</Modal>
 					: null}
 			</Paper>

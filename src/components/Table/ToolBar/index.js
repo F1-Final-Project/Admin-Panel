@@ -35,9 +35,8 @@ const useToolbarStyles = makeStyles(theme => ({
 
 export default props => {
 	const classes = useToolbarStyles()
-	const { numSelected } = props
+	const { numSelected, creatOrderItem, products } = props
 	const { dispatch, state } = useContext(Context)
-	const { products } = props
 
 
 	return (
@@ -79,10 +78,7 @@ export default props => {
 
 			{numSelected > 0 ? (
 				<Tooltip title="Create order sheet">
-					<IconButton aria-label="create order sheet" onClick={() => dispatch({
-						type: 'createList',
-						openCreateListModal: true,
-					})}>
+					<IconButton aria-label="create order sheet" onClick={() => creatOrderItem(state.checkedProduct)}>
 						<AssignmentTurnedInIcon/>
 					</IconButton>
 				</Tooltip>

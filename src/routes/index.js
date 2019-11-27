@@ -5,7 +5,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import NotFound from '../components/NotFound'
 import FoodWareHouse from '../components/FoodWarehouse'
-import Modal from '../components/common/Modal'
+import OrderIngredient from '../components/OrderIngredients'
 
 import Layout from '../components/Layout'
 
@@ -14,11 +14,11 @@ import PrivateRoute from './PrivateRoute'
 export const Router = () => {
 	return (
 		<React.Fragment>
-			<Header />
+			<Header/>
 			<main className="content">
 				<div className="container">
 					<Switch>
-						<Route exact path="/" component={props => <Layout {...props} />} />
+						<Route exact path="/" component={props => <Layout {...props} />}/>
 
 						<PrivateRoute
 							exact
@@ -31,16 +31,16 @@ export const Router = () => {
 							path="/foodWarehouse"
 							component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
 						/>
-						<Route exact
-									 name="foodWarehouse"
-									 path="/foodWarehouse/:productId"
-									 component={<Modal/>} />
 
-						<Route path="*" component={NotFound} />
+						<Route exact
+									 path="/order-ingredients"
+									 component={props => <Layout {...props}><OrderIngredient {...props}/></Layout>}/>
+
+						<Route path="*" component={NotFound}/>
 					</Switch>
 				</div>
 			</main>
-			<Footer />
+			<Footer/>
 		</React.Fragment>
 	)
 }
