@@ -42,7 +42,7 @@ export default function MediaCard(props) {
 				<ListItem>
 					<ListItemText
 						primary={itemList.title}
-						secondary={secondary ?
+						secondary={!state.pendingOrder && secondary ?
 							<TextField
 								id={itemList._id}
 								label="restInStock"

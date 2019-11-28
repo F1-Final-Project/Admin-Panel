@@ -26,6 +26,7 @@ import ModalInput from '../common/Modal/ModalInput'
 import THead from './TableHead'
 import Toolbar from './ToolBar'
 import { useStyles } from './TableCSS'
+import useUpdateItem from '../../customHooks/useUpdateIngredient'
 
 
 export default props => {
@@ -70,8 +71,10 @@ export default props => {
 			openEditModal: false,
 		})
 	}
+
 	const handlerUpdateNRequest = (id, date) => {
-		handlerUpdateItem(id, date)
+
+		useUpdateItem(id, date)
 
 		dispatch({
 			type: 'saveNewItem',
