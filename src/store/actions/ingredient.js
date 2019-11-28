@@ -51,6 +51,7 @@ export function addIngredient(data) {
 
 export function updateIngredientById(productId, newAmount) {
 
+
 	return function(dispatch) {
 		dispatch({
 			type: INGREDIENT.INGREDIENT_REQUEST_SENT,

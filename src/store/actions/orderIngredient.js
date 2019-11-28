@@ -39,7 +39,14 @@ export function addOrderIngredient(data) {
 			type: ORDERINGREDIENT.ORDER_INGREDIENT_REQUEST_SENT,
 		});
 		(new OrderIngregientAPI())
-			.addOrderIngredient(data)
+			.addOrderIngredient(
+				{
+					order: data.order,
+					orderCategory: data.orderCategories,
+					editingOrder: data.editingOrder,
+					pendingOrder: data.pendingOrder,
+					orderHasArrived: data.orderHasArrived,
+				})
 			.then(res => {
 				return dispatch({
 					type: ORDERINGREDIENT.ADD_ORDER_INGREDIENT,

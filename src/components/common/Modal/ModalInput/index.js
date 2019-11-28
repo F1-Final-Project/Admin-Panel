@@ -24,7 +24,7 @@ export default (props) => {
 	const { dispatch, state } = useContext(Context)
 
 
-	const test = e => {
+	const handleChangeItem = e => {
 		dispatch({
 			...{
 				type: 'onChangeInput',
@@ -46,7 +46,7 @@ export default (props) => {
 						name={key}
 						margin="normal"
 						value={itemValue}
-						onChange={test}
+						onChange={handleChangeItem}
 					/>
 				</>
 			}

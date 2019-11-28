@@ -36,6 +36,8 @@ export default () => {
 
 	const handlerCreateOrderItem = data => {
 
+		console.log('1111', data)
+
 		dispatch(orderIngredientAction.addOrderIngredient(data))
 	}
 

@@ -2,8 +2,23 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as orderIngredientAction from '../../store/actions/orderIngredient'
 import * as orderCategoriesAction from '../../store/actions/orderCategories'
+import Grid from '@material-ui/core/Grid'
 
 import Card from '../common/Card'
+import { makeStyles } from '@material-ui/core'
+
+
+const useStyles = makeStyles({
+	root: {
+		flexGrow: 1,
+	},
+	test: {
+		alignItems: 'flex-start',
+		flexWrap: 'wrap',
+		alignContent: 'center'
+	}
+
+})
 
 
 export default () => {
@@ -12,6 +27,7 @@ export default () => {
 	const orderCategoriesItem = useSelector(state => state.orderCategories)
 	const { products, loaded } = orderIngredients
 	const { orderCategories, loadedCategories } = orderCategoriesItem
+	const classes = useStyles()
 
 
 	const dispatch = useDispatch()
@@ -22,15 +38,13 @@ export default () => {
 
 	}, [dispatch])
 
+	const handleDeleteItem = id => {
+		dispatch(orderIngredientAction.deleteOrderIngredientById(id))
+	}
 
-	//
-	// const handleDeleteItem = id => {
-	// 	dispatch(ingredientAction.deleteIngredientById(id))
-	// }
-	//
-	// const handlerUpdateItem = (id, data) => {
-	// 	dispatch(ingredientAction.updateIngredientById(id, data))
-	// }
+	const handlerUpdateItem = (id, data) => {
+		dispatch(orderIngredientAction.updateOrderIngredientById(id, data))
+	}
 	//
 	// const handlerCreateItem = data => {
 	// 	dispatch(ingredientAction.addIngredient(data))
@@ -42,13 +56,24 @@ export default () => {
 	console.log('PRODUCT---->', products, orderCategories)
 
 	return (
-		<React.Fragment>
-			{
-				products.map((itemCard, key) => {
-					return <Card products={itemCard} key={itemCard._id} orderCategories={orderCategories}/>
-				})
-			}
-		</React.Fragment>
+		<div className={classes.root}>
+			<Grid container spacing={2}
+						direction="row"
+						justify="flex-start"
+						alignItems="flex-start"
+						className={classes.test}
+			>
+					{
+						products.map((itemCard) => {
+							return <Card products={itemCard}
+													 key={itemCard._id}
+													 orderCategories={orderCategories}
+													 handleDeleteItem={handleDeleteItem}
+													 handlerUpdateItem={handlerUpdateItem}/>
+						})
+					}
+				</Grid>
+		</div>
 	)
 
 }

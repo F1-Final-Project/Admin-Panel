@@ -140,7 +140,16 @@ export default props => {
 	}
 
 	const handleCreatOrderItemNRequest = data => {
-		handlerCreateOrderItem(data)
+		const newData = orderCategories.filter(item => item.title === 'inProgress')
+
+		handlerCreateOrderItem(
+			{
+				order: data,
+				orderCategories: newData[0]._id,
+				editingOrder: true,
+				pendingOrder: false,
+				orderHasArrived: false,
+			})
 
 		dispatch({
 			type: 'checkedProduct',
