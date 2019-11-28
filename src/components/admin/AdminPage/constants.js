@@ -1,1 +1,1 @@
-export const STATISTIC = 'Statistic';export const STORAGE = 'Storage';export const NEW_USER = 'New User';export const NEW_DISH = 'New Dish';
+export const STATISTIC = 'statistic';export const STORAGE = 'storage';export const NEW_USER = 'new_user';export const NEW_DISH = 'new_dish';
