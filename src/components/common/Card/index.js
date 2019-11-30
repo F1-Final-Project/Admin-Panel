@@ -47,7 +47,7 @@ const useStylesTheme = makeStyles(theme => ({
 export default function MediaCard(props) {
 
 	const [secondary, setSecondary] = React.useState(false)
-	const { products, handleDeleteItem, handlerUpdateItem, orderCategories } = props
+	const { products, handleDeleteItem, handlerUpdateItem, orderCategories, handlerUpdateItemStoke } = props
 	const classes = useStyles()
 	const classesTheme = useStylesTheme()
 
@@ -119,8 +119,10 @@ export default function MediaCard(props) {
 			pendingOrder: state.pendingOrder,
 			orderHasArrived: state.orderHasArrived,
 		}
+
 		handlerUpdateItem(id, newData)
 
+		handlerUpdateItemStoke(newData.order)
 	}
 
 

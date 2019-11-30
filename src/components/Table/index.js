@@ -74,7 +74,7 @@ export default props => {
 
 	const handlerUpdateNRequest = (id, date) => {
 
-		useUpdateItem(id, date)
+		handlerUpdateItem(id, date)
 
 		dispatch({
 			type: 'saveNewItem',

@@ -6,7 +6,9 @@
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.0",
+    "copy-webpack-plugin": "^5.0.5",
     "db-schemas": "git+https://github.com/F1-Final-Project/DB_Services",
+    "firebase": "^7.5.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-draggable": "^4.1.0",
@@ -45,8 +47,10 @@
     "lint-staged": "^9.4.3",
     "material-table": "^1.54.1",
     "prettier": "^1.19.1",
+    "prop-types": "^15.7.2",
     "redux-devtools": "^3.5.0",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "serviceworker-webpack-plugin": "^1.0.1"
   },
   "husky": {
     "hooks": {
