@@ -24,7 +24,6 @@ export const Router = () => {
 							path="/"
 							component={props => <Layout {...props} />}
 						/>
-
                         <PrivateRoute
                             exact
                             path="/admin"
@@ -35,11 +34,6 @@ export const Router = () => {
                             exact
                             path="/login"
                             component={props => <Login {...props} />}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/admin"
-                            component={props => <Layout {...props} />}
                         />
 
                         <Route
