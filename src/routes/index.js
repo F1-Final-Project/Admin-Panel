@@ -8,7 +8,7 @@ import Modal from '../components/common/Modal'
 
 import Layout from '../components/Layout'
 import Login from '../components/Login'
-import CreateUser from '../components/admin/CreateUser'
+import AdminPage from '../components/admin/AdminPage'
 
 import PrivateRoute from './PrivateRoute'
 import HiddenAfterAuthRoute from './HiddenAfterAuth'
@@ -24,17 +24,16 @@ export const Router = () => {
 							path="/"
 							component={props => <Layout {...props} />}
 						/>
-                        <Route exact path="/admin/create-user" component={props => <CreateUser {...props} />}/>
+                        <PrivateRoute
+                            exact
+                            path="/admin"
+                            component={props => <AdminPage {...props} />}
+                        />
 
                         <HiddenAfterAuthRoute
                             exact
                             path="/login"
                             component={props => <Login {...props} />}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/admin"
-                            component={props => <Layout {...props} />}
                         />
 
                         <Route
