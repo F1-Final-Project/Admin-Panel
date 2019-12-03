@@ -1,6 +1,7 @@
 importScripts('https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/7.5.0/firebase-messaging.js')
 
+
 const config = {
 	// Project Settings => Add Firebase to your web app
 	apiKey: 'AIzaSyDFTW69xyMLP3MqvIpDGJyTRO4V0F_OxBg',
@@ -14,6 +15,7 @@ const config = {
 
 firebase.initializeApp(config)
 const messaging = firebase.messaging()
+
 messaging.setBackgroundMessageHandler(payload => {
 	const title = payload.notification.title
 	console.log('payload', payload.notification.icon)
@@ -50,6 +52,89 @@ self.addEventListener('notificationclick', function(event) {
 		})
 	event.waitUntil(promiseChain)
 })
+
+
+self.addEventListener('notificationclose', event => {
+	const notification = event.notification
+	const primaryKey = notification.data
+
+	console.log('test', primaryKey.FCM_MSG.data.primaryKey)
+})
+
+
+// self.addEventListener('push', event => {
+// 	let body;
+//
+// 	if (event.data) {
+// 		body = event.data.text();
+// 	} else {
+// 		body = 'Default body';
+// 	}
+//
+// 	const options = {
+// 		body: body,
+// 		icon: 'images/notification-flat.png',
+// 		vibrate: [100, 50, 100],
+// 		data: {
+// 			dateOfArrival: Date.now(),
+// 			primaryKey: 1
+// 		},
+// 		actions: [
+// 			{action: 'explore', title: 'Go to the site',
+// 				icon: 'images/checkmark.png'},
+// 			{action: 'close', title: 'Close the notification',
+// 				icon: 'images/xmark.png'},
+// 		]
+// 	};
+// 	event.waitUntil(
+// 		clients.matchAll().then(c => {
+// 			console.log(c);
+// 			if (c.length === 0) {
+// 				// Show notification
+// 				self.registration.showNotification('Push Notification', options);
+// 			} else {
+// 				// Send a message to the page to update the UI
+// 				console.log('Application is already open!');
+// 			}
+// 		})
+// 	);
+// });
+
+
+self.addEventListener('push', ev => {
+	const data = ev.data.json()
+	console.log('Got push', data)
+	self.registration.showNotification(data.title, {
+		body: 'WTF NOW IN PUSH',
+		icon: 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png',
+	})
+})
+
+
+// self.addEventListener('notificationclick', event => {
+// 	const notification = event.notification;
+// 	const primaryKey = notification.data.primaryKey;
+// 	const action = event.action;
+//
+// 	if (action === 'close') {
+// 		notification.close();
+// 	} else {
+// 		event.waitUntil(
+// 			clients.matchAll().then(clis => {
+// 				const client = clis.find(c => {
+// 					return c.visibilityState === 'visible';
+// 				});
+// 				if (client !== undefined) {
+// 					client.navigate('samples/page' + primaryKey + '.html');
+// 					client.focus();
+// 				} else {
+// 					// there are no visible windows. Open one.
+// 					clients.openWindow('samples/page' + primaryKey + '.html');
+// 					notification.close();
+// 				}
+// 			})
+// 		);
+// 	}
 
 
 //

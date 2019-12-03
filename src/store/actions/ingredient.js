@@ -1,5 +1,6 @@
 import * as INGREDIENT from '../constants/ingredient'
 import IngregientAPI from '../../services/IngredientAPI'
+import test from '../../push/sendPush'
 
 export function getAllIngredienst() {
 	return function(dispatch) {
@@ -49,8 +50,9 @@ export function addIngredient(data) {
 	}
 }
 
-export function updateIngredientById(productId, newAmount) {
 
+
+export function updateIngredientById(productId, newAmount) {
 
 	return function(dispatch) {
 		dispatch({
@@ -61,8 +63,10 @@ export function updateIngredientById(productId, newAmount) {
 			.then(res => dispatch({
 					type: INGREDIENT.UPDATE_INGREDIENT,
 					data: res,
-				}),
+				})
 			)
+
+
 	}
 }
 

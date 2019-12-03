@@ -1,18 +1,24 @@
 import firebase from 'firebase'
 
+
 export function initializePush() {
 	const messaging = firebase.messaging()
+
 	messaging
 		.requestPermission()
-		.then(() => {
+		.then(async function f() {
 			console.log('Have Permission')
-			return messaging.getToken()
+			return await messaging.getToken()
 		})
-		.then(token => {
+		.then(async function(token) {
 			console.log('FCM Token:', token)
-			//you probably want to send your new found FCM token to the
-			//application server so that they can send any push
-			//notification to you.
+
+			if (token) {
+				await sendTokenToServer(token)
+			} else {
+				console.warn('Не удалось получить токен.')
+				setTokenSentToServer(false)
+			}
 		})
 		.catch(error => {
 			if (error.code === 'messaging/permission-blocked') {
@@ -22,11 +28,61 @@ export function initializePush() {
 			}
 		})
 
+
 	messaging.onMessage(payload => {
-		console.log("Notification Received", payload);
-		//this is the function that gets triggered when you receive a
-		//push notification while you’re on the page. So you can
-		//create a corresponding UI for you to have the push
-		//notification handled.
-	});
+		console.log('Notification Received', payload)
+	})
+
+}
+
+
+async function sendTokenToServer(currentToken) {
+	if (!isTokenSentToServer(currentToken)) {
+		console.log('Отправка токена на сервер...')
+
+		await fetch('http://localhost:3002/push/storetoken', {
+			method: 'POST',
+			body: JSON.stringify({ token: currentToken }),
+			headers: {
+				'content-type': 'application/json',
+			},
+
+		})
+
+		setTokenSentToServer(currentToken)
+	} else {
+		console.log('Токен уже отправлен на сервер.')
+	}
+}
+
+function isTokenSentToServer(currentToken) {
+	return window.localStorage.getItem('sentFirebaseMessagingToken') === currentToken
+}
+
+function setTokenSentToServer(currentToken) {
+	window.localStorage.setItem(
+		'sentFirebaseMessagingToken',
+		currentToken ? currentToken : '',
+	)
+}
+
+
+export async function sendTokenToServerDelete() {
+
+	const token = await window.localStorage.getItem('sentFirebaseMessagingToken')
+
+	console.log('teteteetet', token)
+
+	console.log('Отправка токена на сервер...')
+
+	await fetch('http://localhost:3002/push/deletetoken', {
+		method: 'POST',
+		body: JSON.stringify({ token: token }),
+		headers: {
+			'content-type': 'application/json',
+		},
+
+	})
+
+
 }

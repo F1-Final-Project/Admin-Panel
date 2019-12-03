@@ -5,26 +5,18 @@ import { Router } from './routes'
 import './index.css'
 import { Provider } from 'react-redux'
 import { configureStore } from './store'
-import { config } from "./push/firebaseConfig";
-import firebase from "firebase";
-import {initializePush} from './push/initialize'
+import { config } from './push/firebaseConfig'
+import firebase from 'firebase'
+import { initializePush } from './push/initialize'
+import sendPush from './push/sendPush'
 
 
-firebase.initializeApp(config);
-initializePush();
 
+firebase.initializeApp(config)
+// initializePush()
+sendPush()
 
 const store = configureStore()
-
-if ('serviceWorker' in navigator) {
-	console.log('12122')
-	window.addEventListener('load', async () => {
-		const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
-			updateViaCache: 'none'
-		});
-		 // messaging.useServiceWorker(registration);
-	});
-}
 
 ReactDOM.render(
 	<Provider store={store}>

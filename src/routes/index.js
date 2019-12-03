@@ -6,6 +6,7 @@ import Footer from '../components/Footer'
 import NotFound from '../components/NotFound'
 import FoodWareHouse from '../components/FoodWarehouse'
 import OrderIngredient from '../components/OrderIngredients'
+import Push from '../components/common/PushNotificationButton'
 
 import Layout from '../components/Layout'
 
@@ -35,6 +36,10 @@ export const Router = () => {
 						<Route exact
 									 path="/order-ingredients"
 									 component={props => <Layout {...props}><OrderIngredient {...props}/></Layout>}/>
+
+						<Route exact
+									 path="/push-btn"
+									 component={props => <Layout {...props}><Push {...props}/></Layout>}/>
 
 						<Route path="*" component={NotFound}/>
 					</Switch>
