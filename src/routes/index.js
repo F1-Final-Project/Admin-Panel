@@ -19,7 +19,8 @@ export const Router = () => {
 			<main className="content">
 				<div className="container">
 					<Switch>
-						<Route exact path="/" component={props => <Layout {...props} />}/>
+						<Route exact path="/"
+									 component={props => <Layout {...props} />}/>
 
 						<PrivateRoute
 							exact

@@ -9,7 +9,7 @@ export default () => {
 			<Button color="primary" onClick={() => initializePush()}>
 				Подписатся на Push notification
 			</Button>
-			<Button color="primary" onClick={() => sendTokenToServerDelete()}>
+			<Button color="primary" >
 				Отписатся на Push notification
 			</Button>
 		</React.Fragment>

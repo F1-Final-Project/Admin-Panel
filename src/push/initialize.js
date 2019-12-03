@@ -1,4 +1,5 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/messaging'
 
 
 export function initializePush() {
@@ -14,10 +15,10 @@ export function initializePush() {
 			console.log('FCM Token:', token)
 
 			if (token) {
-				await sendTokenToServer(token)
+				await sendTokenToLocalStorage(token)
 			} else {
 				console.warn('Не удалось получить токен.')
-				setTokenSentToServer(false)
+				await sendTokenToLocalStorage(false)
 			}
 		})
 		.catch(error => {
@@ -36,53 +37,22 @@ export function initializePush() {
 }
 
 
-async function sendTokenToServer(currentToken) {
-	if (!isTokenSentToServer(currentToken)) {
-		console.log('Отправка токена на сервер...')
-
-		await fetch('http://localhost:3002/push/storetoken', {
-			method: 'POST',
-			body: JSON.stringify({ token: currentToken }),
-			headers: {
-				'content-type': 'application/json',
-			},
-
-		})
-
-		setTokenSentToServer(currentToken)
+function sendTokenToLocalStorage(currentToken) {
+	if (!isTokenSentToLocalStorage(currentToken)) {
+		console.log('Отправка токена на в localStorage...')
+		setTokenSentToLocalStorage(currentToken)
 	} else {
 		console.log('Токен уже отправлен на сервер.')
 	}
 }
 
-function isTokenSentToServer(currentToken) {
+function isTokenSentToLocalStorage(currentToken) {
 	return window.localStorage.getItem('sentFirebaseMessagingToken') === currentToken
 }
 
-function setTokenSentToServer(currentToken) {
+function setTokenSentToLocalStorage(currentToken) {
 	window.localStorage.setItem(
 		'sentFirebaseMessagingToken',
 		currentToken ? currentToken : '',
 	)
-}
-
-
-export async function sendTokenToServerDelete() {
-
-	const token = await window.localStorage.getItem('sentFirebaseMessagingToken')
-
-	console.log('teteteetet', token)
-
-	console.log('Отправка токена на сервер...')
-
-	await fetch('http://localhost:3002/push/deletetoken', {
-		method: 'POST',
-		body: JSON.stringify({ token: token }),
-		headers: {
-			'content-type': 'application/json',
-		},
-
-	})
-
-
 }

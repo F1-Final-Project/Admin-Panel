@@ -6,15 +6,11 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { configureStore } from './store'
 import { config } from './push/firebaseConfig'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import { initializePush } from './push/initialize'
-import sendPush from './push/sendPush'
-
-
 
 firebase.initializeApp(config)
-// initializePush()
-sendPush()
+initializePush()
 
 const store = configureStore()
 

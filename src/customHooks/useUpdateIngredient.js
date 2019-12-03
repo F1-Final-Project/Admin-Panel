@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import * as ingredientAction from '../store/actions/ingredient'
 
@@ -9,12 +9,10 @@ export default function useUpdateItem(id, data) {
 
 	useEffect(() => {
 		if (Array.isArray(data)) {
-			data.map(item => {
-				 dispatch(ingredientAction.updateIngredientById(item._id, item))
-			})
+			data.map(item => dispatch(ingredientAction.updateIngredientById(item._id, item)))
 		}
 
-		 dispatch(ingredientAction.updateIngredientById(id, data))
+		dispatch(ingredientAction.updateIngredientById(id, data))
 	}, [data])
 
 

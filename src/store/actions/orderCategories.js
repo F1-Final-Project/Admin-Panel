@@ -10,7 +10,7 @@ export function getAllOrderCategories() {
 			.getAllOrderCategories()
 			.then(res => {
 				return dispatch({
-					type: ORDERCATEGORIES. FETCH_ORDER_CATEGORIES,
+					type: ORDERCATEGORIES.FETCH_ORDER_CATEGORIES,
 					data: res,
 				})
 			})
