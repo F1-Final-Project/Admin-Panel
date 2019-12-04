@@ -47,6 +47,7 @@ export default () => {
 
 	const sendPush = async () => {
 		const token = await window.localStorage.getItem('sentFirebaseMessagingToken')
+
 		if (numIngredientInStoke) {
 			(new PushAPI())
 				.pushSend({ token, title: 'Сделайте заказ пожалуйста', body: 'Заканчиваются продукты на складе' })
