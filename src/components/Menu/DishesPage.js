@@ -14,6 +14,9 @@ const useStyles = makeStyles({
 		width: 245,
 		margin: 10,
 	},
+	grid: {
+		paddingTop: 70,
+	},
 	media: {
 		height: 200,
 	},
@@ -64,7 +67,7 @@ export default function DishesPage(props) {
 	}
 
 	return (
-		<Grid container justify="center">
+		<Grid container className={classes.grid} justify="center">
 			{dishes.map((item)=>(
 		<Card key={item._id} className={classes.card}>
 			<CardActionArea onClick={()=>{addDishToOrder(item)}}>
