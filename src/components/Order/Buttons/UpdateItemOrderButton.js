@@ -5,7 +5,7 @@ export default function UpdateItemOrderButton(props) {
 
 	return (
 		<>
-			<Button variant="outlined" onClick={props.handleClick}>UPDATE ITEM</Button>
+			<Button variant="outlined" color="primary" onClick={props.handleClick}>UPDATE DISH</Button>
 		</>
 	);
 }

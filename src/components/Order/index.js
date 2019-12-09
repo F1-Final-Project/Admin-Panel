@@ -1,12 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
+import React, { useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
 import Order from './OrderItems'
-import { useSelector } from 'react-redux'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
-import DeleteOrderButton from './Buttons/DeleteOrderButton'
+import OrderControl from './OrderControl'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -22,55 +18,30 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Index(props) {
+	const order=props.order;
 	const classes = useStyles();
 
-	const {activeOrder, orders} = useSelector(state =>
-		({activeOrder: state.order.active,
-			orders: state.order.orders})
-	);
-
-	const thisOrder = orders.find((item) => item._id === activeOrder);
+	useEffect(()=> {return ()=>props.handleClose()},[])
 
 	return (
 		<>
-			{thisOrder?(
-			<Modal
-				aria-labelledby="simple-modal-title"
-				aria-describedby="simple-modal-description"
-				open={props.open}
-				onClose={props.handleClose}
-			>
+			{order?(
+				<Modal
+					aria-labelledby="simple-modal-title"
+					aria-describedby="simple-modal-description"
+					open={props.isOpen}
+					onClose={props.handleClose}
+				>
 
-				<div className={classes.paper}>
-					<h2   id="simple-modal-title">STAFF: {thisOrder.staff}</h2>
-					<h2  id="simple-modal-title">table# {thisOrder.table}</h2>
-					<Order thisOrder={thisOrder}/>
-					<h2  id="simple-modal-title">ORDER PRICE: {thisOrder.orderPrice}</h2>
-					<div>
-						<FormControlLabel
-							control={
-								<Switch
-									value={thisOrder.onKitchen}
-									color="primary"
-								/>
-							}
-							label="onKitchen"
-						/>
-						<FormControlLabel
-							control={
-								<Switch
-									value={thisOrder.completed}
-									color="primary"
-								/>
-							}
-							label="completed"
-						/>
+					<div key={order._id} className={classes.paper}>
+						<h2   id="simple-modal-title">STAFF: {order.staff}</h2>
+						<h2  id="simple-modal-title">table# {order.table}</h2>
+						<Order thisOrder={order}/>
+						<h2  id="simple-modal-title">ORDER PRICE: {order.orderPrice}</h2>
+						<OrderControl order={order} closeModal={props.handleClose}/>
 					</div>
-					<Button variant="outlined" color="primary">UPDATE ORDER</Button>
-					<DeleteOrderButton order={thisOrder._id}/>
-				</div>
-			</Modal>
-				): null}
+				</Modal>
+			): null}
 		</>
 	);
 }

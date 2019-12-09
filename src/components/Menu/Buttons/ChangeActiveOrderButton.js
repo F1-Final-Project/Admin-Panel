@@ -9,15 +9,23 @@ import Menu from '@material-ui/core/Menu/index'
 export default()=> {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
-	const {loaded, orders} = useSelector(state =>
+	const {orders} = useSelector(state =>
 		({orders: state.order.orders,
-			loaded: state.order.loaded,
 		})
 	);
-
 	const dispatch = useDispatch();
 
-	useEffect(() => orderActions.getOrders()(dispatch), [])
+	useEffect(() => {orderActions.getOrders()(dispatch)}, []);
+
+
+	useEffect(() => {
+		if(orders.length>0){
+			orders.sort((a,b)=>{
+				return (new Date(b.updated_at||b.created_at).getTime())-(new Date(a.updated_at||a.created_at).getTime())
+			});
+			orderActions.activeOrder(orders[0]._id)(dispatch);
+		}
+	}, [orders]);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -31,29 +39,29 @@ export default()=> {
 		orderActions.activeOrder(id)(dispatch);
 	}
 
-return(
-	<>
-	{loaded?(
+	return(
 		<>
-	<Button aria-label="show orders" color="inherit" aria-haspopup="true" onClick={handleClick}>
-		<Badge badgeContent={orders.length} color="secondary">
-			orders
-		</Badge>
-	</Button>
-	<Menu
-		anchorEl={anchorEl}
-		keepMounted
-		open={Boolean(anchorEl)}
-		onClose={handleClose}
-	>
-		{orders.map((item)=>
-				<MenuItem  key={item._id} onClick={(()=>{handleClose(); changeOrder(item._id)})}  style={{overflowY: "visible"}}>
-					перейти в заказ столик №  {item.table}
-				</MenuItem>
-			)}
-	</Menu>
-			</>)
-		: null}
+			{orders.length>0?(
+					<>
+						<Button aria-label="show orders" color="inherit" aria-haspopup="true" onClick={handleClick}>
+							<Badge badgeContent={orders.length} color="primary">
+								orders
+							</Badge>
+						</Button>
+						<Menu
+							anchorEl={anchorEl}
+							keepMounted
+							open={Boolean(anchorEl)}
+							onClose={handleClose}
+						>
+							{orders.map((item)=>
+								<MenuItem  key={item._id} onClick={(()=>{handleClose(); changeOrder(item._id)})}  style={{overflowY: "visible"}}>
+									go to order table №  {item.table}
+								</MenuItem>
+							)}
+						</Menu>
+					</>)
+				: null}
 		</>
 	)
 }

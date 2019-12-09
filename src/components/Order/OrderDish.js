@@ -85,53 +85,53 @@ export default function OrderDish(props) {
 	}
 	return (
 		<>{item?(
-					<ExpansionPanel square expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
-						<ExpansionPanelSummary aria-controls={`panel${index}d-content`} id="panel1d-header">
-							<Grid
-								container
-								justify="space-between"
-							>
-								<Typography component={'span'}>{item.title}</Typography>
-								<DeleteItemOrderButton order={order} item={item}/>
-							</Grid>
-						</ExpansionPanelSummary>
-						<ExpansionPanelDetails>
-							<Typography component={'span'} >
-								{(item.ingredients).map((ingredient)=>
-									<div key={ingredient._id}>
-										<FormControlLabel
-											control={
-												<Checkbox
-													defaultChecked
-													onChange={updateItemIngredients(ingredient)}
-													color="primary"
-												/>
-											}
-											label={ingredient.title}
+			<ExpansionPanel square expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+				<ExpansionPanelSummary aria-controls={`panel${index}d-content`} id="panel1d-header">
+					<Grid
+						container
+						justify="space-between"
+					>
+						<Typography component={'span'}>{item.title}</Typography>
+						<DeleteItemOrderButton order={order} item={item}/>
+					</Grid>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<Typography component={'span'} >
+						{(item.ingredients).map((ingredient)=>
+							<div key={ingredient._id}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											defaultChecked
+											onChange={updateItemIngredients(ingredient)}
+											color="primary"
 										/>
-									</div>
-								)}
-							</Typography>
-							<Typography component={'span'}>
-								{(item.additionalIngredients).map((ingredient)=>
-									<div key={ingredient._id}>
-										<FormControlLabel
-											control={
-												<Checkbox
-													onChange={updateItemIngredients(ingredient)}
-													color="primary"
-												/>
-											}
-											label={ingredient.title}
-										/>
-									</div>
-								)}
-							</Typography>
-							<div>
-								<UpdateItemOrderButton handleClick={submitItemChange}/>
+									}
+									label={ingredient.title}
+								/>
 							</div>
-						</ExpansionPanelDetails>
-					</ExpansionPanel>
+						)}
+					</Typography>
+					<Typography component={'span'}>
+						{(item.additionalIngredients).map((ingredient)=>
+							<div key={ingredient._id}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											onChange={updateItemIngredients(ingredient)}
+											color="primary"
+										/>
+									}
+									label={ingredient.title}
+								/>
+							</div>
+						)}
+					</Typography>
+					<div>
+						<UpdateItemOrderButton handleClick={submitItemChange}/>
+					</div>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		): null
 		}</>
 	);

@@ -5,16 +5,16 @@ import { useDispatch } from 'react-redux';
 
 
 export default function DeleteOrderButton(props) {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-    const handleClick=()=>{
-        orderActions.deleteOrder(props.order)(dispatch)
-    }
-    return (
-      <>
-          <Button variant="outlined" onClick={handleClick}>
-              DELETE ORDER
-          </Button>
-      </>
-    );
+	const handleClick=()=>{
+		orderActions.deleteOrder(props.order)(dispatch)
+	}
+	return (
+		<>
+			<Button variant="outlined" onClick={handleClick}>
+				DELETE ORDER
+			</Button>
+		</>
+	);
 }

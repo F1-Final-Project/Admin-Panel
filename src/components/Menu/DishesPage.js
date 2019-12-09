@@ -23,9 +23,9 @@ const useStyles = makeStyles({
 });
 
 export default function DishesPage(props) {
-	 const dishes = props.dishes;
-	 const classes = useStyles();
-	 const dispatch = useDispatch();
+	const dishes = props.dishes;
+	const classes = useStyles();
+	const dispatch = useDispatch();
 
 	const {activeOrder, orders} = useSelector(state =>
 		({activeOrder: state.order.active,
@@ -54,43 +54,41 @@ export default function DishesPage(props) {
 				thisOrder.orderItems = [newItem]
 			}
 
-				orderActions.updateOrder({
-					// staff: thisOrder.staff,
-					table: thisOrder.table,
-					orderPrice: thisOrder.orderPrice,
-					onKitchen: thisOrder.onKitchen,
-					completed: thisOrder.completed,
-					orderItems: thisOrder.orderItems,
-				}, activeOrder)(dispatch);
-			}
+			orderActions.updateOrder({
+				// staff: thisOrder.staff,
+				table: thisOrder.table,
+				orderPrice: thisOrder.orderPrice,
+				onKitchen: thisOrder.onKitchen,
+				completed: thisOrder.completed,
+				orderItems: thisOrder.orderItems,
+			}, activeOrder)(dispatch);
+		}
 		else{alert('Choose the order')}
 	}
 
 	return (
 		<Grid container className={classes.grid} justify="center">
 			{dishes.map((item)=>(
-		<Card key={item._id} className={classes.card}>
-			<CardActionArea onClick={()=>{addDishToOrder(item)}}>
-				<CardMedia
-					component="img"
-					alt="Contemplative Reptile"
-					height="200"
-					image={item.img}
-					title="Contemplative Reptile"
-				/>
-				<CardContent>
-					<Typography gutterBottom variant="h5" component="h2">
-						{item.title}
-					</Typography>
-					<Typography variant="body2" color="textSecondary" component="p">
-						{item.description}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-		</Card>
-				))}
+				<Card key={item._id} className={classes.card}>
+					<CardActionArea onClick={()=>{addDishToOrder(item)}}>
+						<CardMedia
+							component="img"
+							alt="Contemplative Reptile"
+							height="200"
+							image={item.img}
+							title="Contemplative Reptile"
+						/>
+						<CardContent>
+							<Typography gutterBottom variant="h5" component="h2">
+								{item.title}
+							</Typography>
+							<Typography variant="body2" color="textSecondary" component="p">
+								{item.description}
+							</Typography>
+						</CardContent>
+					</CardActionArea>
+				</Card>
+			))}
 		</Grid>
 	);
 }
-
-

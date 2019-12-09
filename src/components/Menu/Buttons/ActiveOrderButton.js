@@ -5,14 +5,16 @@ import Order from '../../Order'
 
 export default function ActiveOrderButton() {
 
-	const {activeOrder} = useSelector(state =>
-		({activeOrder: state.order.active})
-	);
-
 	const [open, setOpen] = React.useState(false);
 
+	const {activeOrder, orders} = useSelector(state =>
+		({activeOrder: state.order.active,
+			orders: state.order.orders})
+	);
+	const thisOrder = orders.find((item) => item._id === activeOrder);
+
 	const handleOpen = () => {
-		activeOrder? setOpen(true): alert('Choose the order');
+		setOpen(true);
 	};
 
 	const handleClose = () => {
@@ -20,9 +22,12 @@ export default function ActiveOrderButton() {
 	};
 
 	return(
-		<>
-			<Button color = "inherit" onClick={handleOpen} > details of this order </Button>
-			<Order handleClose={handleClose} open={open} />
+		<>{thisOrder?(
+			<>
+			<Button onClick={handleOpen} > table № {thisOrder.table} order details </Button>
+			<Order key={thisOrder._id} handleClose={handleClose} isOpen={open} order={thisOrder}/>
+			</>
+			): null}
 		</>
 	)
 }

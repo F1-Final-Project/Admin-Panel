@@ -30,21 +30,10 @@ export default function OrderItems(props) {
 		<>{order?(
 			<div>
 				{(order.orderItems).map((item, index)=>
-				<OrderItem item={item}  key={index} index={index} order={order} updateOrderItemChange={updateOrderItemChange}/>
+					<OrderItem item={item}  key={index} index={index} order={order} updateOrderItemChange={updateOrderItemChange}/>
 				)}
 			</div>
 		): null
 		}</>
 	);
 }
-
-
-
-
-
-
-
-
-
-
-

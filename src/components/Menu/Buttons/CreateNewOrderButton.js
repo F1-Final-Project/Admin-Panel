@@ -18,30 +18,24 @@ export default function LoginButton() {
 	const closeMenu=()=>{
 		setAnchorEl(null);
 	}
-	const loaded=useSelector(state =>
-		({loaded: state.order.orders})
-	);
 
-	const handleClose = (event) => {
+	const handleClose =(item)=> (event) => {
 		closeMenu();
 		orderActions.addOrder(
 			{
 				orderPrice: 0,
 				onKitchen: false,
 				completed: false,
-				table: +(event.target.innerText),
+				table: +(item),
 				// staff:{},
 			}
 		)(dispatch);
-
-		//get this order and make them active
-		// after:
 
 	};
 
 	return (
 		<>
-			<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+			<Button aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
 				create new order
 			</Button>
 			<Menu
@@ -52,11 +46,9 @@ export default function LoginButton() {
 				onClose={closeMenu}
 			>
 				{tables.map((item)=>
-					<MenuItem  key={item} onClick={handleClose}>{item}</MenuItem>
+					<MenuItem  key={item} onClick={handleClose(item)}>create order table № {item}</MenuItem>
 				)}
 			</Menu>
 		</>
 	);
 }
-
-

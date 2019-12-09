@@ -41,10 +41,8 @@ export default function (state = initState, action) {
 			return {
 				...state,
 				...{
-					active : action.data._id,
 					orders : [...state.orders, ...[action.data]],
 					loaded : true,
-					isAddSuccessful: true,
 				}
 			};
 
@@ -55,8 +53,9 @@ export default function (state = initState, action) {
 			return {
 				...state,
 				...{
+					active : '',
 					orders : afterDeleteOrders,
-					loaded : true
+					loaded : true,
 				}
 			};
 
