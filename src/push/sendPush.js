@@ -1,9 +1,9 @@
 //
 // export default function sendPush() {
-// 	const publicVapidKey = 'BNlTG7jb-XzjEDXvDkCeNOphWLmjHBPSuKC4Buf0Lwf8q-PZhD0fE63xAB4wIrChxJGzlsvV_L4QT-Estb0rkSI'
+//
 //
 // 	if ('serviceWorker' in navigator) {
-// 		window.addEventListener('load', async () => {
+// 		window.addEventListener('load', async () => {https://github.com/F1-Final-Project/Admin-Panel/blob/FoodWarehouse/src/push/sendPush.js
 // 			const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
 // 				updateViaCache: 'none',
 // 				scope: '/',
