@@ -1,4 +1,3 @@
-
 export default function(state, action) {
 	switch (action.type) {
 		case 'editItem':
@@ -28,6 +27,7 @@ export default function(state, action) {
 				},
 			}
 		case 'saveNewItem':
+			console.log('ededed', action.payload)
 			return {
 				...state,
 				...{
@@ -37,7 +37,6 @@ export default function(state, action) {
 			}
 		case 'onChangeInput':
 			let updatedIngredient = { ...state.product, ...action.payload }
-
 			return {
 				...state,
 				...{
@@ -86,7 +85,16 @@ export default function(state, action) {
 					checkBoxActive: action.payload,
 				},
 			}
+		case 'searchChange':
+			let updatedSearch = { ...state.search, ...action.searchItem }
 
+			return {
+				...state,
+				...{
+					transferListItemSearch: action.payload,
+					search: updatedSearch,
+				},
+			}
 
 		default:
 			return state

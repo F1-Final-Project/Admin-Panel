@@ -31,7 +31,8 @@ export default () => {
 
 	const handlerUpdateItem = (id, data) => {
 		dispatch(ingredientAction.updateIngredientById(id, data))
-		sendPush()
+
+		return sendPush()
 	}
 
 	const handlerCreateItem = data => {
@@ -39,8 +40,6 @@ export default () => {
 	}
 
 	const handlerCreateOrderItem = data => {
-
-		console.log('1111', data)
 
 		dispatch(orderIngredientAction.addOrderIngredient(data))
 	}
@@ -60,7 +59,7 @@ export default () => {
 			{loaded ?
 				<Ingredient products={products} handleDeleteItem={handleDeleteItem} handlerUpdateItem={handlerUpdateItem}
 										handlerCreateItem={handlerCreateItem} handlerCreateOrderItem={handlerCreateOrderItem}
-										orderCategories={orderCategories}/> : <div>...LOAD</div>}
+										orderCategories={orderCategories} loadedCategories={loadedCategories}/> : <div>...LOAD</div>}
 		</React.Fragment>
 	)
 

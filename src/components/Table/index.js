@@ -26,7 +26,6 @@ import ModalInput from '../common/Modal/ModalInput'
 import THead from './TableHead'
 import Toolbar from './ToolBar'
 import { useStyles } from './TableCSS'
-import useUpdateItem from '../../customHooks/useUpdateIngredient'
 
 
 export default props => {
@@ -35,7 +34,16 @@ export default props => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 
-	const { products, handleDeleteItem, handlerUpdateItem, handlerCreateItem, handlerCreateOrderItem, orderCategories } = props
+	const {
+		products,
+		handleDeleteItem,
+		handlerUpdateItem,
+		handlerCreateItem,
+		handlerCreateOrderItem,
+		orderCategories,
+		productsIngredient,
+		dataCategories,
+	} = props
 
 	const initState = {
 		openEditModal: false,
@@ -47,6 +55,10 @@ export default props => {
 		product: sorted.inputItems(products),
 		checkedProduct: [],
 		checkBoxActive: [],
+		transferListItem: productsIngredient,
+		transferListItemSearch: productsIngredient,
+		search: { ingredients: '', additionalIngredients: '' },
+		dataCategoriesItem: dataCategories,
 	}
 
 	const [state, dispatch] = useReducer(reducer, initState)
@@ -84,6 +96,7 @@ export default props => {
 	}
 
 	const handleCreatItemNRequest = (data) => {
+
 		handlerCreateItem(data)
 
 		dispatch({
@@ -161,6 +174,7 @@ export default props => {
 		})
 	}
 
+
 	return (
 		<Context.Provider value={{
 			dispatch, state,
@@ -177,12 +191,9 @@ export default props => {
 							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
 									const isItemSelected = isSelected(row.title)
 									const labelId = `enhanced-table-checkbox-${index}`
-
 									return (
-										<TableRow hover role="checkbox" tabIndex={-1} key={row.code}
-
-										>
-											{state.openCheckBox && <TableCell padding="checkbox">
+										<TableRow hover role="checkbox" tabIndex={-1} key={index}>
+											{state.openCheckBox && <TableCell padding="checkbox" key={index}>
 												<Checkbox
 													id={row._id}
 													inputProps={{ 'aria-labelledby': labelId }}
@@ -207,7 +218,7 @@ export default props => {
 															</IconButton>
 														</Tooltip>
 														<Tooltip title="Delete" aria-label="delete">
-															<IconButton aria-label="delete" className={classes.margin} className={classes.margin}
+															<IconButton aria-label="delete" className={classes.margin}
 																					onClick={() => dispatch({
 																						type: 'deleteItem',
 																						payload: row,
@@ -229,11 +240,20 @@ export default props => {
 														</TableCell>
 													} else if (Array.isArray(value)) {
 														return <TableCell key={column.id} align={column.align}>
-															{value.map(i => i.title)}
+															<ul>
+																{value.map(i => {
+																	return <li>{i.title}</li>
+
+																})}
+															</ul>
 														</TableCell>
 													} else {
 														return <TableCell key={column.id} align={column.align}>
-															{typeof value === 'object' ? '' : value}
+															{
+																typeof value === 'object'
+																	? value && value.title ? value.title : '2'
+																	: value
+															}
 														</TableCell>
 													}
 

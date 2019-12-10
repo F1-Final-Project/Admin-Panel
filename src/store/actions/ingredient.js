@@ -1,6 +1,5 @@
 import * as INGREDIENT from '../constants/ingredient'
 import IngregientAPI from '../../services/IngredientAPI'
-import test from '../../push/sendPush'
 
 export function getAllIngredienst() {
 	return function(dispatch) {

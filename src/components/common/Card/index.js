@@ -64,6 +64,7 @@ export default function MediaCard(props) {
 		if (state.products.length <= 0) {
 			handleDeleteItem(products._id)
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.products.length])
 
 
@@ -166,6 +167,7 @@ export default function MediaCard(props) {
 												return <CardItem itemList={itemList}
 																				 classes={classes}
 																				 secondary={secondary}
+																				 key={itemList._id}
 												/>
 											})
 										}

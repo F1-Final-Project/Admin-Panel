@@ -11,7 +11,7 @@ import * as sorted from '../../../lib/sorted'
 
 
 export default (props) => {
-	const { classes, products } = props
+	const {products } = props //classes
 
 	const { state } = useContext(Context)
 

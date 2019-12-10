@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core'
 import * as ingredientAction from '../../store/actions/ingredient'
 
 
-
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
@@ -53,21 +52,11 @@ export default () => {
 		console.log('121212', data)
 
 		if (Array.isArray(data)) {
-			data.map(item => {
-				dispatch(ingredientAction.updateIngredientById(item._id, item))
-			})
+			data.map(item => dispatch(ingredientAction.updateIngredientById(item._id, item)),
+			)
 		}
 
 	}
-	//
-	// const handlerCreateItem = data => {
-	// 	dispatch(ingredientAction.addIngredient(data))
-	// }
-	//
-	// const handlerCreateOrderItem = data => {
-	// 	dispatch(orderIngredientAction.addOrderIngredient(data))
-	// }
-	console.log('PRODUCT---->', products, orderCategories)
 
 	return (
 		<div className={classes.root}>
@@ -78,14 +67,16 @@ export default () => {
 						className={classes.test}
 			>
 				{
-					products.map((itemCard) => {
-						return <Card products={itemCard}
-												 key={itemCard._id}
-												 orderCategories={orderCategories}
-												 handleDeleteItem={handleDeleteItem}
-												 handlerUpdateItem={handlerUpdateItem}
-												 handlerUpdateItemStoke={handlerUpdateItemStoke}/>
-					})
+					loaded ? products.map((itemCard) => {
+							return <Card products={itemCard}
+													 key={itemCard._id}
+													 orderCategories={orderCategories}
+													 handleDeleteItem={handleDeleteItem}
+													 handlerUpdateItem={handlerUpdateItem}
+													 handlerUpdateItemStoke={handlerUpdateItemStoke}
+													 loadedCategories={loadedCategories}/>
+						})
+						: <div>Loading...</div>
 				}
 				{/*<Notifications />*/}
 			</Grid>
