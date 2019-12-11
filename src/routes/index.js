@@ -7,6 +7,7 @@ import NotFound from '../components/NotFound'
 import FoodWareHouse from '../components/FoodWarehouse'
 import OrderIngredient from '../components/OrderIngredients'
 import Dish from '../components/Dishes'
+import AdminLayout from '../components/AdminLayout'
 
 import Layout from '../components/Layout'
 
@@ -41,6 +42,9 @@ export const Router = () => {
 						<Route exact
 									 path="/edit-dishes"
 									 component={props => <Layout {...props}><Dish {...props}/></Layout>}/>
+						<Route exact
+									 path="/admin-panel"
+									 component={props => <AdminLayout {...props}/>}/>
 
 						{/*<Route path="*" component={NotFound}/>*/}
 					</Switch>

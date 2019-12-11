@@ -1,3 +1,8 @@
+/**
+ * @desc Функция для сортировки заголовков в таблице по алфавику
+ * @return {Number}
+ */
+
 export function compare(a, b) {
 	if (a.id > b.id) {
 		return -1
@@ -7,6 +12,12 @@ export function compare(a, b) {
 	}
 	return 0
 }
+
+/**
+ * @desc Функция для создания полей в модальном окне, количество полей зависит от количества элементов в объекте
+ * @type {Object} object
+ * @return {Object}
+ */
 
 export const inputItems = (object) => {
 	let test = Object.entries(object[0])
@@ -27,13 +38,19 @@ export const inputItems = (object) => {
 
 	return jjj.reduce(function(acc, cur) {
 		acc[cur[0]] = cur[1]
-
 		return acc
 
 	}, {})
 
 }
 
+
+/**
+ * @desc Функция принимает объект и возвращает отсортированный элемент для Schema Mongoose,
+ * если поля объекта типа (Object, Array) возвращает только _id(String)
+ * @type {Object} object
+ * @return {Object}
+ */
 
 export const inputItemsDataId = (object) => {
 	let test = Object.entries(object)
@@ -47,11 +64,10 @@ export const inputItemsDataId = (object) => {
 				}
 				return [i[0], []]
 			} else if (typeof i[1] === 'object') {
-
-				if (i[1].length > 0) {
+				if (Object.keys(i[1]).length !== 0) {
 					return [i[0], i[1]]
 				}
-				return [i[0], '']
+				return [i[0], 'unCategories']
 			} else {
 				if (i[1]) {
 					return [i[0], i[1]]

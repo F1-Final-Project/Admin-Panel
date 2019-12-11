@@ -2,21 +2,26 @@ import { makeStyles } from '@material-ui/core/styles'
 
 
 export const useStyles = makeStyles(theme => ({
-	root: {
+	tableContainer: {
 		width: '100%',
-		height: '100%',
 	},
-	paper: {
+	tablePaperEffect: {
 		marginTop: theme.spacing(3),
 		width: '95%',
 		height: '100%',
 		overflowX: 'auto',
 		marginBottom: theme.spacing(2),
 		margin: '0 auto',
+		backgroundColor: '#1C1C1C',
 	},
 	table: {
 		minWidth: 320,
-
+		border: '1px solid #E9C294',
+	},
+	tableCell: {
+		borderBottom: '1px solid #E9C294',
+		color: '#E9C294',
+		textAlign: 'center',
 	},
 	fab: {
 		margin: theme.spacing(1),
@@ -24,11 +29,12 @@ export const useStyles = makeStyles(theme => ({
 	extendedIcon: {
 		marginRight: theme.spacing(1),
 	},
-	margin: {
-		color: 'black',
+	tableBtnColor: {
+		color: '#E9C294',
 	},
 	tHeader: {
 		backgroundColor: '#bdbdbd',
+		color: '#E9C294',
 	},
 	container: {
 		display: 'flex',
@@ -38,6 +44,12 @@ export const useStyles = makeStyles(theme => ({
 		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
 		width: 200,
+	},
+	tableCellHover: {
+		'&:hover': {
+			backgroundColor: 'rgba(48, 48, 48, .5) !important',
+
+		},
 	},
 	visuallyHidden: {
 		border: 0,
@@ -50,9 +62,12 @@ export const useStyles = makeStyles(theme => ({
 		top: 20,
 		width: 1,
 	},
-	priceDanger: {
+	TableCellDanger: {
 		color: '#e53935',
-		backgroundColor: '#ffebee',
-		// textAlign: 'center',
+		backgroundColor: '#424242',
+		borderBottom: '1px solid #E9C294',
+		textAlign: 'center',
+
 	},
+
 }))

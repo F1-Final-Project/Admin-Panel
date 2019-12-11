@@ -27,7 +27,7 @@ export default function(state, action) {
 				},
 			}
 		case 'saveNewItem':
-			console.log('ededed', action.payload)
+
 			return {
 				...state,
 				...{
@@ -36,7 +36,8 @@ export default function(state, action) {
 				},
 			}
 		case 'onChangeInput':
-			let updatedIngredient = { ...state.product, ...action.payload }
+			const updatedIngredient = { ...state.product, ...action.payload }
+
 			return {
 				...state,
 				...{

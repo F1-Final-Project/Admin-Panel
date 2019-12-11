@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { lighten, makeStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -11,33 +10,19 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { Context } from '../../../context/tableContext'
 import * as sorted from '../../../lib/sorted'
+import { useToolbarStyles } from './ToolBarCSS.js'
+import PropTypes from 'prop-types'
 
 
-const useToolbarStyles = makeStyles(theme => ({
-	root: {
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(1),
-	},
-	highlight:
-		theme.palette.type === 'light'
-			? {
-				color: theme.palette.secondary.main,
-				backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-			}
-			: {
-				color: theme.palette.text.primary,
-				backgroundColor: theme.palette.secondary.dark,
-			},
-	title: {
-		flex: '1 1 100%',
-	},
-}))
-
-export default props => {
+export default function ToolBarTable(props) {
 	const classes = useToolbarStyles()
-	const { numSelected, creatOrderItem, products } = props
+	const {
+		numSelected,
+		creatOrderItem,
+		products,
+		openCheckBoxList,
+	} = props
 	const { dispatch, state } = useContext(Context)
-
 
 	return (
 		<Toolbar
@@ -45,7 +30,7 @@ export default props => {
 				[classes.highlight]: numSelected > 0,
 			})}
 		>
-			{numSelected > 0 ? (
+			{numSelected > 0 ? (																																															//numSelected > 0 изменять цвет THeader и показывать количество выбраных елементов
 				<Typography className={classes.title} color="inherit" variant="subtitle1">
 					{numSelected} selected
 				</Typography>
@@ -54,8 +39,8 @@ export default props => {
 					Table list
 				</Typography>
 			)}
-
-			{state.openCheckBox ? (
+			{openCheckBoxList &&																																															//показ, закрывать чекбоксы
+			(state.openCheckBox ? (
 					<Tooltip title="Close selected">
 						<IconButton aria-label="close selected" onClick={() => dispatch({
 							type: 'checkedProduct',
@@ -74,9 +59,9 @@ export default props => {
 					})}>
 						<PlaylistAddCheckIcon/>
 					</IconButton>
-				</Tooltip>)}
-
-			{numSelected > 0 ? (
+				</Tooltip>))
+			}
+			{numSelected > 0 ? (																																															//показ кнопки создания заказа
 				<Tooltip title="Create order sheet">
 					<IconButton aria-label="create order sheet" onClick={() => creatOrderItem(state.checkedProduct)}>
 						<AssignmentTurnedInIcon/>
@@ -96,3 +81,10 @@ export default props => {
 		</Toolbar>
 	)
 };
+
+ToolBarTable.propTypes = {
+	numSelected: PropTypes.number,
+	creatOrderItem: PropTypes.func,
+	products: PropTypes.array,
+	openCheckBoxList: PropTypes.bool
+}

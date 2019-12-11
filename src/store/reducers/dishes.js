@@ -34,7 +34,6 @@ export default function(state = initState, action) {
 			}
 
 		case DISH.ADD_DISH:
-
 			console.log('TETSETST--->', action.data)
 			return {
 				...state,

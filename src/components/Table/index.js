@@ -26,9 +26,9 @@ import ModalInput from '../common/Modal/ModalInput'
 import THead from './TableHead'
 import Toolbar from './ToolBar'
 import { useStyles } from './TableCSS'
+import PropTypes from 'prop-types'
 
-
-export default props => {
+export default function TableCreated(props) {
 	const classes = useStyles()
 
 	const [page, setPage] = useState(0)
@@ -43,6 +43,7 @@ export default props => {
 		orderCategories,
 		productsIngredient,
 		dataCategories,
+		openCheckBoxList,
 	} = props
 
 	const initState = {
@@ -61,20 +62,40 @@ export default props => {
 		dataCategoriesItem: dataCategories,
 	}
 
+
 	const [state, dispatch] = useReducer(reducer, initState)
 	const { _id = '' } = state.product
 
+
+	/**
+	 * @desc Функция для переключения станичек по нажатию на кнопку
+	 * @param {Event} event
+	 * @param {Number} newPage номер страницы
+	 */
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage)
 	}
 
+	/**
+	 * @desc Функция для изменения количества строк в таблице
+	 * @param {Event}
+	 */
+
 	const handleChangeRowsPerPage = event => {
+
 		setRowsPerPage(+event.target.value)
 		setPage(0)
 	}
 
+	/**
+	 * @desc Функция для удаления элемента c таблицы и REST API(Delete: /your-link/:ItemId) запрос в базу данных удаление
+	 * @desc useReducer - dispatch обнуления состояния product и закрытия модального окна
+	 * @param {string} id
+	 */
+
 	const handleDeleteItemNRequest = id => {
+
 		handleDeleteItem(id)
 
 		dispatch({
@@ -84,9 +105,16 @@ export default props => {
 		})
 	}
 
-	const handlerUpdateNRequest = (id, date) => {
+	/**
+	 * @desc Функция для обновление элемента c таблицы и REST API(UPDATE: /your-link/:itemId) запрос в базу данных обновление
+	 * @desc useReducer - dispatch обновления состояния product и закрытия модального окна
+	 * @param {string} id
+	 * @param {Object} data обьект с полями для обновление
+	 */
 
-		handlerUpdateItem(id, date)
+	const handlerUpdateNRequest = (id, data) => {
+
+		handlerUpdateItem(id, data)
 
 		dispatch({
 			type: 'saveNewItem',
@@ -94,6 +122,12 @@ export default props => {
 			openEditModal: false,
 		})
 	}
+
+	/**
+	 * @desc Функция для создания элемента в таблице и REST API(POST: /your-link) запрос в базу данных создания
+	 * @desc useReducer - dispatch обновления состояния product и создания полей для новой записи
+	 * @param {Object} data обьект с полями для создания
+	 */
 
 	const handleCreatItemNRequest = (data) => {
 
@@ -106,13 +140,21 @@ export default props => {
 		})
 	}
 
-	const handleSelectItem = (e, name) => {
+	/**
+	 * @desc Функция для выбора групп чекбоксов
+	 * @desc useReducer - dispatch обновления состояния checkedProduct и создания массива выбраных элементов
+	 * @param e - event
+	 * @param {Object} currentElementInTable выбраный элемент
+	 */
+
+	let handleSelectItem = (e, currentElementInTable) => {
+
 		const productsItems = state.checkedProduct
 
 		if (e.target.checked && Array.isArray(productsItems)) {
-			productsItems.push(name)
+			productsItems.push(currentElementInTable)
 		} else if (Array.isArray(productsItems)) {
-			const index = productsItems.findIndex(i => i.id === name.id)
+			const index = productsItems.findIndex(i => i.id === currentElementInTable.id)
 			productsItems.splice(index, 1)
 		}
 
@@ -122,14 +164,20 @@ export default props => {
 		})
 	}
 
+	/**
+	 * @desc Функция для состояния чекбоксов включен/выключен
+	 * @desc useReducer - dispatch обновления состояния чекбоксов
+	 * @param event
+	 * @param {Object} currentElementInTable выбраный элемент
+	 */
 
-	const handleClickCheckedItem = (event, name) => {
+	const handleClickCheckedItem = (event, currentElementInTable) => {
 
-		const selectedIndex = state.checkBoxActive.indexOf(name)
+		const selectedIndex = state.checkBoxActive.indexOf(currentElementInTable)
 		let newSelected = []
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(state.checkBoxActive, name)
+			newSelected = newSelected.concat(state.checkBoxActive, currentElementInTable)
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(state.checkBoxActive.slice(1))
 		} else if (selectedIndex === state.checkBoxActive.length - 1) {
@@ -147,15 +195,31 @@ export default props => {
 		})
 	}
 
-	const isSelected = name => state.checkBoxActive.indexOf(name) !== -1
+	/**
+	 * @desc Функция для checked чекбоксо
+	 * @param {Object} currentElementInTable выбраный элемент
+	 */
+	const isSelected = currentElementInTable => state.checkBoxActive.indexOf(currentElementInTable) !== -1
 
+	/**
+	 * @desc Функция для checked чекбоксо
+	 * @param {Number} item количество в поле
+	 */
 	const itemEndsDanger = item => {
+
 		if (item) {
-			return item < 30 ? classes.priceDanger : ''
+			return item < 30 ? classes.TableCellDanger : classes.tableCell
 		}
 	}
 
+	/**
+	 * @desc Функция для создания заказа из выбранных элементов чекбоксов и REST API(POST: /your-link) запрос в базу данных создания
+	 * @desc useReducer - dispatch обнуления состояния checkBoxActive, checkedProduct
+	 * @param {Array} data обьект с полями для создания
+	 */
+
 	const handleCreatOrderItemNRequest = data => {
+
 		const newData = orderCategories.filter(item => item.title === 'inProgress')
 
 		handlerCreateOrderItem(
@@ -174,26 +238,28 @@ export default props => {
 		})
 	}
 
-
 	return (
 		<Context.Provider value={{
 			dispatch, state,
 		}}>
-			<Paper className={classes.paper}>
+			<Paper className={classes.tablePaperEffect}>
 				<Toolbar numSelected={state.checkBoxActive.length}
 								 products={products}
 								 creatOrderItem={handleCreatOrderItemNRequest}
+								 openCheckBoxList={openCheckBoxList}
 				/>
-				<div className={classes.root}>
-					<Table className={classes.table} size="small" aria-label="a dense table">
+				<div className={classes.tableContainer}>
+					<Table className={classes.table}
+								 size="small"
+								 aria-label="a dense table">
 						<THead products={products} classes={classes}/>
 						<TableBody>
-							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {   						// Разделение на страницы таблицы
 									const isItemSelected = isSelected(row.title)
 									const labelId = `enhanced-table-checkbox-${index}`
 									return (
-										<TableRow hover role="checkbox" tabIndex={-1} key={index}>
-											{state.openCheckBox && <TableCell padding="checkbox" key={index}>
+										<TableRow hover role="checkbox" tabIndex={-1} key={index} className={classes.tableCellHover}>
+											{state.openCheckBox && <TableCell padding="checkbox" key={index} className={classes.tableCell}>
 												<Checkbox
 													id={row._id}
 													inputProps={{ 'aria-labelledby': labelId }}
@@ -202,23 +268,26 @@ export default props => {
 													onClick={event => handleClickCheckedItem(event, row.title)}
 												/>
 											</TableCell>}
-											{columnName.clmns(products).sort(sorted.compare).map(column => {
-												const value = row[column.id]
-												if (column.id === 'button') {
-													return <TableCell key={column.id} align={column.align}>
+											{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
+												const value = row[column.id]                                              										  //sort(sorted.compare) - сортировка полей по алфавиту
+												if (column.id === 'button') {                                                             			//проверка полей для добавление кнопок в таблицу
+													return <TableCell key={column.id}
+																						align={column.align}
+																						className={classes.tableCell}>
 														<Tooltip title="Edit" aria-label="edit">
-															<IconButton aria-label="edit" className={classes.margin}
+															<IconButton aria-label="edit"
+																					className={classes.tableBtnColor}
 																					onClick={() => dispatch({
 																						type: 'editItem',
 																						payload: row,
 																						openEditModal: true,
 																					})}>
 																<EditIcon fontSize="small"/>
-
 															</IconButton>
 														</Tooltip>
 														<Tooltip title="Delete" aria-label="delete">
-															<IconButton aria-label="delete" className={classes.margin}
+															<IconButton aria-label="delete"
+																					className={classes.tableBtnColor}
 																					onClick={() => dispatch({
 																						type: 'deleteItem',
 																						payload: row,
@@ -228,18 +297,23 @@ export default props => {
 															</IconButton>
 														</Tooltip>
 													</TableCell>
-												} else if (column.id === 'restInStock') {
-													return <TableCell key={column.id} align={column.align}
+												} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
+													return <TableCell key={column.id}
+																						align={column.align}                                                        //добовление класса если елемента не достаточно на складе
 																						className={itemEndsDanger(row.restInStock)}>
 														{value}
 													</TableCell>
 												} else {
-													if (column.format && typeof value === 'number') {
-														return <TableCell key={column.id} align={column.align}>
+													if (column.format && typeof value === 'number') {																							//проверка если входящие данные числа
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
 															{column.format(value)}
 														</TableCell>
-													} else if (Array.isArray(value)) {
-														return <TableCell key={column.id} align={column.align}>
+													} else if (Array.isArray(value)) {																														//проверка если входящие данные массив
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
 															<ul>
 																{value.map(i => {
 																	return <li>{i.title}</li>
@@ -248,10 +322,12 @@ export default props => {
 															</ul>
 														</TableCell>
 													} else {
-														return <TableCell key={column.id} align={column.align}>
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
 															{
 																typeof value === 'object'
-																	? value && value.title ? value.title : '2'
+																	? value && value.title ? value.title : ''
 																	: value
 															}
 														</TableCell>
@@ -282,9 +358,9 @@ export default props => {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 
-				<>{state.openEditModal ? (
+				<>{state.openEditModal ? (																																											//модальное окно для редактирования
 						<Modal data={state}>
-							<ModalInput data={state} name={'Correct ingredient'} open={{ openEditModal: true }}/>
+							<ModalInput data={state} nameOFModal={'Correct ingredient'} open={{ openEditModal: true }}/>
 							<DialogActions>
 								<Button autoFocus color="primary" onClick={() => dispatch({
 									type: 'closeModal',
@@ -301,7 +377,7 @@ export default props => {
 					: null
 				}
 
-					{state.openDeleteModal ? (
+					{state.openDeleteModal ? (                   																																	//модальное окно для удаления
 							<Modal data={state}>
 								<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
 									Удаление
@@ -324,7 +400,7 @@ export default props => {
 							</Modal>)
 						: null}
 
-					{state.openCreateModal ? (
+					{state.openCreateModal ? (																																										//модальное окно для создания
 							<Modal data={state}>
 								<ModalInput name={'Create ingredient'} open={{ openCreateModal: true }}/>
 								<DialogActions>
@@ -349,4 +425,16 @@ export default props => {
 			</Paper>
 		</Context.Provider>
 	)
+}
+
+TableCreated.propTypes = {
+	products: PropTypes.array,
+	handleDeleteItem: PropTypes.func,
+	handlerUpdateItem: PropTypes.func,
+	handlerCreateItem: PropTypes.func,
+	handlerCreateOrderItem: PropTypes.func,
+	orderCategories: PropTypes.array,
+	productsIngredient: PropTypes.array,
+	dataCategories: PropTypes.array,
+	openCheckBoxList: PropTypes.bool,
 }

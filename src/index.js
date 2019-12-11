@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { configureStore } from './store'
 import { config } from './push/firebaseConfig'
 import firebase from 'firebase/app'
+
 import { initializePush } from './push/initialize'
 
 firebase.initializeApp(config)

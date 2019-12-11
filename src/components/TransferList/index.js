@@ -1,5 +1,4 @@
 import React, { useContext, useState, useCallback } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -14,48 +13,24 @@ import SearchIcon from '@material-ui/icons/Search'
 import { Context } from '../../context/tableContext'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
+import { useStyles } from './TransferListCSS'
+import PropTypes from 'prop-types'
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		margin: 'auto',
-	},
-	paper: {
-		width: 200,
-		height: 230,
-		overflow: 'auto',
-	},
-	button: {
-		margin: theme.spacing(0.5, 0),
-	},
-	rootSearch: {
-		padding: '2px 4px',
-		display: 'flex',
-		alignItems: 'center',
-		width: '80%',
-		margin: '0 auto',
-		marginTop: 10,
-		backgroundColor: 'grey',
-	},
-	iconButton: {
 
-		padding: 10,
-	},
-	divider: {
-		height: 28,
-		margin: 4,
-	},
-	input: {
-		backgroundColor: 'grey',
-		color: '#fff',
-	},
-	search: {
-		color: '#fff',
-	},
-}))
-
+/**
+ * @desc Функция для сортировки элементов с индексом = -1
+ * @param {Array} a
+ * @param{Array} b
+ */
 function not(a, b) {
 	return a.filter(value => b.indexOf(value) === -1)
 }
+
+/**
+ * @desc Функция для сортировки элементов с индексом != -1
+ * @param {Array} a
+ * @param{Array} b
+ */
 
 function intersection(a, b) {
 	return a.filter(value => b.indexOf(value) !== -1)
@@ -64,17 +39,27 @@ function intersection(a, b) {
 export default function TransferList(props) {
 
 	const { dispatch, state } = useContext(Context)
-	const { itemValue, nameProperty } = props
 	const classes = useStyles()
-	const [checked, setChecked] = React.useState([])
-	const [left, setLeft] = React.useState(itemValue)
-	const [right, setRight] = React.useState(state.transferListItemSearch)
+
+	const {
+		itemValue,
+		nameProperty,
+	} = props
+
+	const [checked, setChecked] = useState([])
+	const [left, setLeft] = useState(itemValue)
+	const [right, setRight] = useState(state.transferListItemSearch)
 
 
 	const rightChecked = intersection(checked, right)
 
+	/**
+	 * @desc Функция для переключения состояния чекбоксов
+	 * @param {Object} value
+	 */
 
 	const handleToggle = value => () => {
+
 		const currentIndex = checked.indexOf(value)
 		const newChecked = [...checked]
 
@@ -87,6 +72,9 @@ export default function TransferList(props) {
 		setChecked(newChecked)
 	}
 
+	/**
+	 * @desc Функция для перемещения элементов с правого трансфер листа в левый
+	 */
 	const handleCheckedLeft = () => {
 		setLeft(left.concat(rightChecked))
 		setRight(not(right, rightChecked))
@@ -94,6 +82,12 @@ export default function TransferList(props) {
 
 		handleSaveIng(left.concat(rightChecked))
 	}
+
+	/**
+	 * @desc Функция useCallback обновления состояния product при изменении left левого трансфер листа
+	 *  @desc useReducer - dispatch обновления состояния product
+	 * @param {Array} item
+	 */
 
 	const handleSaveIng = useCallback(
 		(item) => {
@@ -111,12 +105,18 @@ export default function TransferList(props) {
 		[left],
 	)
 
+	/**
+	 * @desc Функция поиска элементов в масиве для правого трансфер листа
+	 * @desc useReducer - dispatch обновления состояния transferListItemSearch
+	 * @param {Event} e.target
+	 */
+
 	const handelSearchChange = e => {
 		const testFilter = state.transferListItem.filter(i => {
 			return i.title.includes(e.target.value)
 		})
 
-		console.log('12334')
+		setRight(testFilter)
 
 		dispatch({
 			type: 'searchChange',
@@ -125,24 +125,33 @@ export default function TransferList(props) {
 		})
 	}
 
-	const handleDeleteItemList = items => {
+	/**
+	 * @desc Функция поиска элементов в масиве для удаления в левой части трансфер листа
+	 * @param {Object} items
+	 */
 
-		console.log('ewdwedwed', items)
+	const handleDeleteItemList = items => {
 		const newDelete = left.filter(i => i._id !== items._id)
+
 		setLeft(newDelete)
 
 		handleSaveIng(newDelete)
 	}
 
+	/**
+	 * @desc Функция для отображения массива элементов для левой части трансфер листа
+	 * @param {Array} items
+	 */
+
 	const customListLeft = items => {
-		return <Paper className={classes.paper}>
+		return <Paper className={classes.tablePaperEffect}>
 			<List dense component="div" role="list">
 				{items.map(value => {
 					const labelId = `transfer-list-item-${value}-label`
 					return (
 						<ListItem key={value._id} role="listitem" button>
 							<Tooltip title="Delete" aria-label="delete">
-								<IconButton aria-label="delete" className={classes.margin} className={classes.margin}
+								<IconButton aria-label="delete" className={classes.margin}
 														onClick={() => handleDeleteItemList(value)}>
 									<DeleteIcon fontSize="small"/>
 								</IconButton>
@@ -156,20 +165,25 @@ export default function TransferList(props) {
 		</Paper>
 	}
 
+	/**
+	 * @desc Функция для отображения массива элементов для правой части трансфер листа
+	 * @param {Array} items
+	 */
+
 	const customListRight = items => {
 
-		return <Paper className={classes.paper}>
-			<Paper component="form" className={classes.rootSearch}>
+		return <Paper className={classes.tablePaperEffect}>
+			<Paper component="form" className={classes.listSearch}>
 				<InputBase
-					className={classes.input}
+					className={classes.listInputBase}
 					placeholder="Search"
 					inputProps={{ 'aria-label': 'search' }}
 					value={state.search[nameProperty]}
 					name={nameProperty}
 					onChange={e => handelSearchChange(e)}
 				/>
-				<IconButton type="text" className={classes.iconButton} aria-label="search">
-					<SearchIcon className={classes.search}/>
+				<IconButton type="text" className={classes.listIconButton} aria-label="search">
+					<SearchIcon className={classes.listSearchIcon}/>
 				</IconButton>
 			</Paper>
 			<List dense component="div" role="list">
@@ -195,14 +209,14 @@ export default function TransferList(props) {
 	}
 
 	return (
-		<Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
+		<Grid container spacing={2} justify="center" alignItems="center" className={classes.listContainer}>
 			<Grid item>{customListLeft(left)}</Grid>
 			<Grid item>
 				<Grid container direction="column" alignItems="center">
 					<Button
 						variant="outlined"
 						size="small"
-						className={classes.button}
+						className={classes.listButton}
 						onClick={handleCheckedLeft}
 						disabled={rightChecked.length === 0}
 						aria-label="move selected left"
@@ -214,4 +228,9 @@ export default function TransferList(props) {
 			<Grid item>{customListRight(right)}</Grid>
 		</Grid>
 	)
+}
+
+TransferList.propTypes = {
+	itemValue: PropTypes.array,
+	nameProperty: PropTypes.string,
 }

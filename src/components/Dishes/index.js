@@ -5,9 +5,10 @@ import Table from '../Table'
 import * as ingredientAction from '../../store/actions/ingredient'
 import * as sorted from '../../lib/sorted'
 import CategoriesAPI from '../../services/CategoriesAPI'
+import PropTypes from 'prop-types'
 
 
-export default () => {
+export default function Dishes() {
 
 	const dishes = useSelector(state => state.dishes)
 	const { products, loaded } = dishes
@@ -27,10 +28,20 @@ export default () => {
 
 	}, [dispatch])
 
+	/**
+	 * @desc Функция для запроса в базу данных удаления элемента REST API(Delete: /your-link/:ItemId)
+	 * @param {string} id
+	 */
 
 	const handleDeleteItem = id => {
 		dispatch(dishAction.deleteDishById(id))
 	}
+
+	/**
+	 * @desc Функция для запроса в базу данных редактирования элемента REST API(UPDATE: /your-link/:ItemId)
+	 * @param {string} id
+	 * @param {Object} data
+	 */
 
 	const handlerUpdateItem = (id, data) => {
 
@@ -38,9 +49,15 @@ export default () => {
 
 	}
 
+	/**
+	 * @desc Функция для запроса в базу данных создания элемента REST API(Post: /your-link/:ItemId)
+	 * @param {Object} data
+	 */
+
 	const handlerCreateItem = async data => {
 
 		const newData = await sorted.inputItemsDataId(data)
+
 
 		await dispatch(dishAction.addDish(newData, data))
 	}
@@ -60,3 +77,8 @@ export default () => {
 
 }
 
+Dishes.propTypes = {
+	products: PropTypes.array,
+	loaded: PropTypes.bool,
+	ingredients: PropTypes.array,
+}

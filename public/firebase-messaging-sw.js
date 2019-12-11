@@ -1,14 +1,28 @@
 importScripts('https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/7.5.0/firebase-messaging.js')
+import * as configFile from '../src/pseudoEnv'
 
 
 const config = {
-	// Project Settings => Add Firebase to your web app
-	
+	apiKey: configFile.APIKEY,
+	authDomain: configFile.AUTHDOMAIN,
+	databaseURL: configFile.DATABASEURL,
+	projectId: configFile.PROJECTID,
+	storageBucket: configFile.STOREGEBUCKET,
+	messagingSenderId: configFile.MESSAGINGSENDERID,
+	appId: configFile.APPID,
 }
+
+/**
+ * @desc Интерфейс службы сообщений Firebase.
+ */
 
 firebase.initializeApp(config)
 const messaging = firebase.messaging()
+
+/**
+ * @desc Обрабатывать сообщения, когда ваше веб-приложение находится в фоновом режиме
+ */
 
 messaging.setBackgroundMessageHandler(payload => {
 	const title = payload.notification.title
@@ -20,6 +34,9 @@ messaging.setBackgroundMessageHandler(payload => {
 	return self.registration.showNotification(title, options)
 })
 
+/**
+ * @desc Обрабатывать сообщения, при нажатии на уведомление
+ */
 
 self.addEventListener('notificationclick', function(event) {
 	const target = event.notification.data.click_action || '/'
@@ -40,12 +57,19 @@ self.addEventListener('notificationclick', function(event) {
 	}))
 })
 
+/**
+ * @desc Обрабатывать сообщения, при закрытии уведомление
+ */
 
 self.addEventListener('notificationclose', event => {
 	const notification = event.notification
 	const primaryKey = notification.data
 })
 
+
+/**
+ * @desc Регистраци Push уведомления в веб-приложении
+ */
 
 self.addEventListener('push', ev => {
 	const data = ev.data.json()

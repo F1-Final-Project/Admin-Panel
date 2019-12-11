@@ -11,20 +11,22 @@ import * as sorted from '../../../lib/sorted'
 
 
 export default (props) => {
-	const {products } = props //classes
+	const { products, classes } = props
 
 	const { state } = useContext(Context)
 
 	return (
 		<TableHead>
 			<TableRow>
-				{state.openCheckBox && <TableCell padding="checkbox">
+				{state.openCheckBox &&																																													//проверка на для открытия чекбоксов
+				<TableCell padding="checkbox" className={classes.tableCell}>
 					<FormControlLabel disabled control={<Checkbox checked value="checkedE"/>}/>
 				</TableCell>}
-				{columnName.clmns(products).sort(sorted.compare).map(headCell => (
-					<TableCell
+				{columnName.clmns(products).sort(sorted.compare).map(headCell => (																		//sort(sorted.compare) - сортировка полей по алфавиту
+					<TableCell																																																		// columnName.clmns(products)-сортировка полей для оглавления в таблице
 						key={headCell.id}
 						padding={headCell.disablePadding ? 'none' : 'default'}
+						className={classes.tableCell}
 					>
 						{headCell.id === 'price' ? (
 								<TableSortLabel key={headCell.id}>

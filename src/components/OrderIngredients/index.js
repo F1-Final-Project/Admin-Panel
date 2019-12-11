@@ -5,21 +5,9 @@ import * as orderCategoriesAction from '../../store/actions/orderCategories'
 import Grid from '@material-ui/core/Grid'
 
 import Card from '../common/Card'
-import { makeStyles } from '@material-ui/core'
 import * as ingredientAction from '../../store/actions/ingredient'
+import { useStyles } from './OrderIngredientsCSS'
 
-
-const useStyles = makeStyles({
-	root: {
-		flexGrow: 1,
-	},
-	test: {
-		alignItems: 'flex-start',
-		flexWrap: 'wrap',
-		alignContent: 'center',
-	},
-
-})
 
 export default () => {
 
@@ -38,18 +26,30 @@ export default () => {
 
 	}, [dispatch])
 
+	/**
+	 * @desc Функция для запроса в базу данных удаления элемента REST API(Delete: /your-link/:ItemId)
+	 * @param {string} id
+	 */
+
 	const handleDeleteItem = id => {
 		dispatch(orderIngredientAction.deleteOrderIngredientById(id))
 	}
 
-
+	/**
+	 * @desc Функция для запроса в базу данных редактирования элемента REST API(UPDATE: /your-link/:ItemId)
+	 * @param {string} id
+	 * @param {Object} data
+	 */
 	const handlerUpdateItem = (id, data) => {
 		dispatch(orderIngredientAction.updateOrderIngredientById(id, data))
 	}
 
-	const handlerUpdateItemStoke = (data) => {
+	/**
+	 * @desc Функция для запроса в базу данных редактирования элементов массива REST API(UPDATE: /your-link/:ItemId)
+	 * @param {Object} data
+	 */
 
-		console.log('121212', data)
+	const handlerUpdateItemStoke = (data) => {
 
 		if (Array.isArray(data)) {
 			data.map(item => dispatch(ingredientAction.updateIngredientById(item._id, item)),
