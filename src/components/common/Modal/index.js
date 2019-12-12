@@ -3,17 +3,20 @@ import Dialog from '@material-ui/core/Dialog'
 import Paper from '@material-ui/core/Paper'
 import Draggable from 'react-draggable'
 import PropTypes from 'prop-types'
+import {useStyles} from './ModalCSS'
 
 
 function PaperComponent(props) {
+	const classes = useStyles()
 	return (
 		<Draggable cancel={'[class*="MuiDialogContent-root"]'}>
-			<Paper {...props} />
+			<Paper {...props} style={{backgroundColor: '#212121'}}/>
 		</Draggable>
 	)
 }
 
 export default function AlertDialog(props) {
+	const classes = useStyles()
 
 	const {
 		openEditModal,

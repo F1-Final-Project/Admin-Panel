@@ -1,4 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
+import { purple } from '@material-ui/core/colors'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 
 
 export const useStyles = makeStyles(theme => ({
@@ -10,27 +14,28 @@ export const useStyles = makeStyles(theme => ({
 		width: '95%',
 		height: '100%',
 		overflowX: 'auto',
-		marginBottom: theme.spacing(2),
+		marginBottom: theme.spacing(5),
 		margin: '0 auto',
-		backgroundColor: '#1C1C1C',
+		backgroundColor: 'rgba(28, 28, 28, .1)',
+		boxShadow: '-5px -5px 10px 10px rgba(0, 0, 0, .2)'
+		//backgroundColor: '#1f1f22',
 	},
 	table: {
 		minWidth: 320,
-		border: '1px solid #E9C294',
+		//border: '1px solid #E9C294',
+		border: '0',
 	},
 	tableCell: {
 		borderBottom: '1px solid #E9C294',
-		color: '#E9C294',
+		color: '#d0cdc7',
 		textAlign: 'center',
+		fontFamily:'Helvetica Neue',
 	},
 	fab: {
 		margin: theme.spacing(1),
 	},
 	extendedIcon: {
 		marginRight: theme.spacing(1),
-	},
-	tableBtnColor: {
-		color: '#E9C294',
 	},
 	tHeader: {
 		backgroundColor: '#bdbdbd',
@@ -48,7 +53,6 @@ export const useStyles = makeStyles(theme => ({
 	tableCellHover: {
 		'&:hover': {
 			backgroundColor: 'rgba(48, 48, 48, .5) !important',
-
 		},
 	},
 	visuallyHidden: {
@@ -69,5 +73,36 @@ export const useStyles = makeStyles(theme => ({
 		textAlign: 'center',
 
 	},
+	tableCheckbox: {
+		color: '#edd185',
+	},
+
+	tablePagination: {
+		// border: '1px solid #E9C294',
+		border: '0',
+		color: '#d0cdc7',
+	}
 
 }))
+
+export const ColorButton = withStyles(theme => ({
+	root: {
+		color: '#d0cdc7',
+		'&:hover': {
+			color: '#d0cdc7',
+			backgroundColor:'rgba(138, 134, 135, .4)',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)'
+		},
+	},
+}))(Button);
+
+export const TableIconButton = withStyles(theme => ({
+	root: {
+		color: '#E9C294',
+		'&:hover': {
+			color: '#d0cdc7',
+			backgroundColor:'rgba(138, 134, 135, .4)',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)'
+		},
+	},
+}))(IconButton);

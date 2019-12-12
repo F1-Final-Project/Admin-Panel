@@ -20,7 +20,7 @@ export default (props) => {
 			<TableRow>
 				{state.openCheckBox &&																																													//проверка на для открытия чекбоксов
 				<TableCell padding="checkbox" className={classes.tableCell}>
-					<FormControlLabel disabled control={<Checkbox checked value="checkedE"/>}/>
+					<FormControlLabel disabled control={<Checkbox checked value="checked"/>}/>
 				</TableCell>}
 				{columnName.clmns(products).sort(sorted.compare).map(headCell => (																		//sort(sorted.compare) - сортировка полей по алфавиту
 					<TableCell																																																		// columnName.clmns(products)-сортировка полей для оглавления в таблице

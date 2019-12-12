@@ -1,11 +1,21 @@
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
+import IconButton from '@material-ui/core/IconButton'
 
 const drawerWidth = 240
 
 export const useStyles = makeStyles(theme => ({
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(1),
+		backgroundColor: '#212121',
+		backgroundImage: 'repeating-linear-gradient(-45deg, #232324, #232324 2px, transparent 2px, transparent 5px)',
+		height: '100%',
+	},
 	rootAdminPanel: {
 		display: 'flex',
-		backgroundColor: '#212121'
+		backgroundColor: '#212121',
+
 	},
 	appBar: {
 		zIndex: theme.zIndex.drawer + 1,
@@ -40,7 +50,9 @@ export const useStyles = makeStyles(theme => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
-		backgroundColor: '#303030'
+		backgroundColor: '#212121',
+		color: '#d0cdc7',
+		height: '100%'
 	},
 	drawerClose: {
 		transition: theme.transitions.create('width', {
@@ -52,7 +64,9 @@ export const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.up('sm')]: {
 			width: theme.spacing(9) + 1,
 		},
-		backgroundColor: '#303030'
+		backgroundColor: '#212121',
+		color: '#d0cdc7',
+		height: '100%'
 	},
 	toolbar: {
 		display: 'flex',
@@ -60,12 +74,24 @@ export const useStyles = makeStyles(theme => ({
 		justifyContent: 'flex-end',
 		padding: theme.spacing(0, 1),
 		...theme.mixins.toolbar,
-		backgroundColor: '#303030'
-	},
-	content: {
-		flexGrow: 1,
-		padding: theme.spacing(1),
 		backgroundColor: '#212121',
-		height: '100%'
+		color: '#d0cdc7',
+
 	},
+	adminIcon: {
+		color: '#E9C294',
+		fontSize: '40px',
+	}
 }))
+
+
+export const TableIconButton = withStyles(theme => ({
+	root: {
+		color: '#E9C294',
+		'&:hover': {
+			color: '#d0cdc7',
+			backgroundColor:'rgba(138, 134, 135, .4)',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)'
+		},
+	},
+}))(IconButton);

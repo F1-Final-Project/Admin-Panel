@@ -21,7 +21,7 @@ import FoodWareHouse from '../FoodWarehouse'
 import Dishes from '../Dishes'
 import OrderIngredients from '../OrderIngredients'
 import reducer from './localAdminReduser'
-import {useStyles} from './AdminLayoutCSS'
+import {useStyles, TableIconButton} from './AdminLayoutCSS'
 
 
 
@@ -70,11 +70,11 @@ export default function MiniDrawer() {
 				return (
 					<ListItem button key={text} onClick={e => handleOpenCategories(e, i[0])}>
 						<ListItemIcon>
-							{index === 0 && <HomeIcon/>}
-							{index === 1 && <RestaurantMenuIcon/>}
-							{index === 2 && <TableChartIcon/>}
-							{index === 3 && <EqualizerIcon/>}
-							{index === 4 && <ListAltIcon/>}
+							{index === 0 && <HomeIcon className={classes.adminIcon}/>}
+							{index === 1 && <RestaurantMenuIcon className={classes.adminIcon}/>}
+							{index === 2 && <TableChartIcon className={classes.adminIcon}/>}
+							{index === 3 && <EqualizerIcon className={classes.adminIcon}/>}
+							{index === 4 && <ListAltIcon className={classes.adminIcon}/>}
 						</ListItemIcon>
 
 						<ListItemText primary={i[1]}/>
@@ -105,11 +105,11 @@ export default function MiniDrawer() {
 				<div className={classes.toolbar}>
 					{open && 'Admin panel'}
 					{open ? (
-							<IconButton onClick={handleDrawerClose}>
+							<TableIconButton onClick={handleDrawerClose}>
 								{theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-							</IconButton>)
+							</TableIconButton>)
 						: (
-							<IconButton
+							<TableIconButton
 								color="inherit"
 								aria-label="open drawer"
 								onClick={handleDrawerOpen}
@@ -119,7 +119,7 @@ export default function MiniDrawer() {
 								})}
 							>
 								<ChevronRightIcon/>
-							</IconButton>)
+							</TableIconButton>)
 					}
 				</div>
 				<Divider/>

@@ -25,7 +25,7 @@ import * as columnName from '../../lib/columnTableName'
 import ModalInput from '../common/Modal/ModalInput'
 import THead from './TableHead'
 import Toolbar from './ToolBar'
-import { useStyles } from './TableCSS'
+import { useStyles, ColorButton, TableIconButton } from './TableCSS'
 import PropTypes from 'prop-types'
 
 export default function TableCreated(props) {
@@ -79,7 +79,7 @@ export default function TableCreated(props) {
 
 	/**
 	 * @desc Функция для изменения количества строк в таблице
-	 * @param {Event}
+	 * @param {Event} event.target
 	 */
 
 	const handleChangeRowsPerPage = event => {
@@ -262,10 +262,12 @@ export default function TableCreated(props) {
 											{state.openCheckBox && <TableCell padding="checkbox" key={index} className={classes.tableCell}>
 												<Checkbox
 													id={row._id}
-													inputProps={{ 'aria-labelledby': labelId }}
+													inputProps={{ 'aria-labelledby': labelId, }}
+													color="#fafafa"
 													onChange={e => handleSelectItem(e, row)}
 													checked={isItemSelected}
 													onClick={event => handleClickCheckedItem(event, row.title)}
+													className={classes.tableCheckbox}
 												/>
 											</TableCell>}
 											{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
@@ -275,7 +277,7 @@ export default function TableCreated(props) {
 																						align={column.align}
 																						className={classes.tableCell}>
 														<Tooltip title="Edit" aria-label="edit">
-															<IconButton aria-label="edit"
+															<TableIconButton aria-label="edit"
 																					className={classes.tableBtnColor}
 																					onClick={() => dispatch({
 																						type: 'editItem',
@@ -283,10 +285,10 @@ export default function TableCreated(props) {
 																						openEditModal: true,
 																					})}>
 																<EditIcon fontSize="small"/>
-															</IconButton>
+															</TableIconButton>
 														</Tooltip>
 														<Tooltip title="Delete" aria-label="delete">
-															<IconButton aria-label="delete"
+															<TableIconButton aria-label="delete"
 																					className={classes.tableBtnColor}
 																					onClick={() => dispatch({
 																						type: 'deleteItem',
@@ -294,7 +296,7 @@ export default function TableCreated(props) {
 																						openDeleteModal: true,
 																					})}>
 																<DeleteIcon fontSize="small"/>
-															</IconButton>
+															</TableIconButton>
 														</Tooltip>
 													</TableCell>
 												} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
@@ -356,22 +358,23 @@ export default function TableCreated(props) {
 					}}
 					onChangePage={handleChangePage}
 					onChangeRowsPerPage={handleChangeRowsPerPage}
+					className={classes.tablePagination}
 				/>
 
 				<>{state.openEditModal ? (																																											//модальное окно для редактирования
 						<Modal data={state}>
 							<ModalInput data={state} nameOFModal={'Correct ingredient'} open={{ openEditModal: true }}/>
 							<DialogActions>
-								<Button autoFocus color="primary" onClick={() => dispatch({
+								<ColorButton autoFocus onClick={() => dispatch({
 									type: 'closeModal',
 									payload: initState.product,
 									openEditModal: false,
 								})}>
 									Закрыть
-								</Button>
-								<Button color="primary" onClick={() => handlerUpdateNRequest(_id, state.product)}>
+								</ColorButton>
+								<ColorButton onClick={() => handlerUpdateNRequest(_id, state.product)}>
 									Сохранить изменения
-								</Button>
+								</ColorButton>
 							</DialogActions>
 						</Modal>)
 					: null
@@ -386,34 +389,34 @@ export default function TableCreated(props) {
 									Вы уверены?
 								</DialogContentText>
 								<DialogActions>
-									<Button autoFocus color="primary" onClick={() => dispatch({
+									<ColorButton autoFocus onClick={() => dispatch({
 										type: 'closeModal',
 										payload: initState.product,
 										openEditModal: false,
 									})}>
 										Закрыть
-									</Button>
-									<Button color="primary" onClick={() => handleDeleteItemNRequest(_id)}>
+									</ColorButton>
+									<ColorButton onClick={() => handleDeleteItemNRequest(_id)}>
 										Удалить
-									</Button>
+									</ColorButton>
 								</DialogActions>
 							</Modal>)
 						: null}
 
 					{state.openCreateModal ? (																																										//модальное окно для создания
 							<Modal data={state}>
-								<ModalInput name={'Create ingredient'} open={{ openCreateModal: true }}/>
+								<ModalInput nameOFModal={'Create ingredient'} open={{ openCreateModal: true }}/>
 								<DialogActions>
-									<Button autoFocus color="primary" onClick={() => dispatch({
+									<ColorButton autoFocus onClick={() => dispatch({
 										type: 'closeModal',
 										payload: initState.product,
 										openCreateModal: false,
 									})}>
 										Закрыть
-									</Button>
-									<Button color="primary" onClick={() => handleCreatItemNRequest(state.product)}>
+									</ColorButton>
+									<ColorButton onClick={() => handleCreatItemNRequest(state.product)}>
 										Сохранить изменения
-									</Button>
+									</ColorButton>
 								</DialogActions>
 							</Modal>)
 						: null}

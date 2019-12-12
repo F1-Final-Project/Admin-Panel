@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
-import TextField from '@material-ui/core/TextField'
 import { Context } from '../../../../context/tableContext'
 import Paper from '@material-ui/core/Paper'
 import TransferList from '../../../TransferList'
@@ -10,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { useStyles } from './ModalItemCss'
+import { useStyles, CssTextField } from './ModalItemCss'
 import PropTypes from 'prop-types'
 
 export default function ModalItem(props) {
@@ -25,7 +24,6 @@ export default function ModalItem(props) {
 		id: state.product.category && state.product.category._id,
 		name: 'category',
 	})
-
 	/**
 	 * @desc Функция для обновления состояния введенных данных в input
 	 * @desc useReducer - dispatch обновления состояния product
@@ -87,7 +85,7 @@ export default function ModalItem(props) {
 				&& key !== 'additionalIngredients'
 				|| itemValue === null) {
 				return <>
-					<TextField
+					<CssTextField
 						id="standard-basic"
 						className={classes.textField}
 						label={key}
@@ -105,7 +103,7 @@ export default function ModalItem(props) {
 				&& key !== 'additionalIngredients'
 				&& itemValue !== null) {
 				return Array.isArray(itemValue) ? (
-						<Paper className={classes.paperMargin} key={key}>
+						<Paper className={classes.modalPaper} key={key}>
 							<div key={index}>{key.toUpperCase()}</div>
 							<TransferList itemValue={itemValue} nameProperty={key}/>
 						</Paper>
@@ -140,10 +138,10 @@ export default function ModalItem(props) {
 			dispatch, state,
 		}}>
 			<>
-				<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+				<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title" className={classes.dialogTitle}>
 					{nameOFModal}
 				</DialogTitle>
-				<DialogContent>
+				<DialogContent className={classes.dialogContent}>
 					<form className={classes.container} noValidate autoComplete="off">
 						<div>
 							{handleInputItems()}

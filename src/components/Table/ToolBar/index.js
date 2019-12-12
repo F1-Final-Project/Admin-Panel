@@ -10,7 +10,7 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { Context } from '../../../context/tableContext'
 import * as sorted from '../../../lib/sorted'
-import { useToolbarStyles } from './ToolBarCSS.js'
+import { useToolbarStyles, TableIconButton } from './ToolBarCSS.js'
 import PropTypes from 'prop-types'
 
 
@@ -26,7 +26,7 @@ export default function ToolBarTable(props) {
 
 	return (
 		<Toolbar
-			className={clsx(classes.root, {
+			className={clsx(classes.toolBarContainer, {
 				[classes.highlight]: numSelected > 0,
 			})}
 		>
@@ -42,40 +42,49 @@ export default function ToolBarTable(props) {
 			{openCheckBoxList &&																																															//показ, закрывать чекбоксы
 			(state.openCheckBox ? (
 					<Tooltip title="Close selected">
-						<IconButton aria-label="close selected" onClick={() => dispatch({
-							type: 'checkedProduct',
-							payload: [],
-							checkBoxActive: [],
-						})}>
+						<TableIconButton aria-label="close selected"
+												className={classes.toolBarBtn}
+												onClick={() => dispatch({
+													type: 'checkedProduct',
+													payload: [],
+													checkBoxActive: [],
+
+												})}>
 							<CancelIcon/>
-						</IconButton>
+						</TableIconButton>
 					</Tooltip>)
 				: (<Tooltip title="Select item">
-					<IconButton aria-label="select item" onClick={() => dispatch({
+					<TableIconButton aria-label="select item"
+											className={classes.toolBarBtn}
+											onClick={() => dispatch({
 						type: 'checkedProduct',
 						openCheckBox: true,
 						payload: state.checkedProduct,
 						checkBoxActive: [],
 					})}>
 						<PlaylistAddCheckIcon/>
-					</IconButton>
+					</TableIconButton>
 				</Tooltip>))
 			}
 			{numSelected > 0 ? (																																															//показ кнопки создания заказа
 				<Tooltip title="Create order sheet">
-					<IconButton aria-label="create order sheet" onClick={() => creatOrderItem(state.checkedProduct)}>
+					<TableIconButton aria-label="create order sheet"
+											className={classes.toolBarBtn}
+											onClick={() => creatOrderItem(state.checkedProduct)}>
 						<AssignmentTurnedInIcon/>
-					</IconButton>
+					</TableIconButton>
 				</Tooltip>
 			) : (
 				<Tooltip title="Create new item">
-					<IconButton aria-label="Create new item" onClick={() => dispatch({
+					<TableIconButton aria-label="Create new item"
+											className={classes.toolBarBtn}
+											onClick={() => dispatch({
 						type: 'openCreateModal',
 						payload: sorted.inputItems(products),
 						openCreateModal: true,
 					})}>
 						<NoteAddIcon/>
-					</IconButton>
+					</TableIconButton>
 				</Tooltip>
 			)}
 		</Toolbar>
@@ -86,5 +95,5 @@ ToolBarTable.propTypes = {
 	numSelected: PropTypes.number,
 	creatOrderItem: PropTypes.func,
 	products: PropTypes.array,
-	openCheckBoxList: PropTypes.bool
+	openCheckBoxList: PropTypes.bool,
 }

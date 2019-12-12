@@ -8,12 +8,11 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { InputBase } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import { Context } from '../../context/tableContext'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
-import { useStyles } from './TransferListCSS'
+import { useStyles, TableIconButton } from './TransferListCSS'
 import PropTypes from 'prop-types'
 
 
@@ -151,10 +150,10 @@ export default function TransferList(props) {
 					return (
 						<ListItem key={value._id} role="listitem" button>
 							<Tooltip title="Delete" aria-label="delete">
-								<IconButton aria-label="delete" className={classes.margin}
+								<TableIconButton aria-label="delete" className={classes.listDeleteBtn}
 														onClick={() => handleDeleteItemList(value)}>
 									<DeleteIcon fontSize="small"/>
-								</IconButton>
+								</TableIconButton>
 							</Tooltip>
 							<ListItemText id={labelId} primary={value.title}/>
 						</ListItem>
@@ -182,9 +181,9 @@ export default function TransferList(props) {
 					name={nameProperty}
 					onChange={e => handelSearchChange(e)}
 				/>
-				<IconButton type="text" className={classes.listIconButton} aria-label="search">
+				<TableIconButton type="text" className={classes.listIconButton} aria-label="search">
 					<SearchIcon className={classes.listSearchIcon}/>
-				</IconButton>
+				</TableIconButton>
 			</Paper>
 			<List dense component="div" role="list">
 				{items.map(value => {
@@ -194,9 +193,11 @@ export default function TransferList(props) {
 							<ListItemIcon>
 								<Checkbox
 									checked={checked.indexOf(value) !== -1}
+									color="#fafafa"
 									tabIndex={-1}
 									disableRipple
 									inputProps={{ 'aria-labelledby': labelId }}
+									className={classes.listCheckbox}
 								/>
 							</ListItemIcon>
 							<ListItemText id={labelId} primary={value.title}/>
@@ -216,7 +217,7 @@ export default function TransferList(props) {
 					<Button
 						variant="outlined"
 						size="small"
-						className={classes.listButton}
+						className={rightChecked.length > 0 ? classes.listButton : classes.listButtonNone}
 						onClick={handleCheckedLeft}
 						disabled={rightChecked.length === 0}
 						aria-label="move selected left"
