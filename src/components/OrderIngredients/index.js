@@ -16,6 +16,10 @@ export default (callback, deps) => {
 	const orderCategoriesItem = useSelector(state => state.orderCategories)
 	const { products, loaded } = orderIngredients
 	const { orderCategories, loadedCategories } = orderCategoriesItem
+	const [rowGap, setRowGap] = useState(0)
+	const [rowHeight, setRowHeight] = useState(0)
+	const [cardHeight, setHardHeight] = useState(0)
+
 	const classes = useStyles()
 
 
@@ -59,11 +63,10 @@ export default (callback, deps) => {
 
 	}
 
-	const [rowGap, setRowGap] = useState(0)
-	const [rowHeight, setRowHeight] = useState(0)
-	const [cardHeight, setHardHeight] = useState(0)
-
-	const measuredRef = useCallback(node => {
+	/**
+	 * @desc Функция для получения Dom-node grid, получает значения grid-auto-rows и grid-row-gap
+	 */
+	const gridRef = useCallback(node => {
 		if (node !== null) {
 			const rowHeight = parseInt(window.getComputedStyle(node).getPropertyValue('grid-auto-rows'))
 			const rowGap = parseInt(window.getComputedStyle(node).getPropertyValue('grid-row-gap'))
@@ -73,9 +76,11 @@ export default (callback, deps) => {
 
 	}, [rowHeight, cardHeight])
 
-	console.log('ewdwedwed', cardHeight)
+	/**
+	 * @desc Функция для получения Dom-node Card, устанавливает grid сетку на подобии Google keep
+	 */
 
-	const testd = useCallback(node => {
+	const cardRef = useCallback(node => {
 		if (node !== null) {
 			const rowSpan = Math.ceil((node.querySelector('.content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap))
 			node.style.gridRowEnd = 'span ' + rowSpan
@@ -84,7 +89,7 @@ export default (callback, deps) => {
 
 	return (
 		<div>
-			<div className={classes.gridOrder} ref={measuredRef}>
+			<div className={classes.gridOrder} ref={gridRef}>
 				{
 					loaded ?
 						products.map((itemCard) => {
@@ -95,7 +100,7 @@ export default (callback, deps) => {
 													 handlerUpdateItem={handlerUpdateItem}
 													 handlerUpdateItemStoke={handlerUpdateItemStoke}
 													 loadedCategories={loadedCategories}
-													 testd={testd}
+													 cardRef={cardRef}
 													 setRowHeight={setRowHeight}
 													 setHardHeight={setHardHeight}
 							/>

@@ -33,8 +33,7 @@ export default function MediaCard(props) {
 		handlerUpdateItem,
 		orderCategories,
 		handlerUpdateItemStoke,
-		testd,
-		setRowHeight,
+		cardRef,
 		setHardHeight,
 	} = props
 	const initState = {
@@ -148,21 +147,18 @@ export default function MediaCard(props) {
 		handleDeleteItem(id)
 	}
 
-	const handleToggleCheckbox = e => {
-		setSecondary(e.target.checked)
-	}
-
-	const testHw = useCallback(node => {
-
-
-		async function r() {
+	/**
+	 * @desc Функция для получения Dom-node Card-content , динамическое изменения сетки от размеров Card
+	 */
+	const cardRefHeight = useCallback(node => {
+		async function changeHeight() {
 			if (node !== null) {
-				const test = await parseInt(window.getComputedStyle(node).getPropertyValue('height'))
-				setHardHeight(test)
+				const nodeHeight = await parseInt(window.getComputedStyle(node).getPropertyValue('height'))
+				setHardHeight(nodeHeight)
 			}
 		}
+		changeHeight()
 
-		r()
 	}, [secondary])
 
 
@@ -171,14 +167,14 @@ export default function MediaCard(props) {
 			dispatch, state,
 		}}>
 
-			<CssCard className={classes.cardContainer} className={'item'} ref={testd}>
+			<CssCard className={classes.cardContainer} className={'item'} ref={cardRef}>
 				<div className={'content'}>
 					<FormGroup row className={classes.cardHeader}>
 						<FormControlLabel
 							control={
 								<Checkbox
 									checked={secondary}
-									onChange={handleToggleCheckbox}
+									onChange={e => setSecondary(e.target.checked)}
 									value="secondary"
 									disabled={!!state.pendingOrder}
 									color={'#fafafa'}
@@ -344,7 +340,7 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 					<CssDivider variant="middle"/>
 					<CardActionArea>
 						<DeleteIcon/>
-						<CardContent ref={testHw}>
+						<CardContent ref={cardRefHeight}>
 							<Typography gutterBottom variant="h5" component="h2">
 								Correct order list
 							</Typography>
