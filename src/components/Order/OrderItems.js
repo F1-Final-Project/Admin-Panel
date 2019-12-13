@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import OrderItem from './OrderDish'
 import * as orderActions from '../../store/actions/orders'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -27,8 +27,6 @@ export default function OrderItems(props) {
 	};
 
 	const updateOrderItemChange = (dish) => {
-
-
 		if(!order.newOrderItems||order.newOrderItems&&!order.newOrderItems.length>0)
 		{order.orderItems = order.orderItems.map(item => {
 			if (item.title === dish.title) {
@@ -54,7 +52,7 @@ export default function OrderItems(props) {
 			orderItems: order.orderItems,
 			newOrderItems: order.newOrderItems,
 		}, order._id)(dispatch);
-	}
+	};
 
 	return (
 		<>{order&&status ? (
@@ -69,7 +67,7 @@ export default function OrderItems(props) {
 				) : (
 					<div>
 						{(order.orderItems).map((item) =>
-							<Grid  className={classes.wrap} container justify="space-between">
+							<Grid  key={item._id} className={classes.wrap} container justify="space-between">
 								<Typography>{item.title}</Typography>
 								<p>{item.price} $</p>
 							</Grid>

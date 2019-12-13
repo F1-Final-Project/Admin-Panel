@@ -6,6 +6,7 @@ import NotFound from '../components/NotFound'
 import FoodWareHouse from '../components/FoodWarehouse'
 import Modal from '../components/common/Modal'
 import Menu from '../components/Menu'
+import Kitchen from '../components/Kitchen'
 
 import Layout from '../components/Layout'
 import Login from '../components/Login'
@@ -52,6 +53,12 @@ export const Router = () => {
                           exact
                           path="/menu"
                           component={props => <Layout {...props}><Menu {...props}/></Layout>}
+                        />
+
+                        <Route
+                          exact
+                          path="/kitchen"
+                          component={props => <Layout {...props}><Kitchen {...props}/></Layout>}
                         />
 
                         <Route path="*" component={NotFound}/>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import { useDispatch, useSelector } from 'react-redux'
 import * as orderActions from '../../store/actions/orders'
 import Snackbar from '@material-ui/core/Snackbar'
@@ -22,18 +22,15 @@ export default function DishesPage(props) {
 	const [dishToOrder, setDishToOrder] = React.useState(false);
 	const [coordinates, setCoordinates] = React.useState({x: 0, y: 0});
 
-	const {activeOrder, orders, dishes} = useSelector(state =>
-		({activeOrder: state.order.active,
-			orders: state.order.orders,
+	const {order, dishes} = useSelector(state =>
+		({order: state.order.active,
 			dishes: state.dish.dishes})
 	);
 
 	const addDishToOrder= (dish,event) => {
 		setCoordinates({x:event.clientX, y:event.clientY});
 
-		if(activeOrder) {
-			const thisOrder = orders.find((item) => item._id === activeOrder);
-
+		if(order) {
 			const newItem = {
 				title: dish.title,
 				description: dish.description,
@@ -43,45 +40,45 @@ export default function DishesPage(props) {
 				weight: dish.weight,
 			}
 
-			thisOrder.orderPrice= +(thisOrder.orderPrice)+ +(dish.price);
+			order.orderPrice= +(order.orderPrice)+ +(dish.price);
 
-			if(!thisOrder.onKitchen&&!thisOrder.completed){
-				if (thisOrder.orderItems.length > 0) {
-					(thisOrder.orderItems).push(newItem);
-				} else {thisOrder.orderItems = [newItem];}
+			if(!order.onKitchen&&!order.completed){
+				if (order.orderItems.length > 0) {
+					(order.orderItems).push(newItem);
+				} else {order.orderItems = [newItem];}
 
-			} else if(thisOrder.onKitchen&&!thisOrder.completed){
-				if (Array.isArray(thisOrder.newOrderItems)) {
-					(thisOrder.newOrderItems).push(newItem);
-				} else {thisOrder.newOrderItems = [newItem];}
+			} else if(order.onKitchen&&!order.completed){
+				if (Array.isArray(order.newOrderItems)) {
+					(order.newOrderItems).push(newItem);
+				} else {order.newOrderItems = [newItem];}
 			}
 			else{alert('Order already completed')}
 
-			if(!thisOrder.completed) {
+			if(!order.completed) {
 				orderActions.updateOrder({
 					// staff: thisOrder.staff,
-					table: thisOrder.table,
-					orderPrice: thisOrder.orderPrice,
-					onKitchen: thisOrder.onKitchen,
-					completed: thisOrder.completed,
-					orderItems: thisOrder.orderItems,
-					newOrderItems: thisOrder.newOrderItems,
-				}, activeOrder)(dispatch);
+					table: order.table,
+					orderPrice: order.orderPrice,
+					onKitchen: order.onKitchen,
+					completed: order.completed,
+					orderItems: order.orderItems,
+					newOrderItems: order.newOrderItems,
+				}, order._id)(dispatch);
 
-				setTable(thisOrder.table);
+				setTable(order.table);
 				setDishToOrder(dish.title)
 				setOpen(true);
 				setTimeout(() => setOpen(false), 1800)
 			}
 		}
 		else{alert('Choose the order')}
-	}
+	};
 
 	return (
 		<>
 			<Grid container className={classes.wrap} justify="center">
 				{category.map((item)=>
-					<Dish item={item} dishes={dishes} addDishToOrder={addDishToOrder}/>
+					<Dish key={item._id} item={item} dishes={dishes} addDishToOrder={addDishToOrder}/>
 
 				)}
 			</Grid>

@@ -53,37 +53,35 @@ export default function MenuDrawer(props) {
 
   const {categories, open, handleDrawerClose, getDishes}=props;
 
-    return(
-      <>
-        <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-        })}
-        classes={{
-            paper: clsx({
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-            }),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
-        </div>
-        <Divider />
-        <List>
-            {categories.map((item) => (
-              <ListItem button key={item._id} onClick={()=>{getDishes(item)}}>
-                  <ListItemIcon><InboxIcon /></ListItemIcon>
-                  <ListItemText primary={item.title} />
-              </ListItem>
-            ))}
-        </List>
+  return(
+    <Drawer
+      variant="permanent"
+      className={clsx(classes.drawer, {
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
+      })}
+      classes={{
+        paper: clsx({
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        }),
+      }}
+      open={open}
+    >
+      <div className={classes.toolbar}>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        </IconButton>
+      </div>
+      <Divider />
+      <List>
+        {categories.map((item) => (
+          <ListItem button key={item._id} onClick={()=>{getDishes(item)}}>
+            <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItemText primary={item.title} />
+          </ListItem>
+        ))}
+      </List>
     </Drawer>
-      </>
-    )
+  );
 }

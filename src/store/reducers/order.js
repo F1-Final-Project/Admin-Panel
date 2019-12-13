@@ -4,7 +4,8 @@ const initState = {
 	orders: [],
 	loaded: false,
 	isAddSuccessful: false,
-	active: ''
+	active: null,
+	modal:{open:false, order: null},
 };
 
 export default function (state = initState, action) {
@@ -25,6 +26,14 @@ export default function (state = initState, action) {
 				...state,
 				...{
 					active: action.data,
+				}
+			};
+
+		case ORDER.ORDER_OPEN:
+			return {
+				...state,
+				...{
+					modal: action.data,
 				}
 			};
 
@@ -53,7 +62,7 @@ export default function (state = initState, action) {
 			return {
 				...state,
 				...{
-					active : '',
+					active : null,
 					orders : afterDeleteOrders,
 					loaded : true,
 				}

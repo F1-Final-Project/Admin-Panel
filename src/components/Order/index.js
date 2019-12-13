@@ -4,6 +4,8 @@ import Modal from '@material-ui/core/Modal'
 import OrderItems from './OrderItems'
 import OrderControl from './OrderControl'
 import Grid from '@material-ui/core/Grid'
+import { useSelector, useDispatch } from 'react-redux'
+import * as orderActions from '../../store/actions/orders'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -19,24 +21,34 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export default function Index(props) {
-	const order=props.order;
-	const classes = useStyles();
+export default function Order() {
+	const {order, open} = useSelector(state =>
+		({order: state.order.modal.order,
+			open: state.order.modal.open})
+	);
 
-	useEffect(()=> {return ()=>props.handleClose()},[]);
+	const classes = useStyles();
+	const dispatch = useDispatch();
+
+	const closeModal=()=>{
+		orderActions.openOrder({open: false, order: null})(dispatch);
+	};
+
+	useEffect(()=> {return ()=> closeModal()},[]);
 
 	let status;
-	if(order.completed){status='completed'}else if(order.onKitchen){status='onKitchen'}else{status='new order'}
+	if(order){
+		if(order.completed){status='completed'}else if(order.onKitchen){status='onKitchen'}else{status='new order'}
+	}
 
 	return (
 		<>
 			{order?(
-
 				<Modal
 					aria-labelledby="simple-modal-title"
 					aria-describedby="simple-modal-description"
-					open={props.isOpen}
-					onClose={props.handleClose}
+					open={open}
+					onClose={closeModal}
 				>
 					<div key={order._id} className={classes.paper}>
 						<h2 id="simple-modal-title">status: {status}</h2>
@@ -46,7 +58,7 @@ export default function Index(props) {
 						</Grid>
 						<OrderItems order={order} status={status}/>
 						<h2  id="simple-modal-title">ORDER PRICE: {order.orderPrice} $</h2>
-						<OrderControl order={order} status={status} closeModal={props.handleClose}/>
+						<OrderControl order={order} status={status} closeModal={closeModal}/>
 					</div>
 				</Modal>
 			): null}

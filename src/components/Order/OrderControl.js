@@ -11,7 +11,7 @@ export default function OrderControl(props){
 			{status==='new order'?(
 				<>
 					<ToKitchenOrderButton order={order} closeModal={closeModal}/>
-					<DeleteOrderButton order={order._id}/>
+					<DeleteOrderButton order={order._id} closeModal={closeModal}/>
 				</>
 				): status==='onKitchen'&&order.newOrderItems?(
 					<>

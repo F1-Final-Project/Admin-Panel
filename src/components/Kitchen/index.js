@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
 import * as orderActions from '../../store/actions/orders'
 import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function SimpleCard() {
+export default function KitchenPage() {
 	const dispatch = useDispatch();
 
 	useEffect(() => orderActions.getOrders()(dispatch), []);
@@ -37,7 +37,7 @@ export default function SimpleCard() {
 
 	const onKitchen=orders.filter(item=>
 		item.onKitchen===true&&item.completed===false
-	)
+	);
 
 	return (
 		<Grid container className={classes.grid} justify="center">
@@ -66,8 +66,9 @@ export default function SimpleCard() {
 					<CompletedButton order={order}/>
 				</CardActions>
 			</Card>
-		):
+			):
 			<h1>there are no orders in the kitchen now</h1>
-			}</Grid>
+			}
+		</Grid>
 	);
 }

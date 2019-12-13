@@ -1,18 +1,15 @@
-import React from 'react';
-import Button from '@material-ui/core/Button/index';
-import * as orderActions from '../../../store/actions/orders';
-import { useDispatch, useSelector } from 'react-redux';
-import Menu from '@material-ui/core/Menu/index';
-import MenuItem from '@material-ui/core/MenuItem/index';
+import React from 'react'
+import Button from '@material-ui/core/Button/index'
+import Menu from '@material-ui/core/Menu/index'
+import MenuItem from '@material-ui/core/MenuItem/index'
 import Snackbar from '@material-ui/core/Snackbar'
 
-export default function LoginButton() {
+export default function CreateNewOrderButton(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [open, setOpen] = React.useState(false);
 	const [table, setTable] = React.useState(false);
 
 	const tables=[1,2,3,4,5,6,7,8];
-	const dispatch = useDispatch();
 
 	const openTables = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -20,25 +17,14 @@ export default function LoginButton() {
 
 	const closeMenu=()=>{
 		setAnchorEl(null);
-	}
+	};
 
-	const handleClose =(item)=> (event) => {
+	const createOrder =(item)=> (event) => {
 		closeMenu();
-		orderActions.addOrder(
-			{
-				orderPrice: 0,
-				onKitchen: false,
-				completed: false,
-				table: +(item),
-				orderItems: [],
-				newOrderItems: [],
-				// staff:{},
-			}
-		)(dispatch);
-
+		props.createNewOrder(item);
 		setTable(item);
 		setOpen(true);
-		setTimeout(()=>setOpen(false), 1800)
+		setTimeout(()=>setOpen(false), 1800);
 	};
 
 	return (
@@ -62,12 +48,11 @@ export default function LoginButton() {
 				onClose={closeMenu}
 			>
 				{tables.map((item)=>
-					<>
-					<MenuItem  key={item} onClick={handleClose(item)}>create order table № {item}</MenuItem>
-					</>
+					<div key={item} >
+					<MenuItem onClick={createOrder(item)}>create order table № {item}</MenuItem>
+					</div>
 				)}
 			</Menu>
-
 		</>
 	);
 }

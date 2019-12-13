@@ -25,10 +25,9 @@ export default function ToKitchenOrderButton(props) {
 				completed: false,
 			}, order._id)(dispatch)
 		} else {alert('there are no dishes in the order')}
-	}
+	};
+
 	return (
-		<>
 			<Button variant="outlined" color="primary" onClick={toKitchenOrder}>TO KITCHEN</Button>
-		</>
 	);
 }

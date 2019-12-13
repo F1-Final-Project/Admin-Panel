@@ -1,14 +1,14 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import React from 'react'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
 import DeleteItemOrderButton from './Buttons/DeleteItemOrderButton'
 import UpdateItemOrderButton from './Buttons/UpdateItemOrderButton'
-import { makeStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import { makeStyles } from '@material-ui/core/styles'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -26,10 +26,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function OrderDish(props) {
-	const {item, index, order, updateOrderItemChange}=props;
-
+	const {item, index, order, updateOrderItemChange, expanded, handleChange}=props;
 	const classes = useStyles();
-	const {expanded, handleChange} = props;
 
 	const updateItemIngredients=(ingredient)=> (event) => {
 		if (event.target.checked) {
@@ -44,20 +42,21 @@ export default function OrderDish(props) {
 				return item._id !== ingredient._id
 			})
 		}
-	}
+	};
+
 	const submitItemChange=()=>{
 		const newItem = {
 			title: item.title,
 			description: item.description,
 			ingredients: item.ingredients,
 			additionalIngredients: item.additionalIngredients,
-			price: item.price, 																				//there should be a price recount
+			price: item.price,
 			weight: item.weight,
 		}
-		updateOrderItemChange(newItem)
-	}
-	return (
+		updateOrderItemChange(newItem);
+	};
 
+	return (
 		<ExpansionPanel expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
 			<ExpansionPanelSummary
 				aria-controls={`panel${index}bh-content`}
@@ -68,44 +67,44 @@ export default function OrderDish(props) {
 					<p>{item.price} $</p>
 					<DeleteItemOrderButton order={order} item={item}/>
 				</Grid>
-				</ExpansionPanelSummary>
-				<ExpansionPanelDetails>
-					<Grid container justify="space-between">
-						<Typography component={'span'}>
-							{(item.ingredients).map((ingredient)=>
-								<div key={ingredient._id}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												defaultChecked
-												onChange={updateItemIngredients(ingredient)}
-												color="primary"
-											/>
-										}
-										label={ingredient.title}
-									/>
-								</div>
-							)}
-						</Typography>
-						<Typography component={'span'}>
-							{(item.additionalIngredients).map((ingredient)=>
-								<div key={ingredient._id}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												onChange={updateItemIngredients(ingredient)}
-												color="primary"
-											/>
-										}
-										label={ingredient.title}
-									/>
-								</div>
-							)}
-						</Typography>
-						<UpdateItemOrderButton handleClick={submitItemChange}/>
-					</Grid>
-				</ExpansionPanelDetails>
-			</ExpansionPanel>
+			</ExpansionPanelSummary>
+			<ExpansionPanelDetails>
+				<Grid container justify="space-between">
+					<Typography component={'span'}>
+						{(item.ingredients).map((ingredient)=>
+							<div key={ingredient._id}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											defaultChecked
+											onChange={updateItemIngredients(ingredient)}
+											color="primary"
+										/>
+									}
+									label={ingredient.title}
+								/>
+							</div>
+						)}
+					</Typography>
+					<Typography component={'span'}>
+						{(item.additionalIngredients).map((ingredient)=>
+							<div key={ingredient._id}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											onChange={updateItemIngredients(ingredient)}
+											color="primary"
+										/>
+									}
+									label={ingredient.title}
+								/>
+							</div>
+						)}
+					</Typography>
+					<UpdateItemOrderButton submitItemChange={submitItemChange}/>
+				</Grid>
+			</ExpansionPanelDetails>
+		</ExpansionPanel>
 	);
 }
 

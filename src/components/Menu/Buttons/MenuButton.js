@@ -13,13 +13,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function MenuButton(props) {
 	const classes = useStyles();
-	const {onMenuClick}=props;
+	const {onMenuClick, setView}=props;
+
+	const showMenu=()=>{
+		setView('dishes');
+		onMenuClick();
+	};
 
 	return(
-		<Typography onClick={onMenuClick} variant="h6" noWrap className={classes.title}>
-						<span  className={classes.span}>
-						MENU
-						</span>
+		<Typography onClick={showMenu} variant="h6" noWrap className={classes.title}>
+						<span  className={classes.span}>MENU</span>
 		</Typography>
 	)
 }
