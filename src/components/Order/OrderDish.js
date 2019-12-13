@@ -1,62 +1,35 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteItemOrderButton from './Buttons/DeleteItemOrderButton'
 import UpdateItemOrderButton from './Buttons/UpdateItemOrderButton'
+import { makeStyles } from '@material-ui/core/styles';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 
-const ExpansionPanel = withStyles({
+const useStyles = makeStyles(theme => ({
 	root: {
-		border: '1px solid rgba(0, 0, 0, .125)',
-		boxShadow: 'none',
-		'&:not(:last-child)': {
-			borderBottom: 0,
-		},
-		'&:before': {
-			display: 'none',
-		},
-		'&$expanded': {
-			margin: 'auto',
-		},
+		width: '100%',
 	},
-	expanded: {},
-})(MuiExpansionPanel);
-
-const ExpansionPanelSummary = withStyles({
-	root: {
-		backgroundColor: 'rgba(0, 0, 0, .03)',
-		borderBottom: '1px solid rgba(0, 0, 0, .125)',
-		marginBottom: -1,
-		minHeight: 56,
-		'&$expanded': {
-			minHeight: 56,
-		},
+	heading: {
+		fontSize: theme.typography.pxToRem(20),
+		flexBasis: '33.33%',
+		flexShrink: 0,
 	},
-	content: {
-		'&$expanded': {
-			margin: '12px 0',
-		},
+	secondaryHeading: {
+		fontSize: theme.typography.pxToRem(15),
+		color: theme.palette.text.secondary,
 	},
-})(MuiExpansionPanelSummary);
-
-const ExpansionPanelDetails = withStyles(theme => ({
-	root: {
-		padding: theme.spacing(2),
-	},
-}))(MuiExpansionPanelDetails);
+}));
 
 export default function OrderDish(props) {
-	const [expanded, setExpanded] = React.useState(false);
 	const {item, index, order, updateOrderItemChange}=props;
 
-	const handleChange = panel => (event, newExpanded) => {
-		setExpanded(newExpanded ? panel : false);
-	};
+	const classes = useStyles();
+	const {expanded, handleChange} = props;
 
 	const updateItemIngredients=(ingredient)=> (event) => {
 		if (event.target.checked) {
@@ -84,55 +57,55 @@ export default function OrderDish(props) {
 		updateOrderItemChange(newItem)
 	}
 	return (
-		<>{item?(
-			<ExpansionPanel square expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
-				<ExpansionPanelSummary aria-controls={`panel${index}d-content`} id="panel1d-header">
-					<Grid
-						container
-						justify="space-between"
-					>
-						<Typography component={'span'}>{item.title}</Typography>
-						<DeleteItemOrderButton order={order} item={item}/>
-					</Grid>
+
+		<ExpansionPanel expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+			<ExpansionPanelSummary
+				aria-controls={`panel${index}bh-content`}
+				id={`panel${index}bh-header`}
+			>
+				<Grid container justify="space-between">
+					<Typography className={classes.heading}>{item.title}</Typography>
+					<p>{item.price} $</p>
+					<DeleteItemOrderButton order={order} item={item}/>
+				</Grid>
 				</ExpansionPanelSummary>
 				<ExpansionPanelDetails>
-					<Typography component={'span'} >
-						{(item.ingredients).map((ingredient)=>
-							<div key={ingredient._id}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											defaultChecked
-											onChange={updateItemIngredients(ingredient)}
-											color="primary"
-										/>
-									}
-									label={ingredient.title}
-								/>
-							</div>
-						)}
-					</Typography>
-					<Typography component={'span'}>
-						{(item.additionalIngredients).map((ingredient)=>
-							<div key={ingredient._id}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											onChange={updateItemIngredients(ingredient)}
-											color="primary"
-										/>
-									}
-									label={ingredient.title}
-								/>
-							</div>
-						)}
-					</Typography>
-					<div>
+					<Grid container justify="space-between">
+						<Typography component={'span'}>
+							{(item.ingredients).map((ingredient)=>
+								<div key={ingredient._id}>
+									<FormControlLabel
+										control={
+											<Checkbox
+												defaultChecked
+												onChange={updateItemIngredients(ingredient)}
+												color="primary"
+											/>
+										}
+										label={ingredient.title}
+									/>
+								</div>
+							)}
+						</Typography>
+						<Typography component={'span'}>
+							{(item.additionalIngredients).map((ingredient)=>
+								<div key={ingredient._id}>
+									<FormControlLabel
+										control={
+											<Checkbox
+												onChange={updateItemIngredients(ingredient)}
+												color="primary"
+											/>
+										}
+										label={ingredient.title}
+									/>
+								</div>
+							)}
+						</Typography>
 						<UpdateItemOrderButton handleClick={submitItemChange}/>
-					</div>
+					</Grid>
 				</ExpansionPanelDetails>
 			</ExpansionPanel>
-		): null
-		}</>
 	);
 }
+

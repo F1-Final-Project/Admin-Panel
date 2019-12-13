@@ -10,8 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Drawer from '@material-ui/core/Drawer'
 import React from 'react'
 import clsx from 'clsx';
-import { useDispatch} from 'react-redux'
-import * as dishActions from '../../store/actions/dish'
 import { makeStyles, useTheme } from '@material-ui/core/styles/index';
 
 const drawerWidth = 240;
@@ -53,10 +51,7 @@ export default function MenuDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const {categories, open, handleDrawerClose}=props;
-  const dispatch = useDispatch();
-
-  const getDishes=(categoryId) => dishActions.getDishesByCategory(categoryId)(dispatch);
+  const {categories, open, handleDrawerClose, getDishes}=props;
 
     return(
       <>
@@ -82,7 +77,7 @@ export default function MenuDrawer(props) {
         <Divider />
         <List>
             {categories.map((item) => (
-              <ListItem button key={item._id} onClick={()=>{getDishes(item._id)}}>
+              <ListItem button key={item._id} onClick={()=>{getDishes(item)}}>
                   <ListItemIcon><InboxIcon /></ListItemIcon>
                   <ListItemText primary={item.title} />
               </ListItem>

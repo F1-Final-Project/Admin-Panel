@@ -10,18 +10,26 @@ export default function DeleteItemOrderButton(props) {
 
 	const handleClick=(event)=>{
 		event.stopPropagation()
-		let newOrderItems;
 
-		newOrderItems=(order.orderItems).filter(dish => {
-			return dish._id !== item._id
-		});
+		if(!order.newOrderItems||order.newOrderItems&&!order.newOrderItems.length>0) {
+			const index = order.orderItems.indexOf(item);
+			order.orderItems.splice(index, 1);
+		}
+
+		if(order.newOrderItems){
+			if(order.newOrderItems.length>0){
+				const i = order.newOrderItems.indexOf(item);
+				order.newOrderItems.splice(i, 1)
+			}
+		}
 
 		order.orderPrice= +(order.orderPrice)- +(item.price);
 
 		orderActions.updateOrder({
 			// staff: order.staff,
 			table: order.table,
-			orderItems: newOrderItems,
+			newOrderItems: order.newOrderItems,
+			orderItems: order.orderItems,
 			orderPrice: order.orderPrice,
 			onKitchen: order.onKitchen,
 			completed: order.completed,

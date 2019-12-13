@@ -5,9 +5,13 @@ import * as orderActions from '../../../store/actions/orders';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem/index'
 import Menu from '@material-ui/core/Menu/index'
+import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 export default()=> {
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [open, setOpen] = React.useState(false);
+	const [table, setTable] = React.useState(false);
 
 	const {orders} = useSelector(state =>
 		({orders: state.order.orders,
@@ -35,8 +39,11 @@ export default()=> {
 		setAnchorEl(null);
 	};
 
-	const changeOrder=(id)=>{
-		orderActions.activeOrder(id)(dispatch);
+	const changeOrder=(order)=>{
+		orderActions.activeOrder(order._id)(dispatch);
+		setTable(order.table)
+		setOpen(true);
+		setTimeout(()=>setOpen(false), 1800)
 	}
 
 	return(
@@ -48,6 +55,28 @@ export default()=> {
 								orders
 							</Badge>
 						</Button>
+						{ (orders.filter(item=> item.completed)).length>0?
+							(<Snackbar
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								style={{marginTop: 70}}
+								open={true}
+							>
+								<SnackbarContent
+											style={{backgroundColor: 'green'}}
+											message={<span id="message-id">You have completed orders</span>}
+						/>
+							</Snackbar>): null}
+						<Snackbar style={{marginTop: 25}}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							open={open}
+							message={<span id="message-id">You switched to  order table # {table}</span>}
+						/>
 						<Menu
 							anchorEl={anchorEl}
 							keepMounted
@@ -55,7 +84,7 @@ export default()=> {
 							onClose={handleClose}
 						>
 							{orders.map((item)=>
-								<MenuItem  key={item._id} onClick={(()=>{handleClose(); changeOrder(item._id)})}  style={{overflowY: "visible"}}>
+								<MenuItem  key={item._id} onClick={(()=>{handleClose(); changeOrder(item)})}  style={{overflowY: "visible"}}>
 									go to order table №  {item.table}
 								</MenuItem>
 							)}

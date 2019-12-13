@@ -16,8 +16,12 @@ export default function CreateInvoiceButton(props) {
 		setOpen(true);
 	};
 
-	const handleClose = (event) => {
+	const handleClose = () => {
 		setOpen(false);
+	}
+
+	const createInvoice = (event) => {
+		handleClose();
 
 		const data={
 			invoiceItems: props.order.orderItems,
@@ -41,10 +45,10 @@ export default function CreateInvoiceButton(props) {
 			>
 				<DialogTitle>Choose payment method</DialogTitle>
 				<DialogActions>
-					<Button onClick={handleClose} color="primary">
+					<Button onClick={createInvoice} color="primary">
 						cash
 					</Button>
-					<Button onClick={handleClose} color="primary" autoFocus>
+					<Button onClick={createInvoice} color="primary" autoFocus>
 						card
 					</Button>
 				</DialogActions>
