@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import TextField from '@material-ui/core/TextField'
 import { Context } from '../../../../context/tableContext'
 import PropTypes from 'prop-types'
+import {CardIconButton,CssTextField } from '../CardCss'
 
 export default function MediaCard(props) {
 
@@ -52,7 +53,7 @@ export default function MediaCard(props) {
 			<ListItemText
 				primary={itemList.title}
 				secondary={!state.pendingOrder && secondary ?														//при состоянии (В заказе) блокируются действия с карточкой
-					<TextField
+					<CssTextField
 						id={itemList._id}
 						label="restInStock"
 						type="number"
@@ -69,9 +70,9 @@ export default function MediaCard(props) {
 					: null}
 			/>
 			<ListItemSecondaryAction>
-				<IconButton edge="end" aria-label="delete" onClick={handleRemoveItem} disabled={!!state.pendingOrder}>
+				<CardIconButton edge="end" aria-label="delete" onClick={handleRemoveItem} disabled={!!state.pendingOrder}>
 					<DeleteIcon/>
-				</IconButton>
+				</CardIconButton>
 			</ListItemSecondaryAction>
 		</ListItem>
 

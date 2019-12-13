@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as orderIngredientAction from '../../store/actions/orderIngredient'
 import * as orderCategoriesAction from '../../store/actions/orderCategories'
-import Grid from '@material-ui/core/Grid'
 
 import Card from '../common/Card'
 import * as ingredientAction from '../../store/actions/ingredient'
 import { useStyles } from './OrderIngredientsCSS'
+import Divider from '@material-ui/core/Divider'
+import * as ReactDOM from 'react-dom'
 
 
-export default () => {
+export default (callback, deps) => {
 
 	const orderIngredients = useSelector(state => state.orderIngredient)
 	const orderCategoriesItem = useSelector(state => state.orderCategories)
@@ -58,28 +59,52 @@ export default () => {
 
 	}
 
+	const [rowGap, setRowGap] = useState(0)
+	const [rowHeight, setRowHeight] = useState(0)
+	const [cardHeight, setHardHeight] = useState(0)
+
+	const measuredRef = useCallback(node => {
+		if (node !== null) {
+			const rowHeight = parseInt(window.getComputedStyle(node).getPropertyValue('grid-auto-rows'))
+			const rowGap = parseInt(window.getComputedStyle(node).getPropertyValue('grid-row-gap'))
+			setRowHeight(rowHeight)
+			setRowGap(rowGap)
+		}
+
+	}, [rowHeight, cardHeight])
+
+	console.log('ewdwedwed', cardHeight)
+
+	const testd = useCallback(node => {
+		if (node !== null) {
+			const rowSpan = Math.ceil((node.querySelector('.content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap))
+			node.style.gridRowEnd = 'span ' + rowSpan
+		}
+	}, [rowGap, rowHeight, cardHeight])
+
 	return (
-		<div className={classes.root}>
-			<Grid container spacing={2}
-						direction="row"
-						justify="flex-start"
-						alignItems="flex-start"
-						className={classes.test}
-			>
+		<div>
+			<div className={classes.gridOrder} ref={measuredRef}>
 				{
-					loaded ? products.map((itemCard) => {
+					loaded ?
+						products.map((itemCard) => {
 							return <Card products={itemCard}
 													 key={itemCard._id}
 													 orderCategories={orderCategories}
 													 handleDeleteItem={handleDeleteItem}
 													 handlerUpdateItem={handlerUpdateItem}
 													 handlerUpdateItemStoke={handlerUpdateItemStoke}
-													 loadedCategories={loadedCategories}/>
+													 loadedCategories={loadedCategories}
+													 testd={testd}
+													 setRowHeight={setRowHeight}
+													 setHardHeight={setHardHeight}
+							/>
+
 						})
+
 						: <div>Loading...</div>
 				}
-				{/*<Notifications />*/}
-			</Grid>
+			</div>
 		</div>
 	)
 
