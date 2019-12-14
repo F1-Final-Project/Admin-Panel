@@ -16,7 +16,7 @@ export default function ActiveOrderButton() {
 
 	return(
 		<>{order?(
-			<Button onClick={openOrder} > table № {order.table} order details </Button>
+			<Button onClick={openOrder} > table#{order.table} order </Button>
 			): null}
 		</>
 	)

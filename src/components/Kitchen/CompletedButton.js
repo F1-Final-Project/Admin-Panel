@@ -36,6 +36,6 @@ export default function CompletedButton(props){
 	}
 
 	return(
-		<Button size="small" onClick={completeOrder}>comleted</Button>
+		<Button variant="outlined" onClick={completeOrder}>comleted</Button>
 	)
 }

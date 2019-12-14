@@ -11,6 +11,7 @@ import Drawer from '@material-ui/core/Drawer'
 import React from 'react'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles/index';
+import CardMedia from '@material-ui/core/CardMedia'
 
 const drawerWidth = 240;
 
@@ -77,7 +78,7 @@ export default function MenuDrawer(props) {
       <List>
         {categories.map((item) => (
           <ListItem button key={item._id} onClick={()=>{getDishes(item)}}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItemIcon><img src={item.icon}></img></ListItemIcon>
             <ListItemText primary={item.title} />
           </ListItem>
         ))}

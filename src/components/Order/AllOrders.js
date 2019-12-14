@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 		margin: 30,
 		height: 200,
 		width: 200,
+		cursor: 'pointer',
 	},
 	taken:{
 		backgroundColor: 'lightgrey',

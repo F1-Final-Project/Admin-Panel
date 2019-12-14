@@ -10,6 +10,7 @@ import AllOrders from '../Order/AllOrders'
 import Order from '../Order'
 import * as orderActions from '../../store/actions/orders'
 import MenuAppBar from './MenuAppBar'
+import Snackbar from '@material-ui/core/Snackbar'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
+	snackbar: {
+		marginTop: 25,
+	},
 }));
 
 export default function Menu() {
@@ -26,6 +30,8 @@ export default function Menu() {
 	const [open, setOpen] = React.useState(false);
 	const [category, setCategory] = React.useState(false);
 	const [view, setView] = React.useState('tables');
+	const [openSnackbar, setOpenSnackbar] = React.useState(false);
+	const [table, setTable] = React.useState(false);
 	const dispatch = useDispatch();
 
 	const {loaded, categories} = useSelector(state =>
@@ -37,6 +43,7 @@ export default function Menu() {
 	useEffect(() => dishActions.getDishes()(dispatch), []);
 
 	const getDishes=(category)=>{
+		setView('dishes');
 		setCategory([category])
 	};
 
@@ -53,6 +60,10 @@ export default function Menu() {
 	};
 
 	const createNewOrder=(table)=>{
+		setTable(table);
+		setOpenSnackbar(true);
+		setTimeout(()=>setOpenSnackbar(false), 1800);
+
 		orderActions.addOrder(
 			{
 				orderPrice: 0,
@@ -85,6 +96,14 @@ export default function Menu() {
 		</div>)
 			: null}
 			<Order/>
+			<Snackbar className={classes.snackbar}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								open={openSnackbar}
+								message={<span id="message-id">New order table # {table} was created</span>}
+			/>
 			</>
 	);
 }

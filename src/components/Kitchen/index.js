@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import * as orderActions from '../../store/actions/orders'
@@ -11,7 +10,7 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles({
 	card: {
-		width: 340,
+		width: '20%',
 		margin: 10
 	},
 	title: {
@@ -62,9 +61,9 @@ export default function KitchenPage() {
 						 )}
 					</Typography>
 				</CardContent>
-				<CardActions>
+				<Grid container justify="center">
 					<CompletedButton order={order}/>
-				</CardActions>
+				</Grid>
 			</Card>
 			):
 			<h1>there are no orders in the kitchen now</h1>
