@@ -3,10 +3,12 @@ import React from 'react'
 import { useDispatch} from 'react-redux'
 import * as ingredientActions from '../../store/actions/ingredient'
 import * as orderActions from '../../store/actions/orders'
+import useStyles from './style'
 
 export default function CompletedButton(props){
 	const order=props.order;
 	const dispatch=useDispatch();
+	const classes = useStyles();
 
 	const recountIngredientsInStock=(order)=>{
 		order.orderItems.map(dish=>
@@ -36,6 +38,6 @@ export default function CompletedButton(props){
 	}
 
 	return(
-		<Button variant="outlined" onClick={completeOrder}>comleted</Button>
+		<Button className={classes.button} variant="outlined" onClick={completeOrder}>comleted</Button>
 	)
 }
