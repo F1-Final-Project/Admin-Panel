@@ -1,54 +1,57 @@
-import React from 'react';
-import Button from '@material-ui/core/Button/index';
-import * as orderActions from '../../../store/actions/orders';
-import { useDispatch, useSelector } from 'react-redux';
-import Menu from '@material-ui/core/Menu/index';
-import MenuItem from '@material-ui/core/MenuItem/index';
+import React from 'react'
+import Button from '@material-ui/core/Button/index'
+import MenuItem from '@material-ui/core/MenuItem/index'
+import { useSelector } from 'react-redux'
+import {useStyles, ColorMenu, ColorButton} from './style'
+import Box from '@material-ui/core/Box'
 
-export default function LoginButton() {
+export default function CreateNewOrderButton(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const classes=useStyles();
 
-	const tables=[1,3,7,8,12];
-	const dispatch = useDispatch();
+	const tables=[1,2,3,4,5,6,7,8];
 
-	const handleClick = (event) => {
+	const {orders} = useSelector(state =>
+		({orders: state.order.orders})
+	);
+
+	const openTables = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
 
 	const closeMenu=()=>{
 		setAnchorEl(null);
-	}
+	};
 
-	const handleClose =(item)=> (event) => {
+	const createOrder =(item)=> (event) => {
 		closeMenu();
-		orderActions.addOrder(
-			{
-				orderPrice: 0,
-				onKitchen: false,
-				completed: false,
-				table: +(item),
-				// staff:{},
-			}
-		)(dispatch);
-
+		props.createNewOrder(item);
 	};
 
 	return (
 		<>
-			<Button aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={handleClick}>
-				create new order
-			</Button>
-			<Menu
+			<ColorButton aria-controls="simple-menu" aria-haspopup="true" onClick={openTables}>
+				new order
+			</ColorButton>
+			<ColorMenu
 				id="simple-menu"
 				anchorEl={anchorEl}
 				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={closeMenu}
 			>
-				{tables.map((item)=>
-					<MenuItem  key={item} onClick={handleClose(item)}>create order table № {item}</MenuItem>
+				<Box border={1} borderColor='#7a6c5b' borderRadius={3} className={classes.menu}>
+				{tables.map(item=>
+					<div key={item}>
+						{(orders.filter((order) => order.table === item).length>0) ?(
+					<MenuItem className={classes.menuTaken} onClick={()=> alert('this table is taken')}>create order table № {item}</MenuItem>
+						):(
+							<MenuItem className={classes.menuNew} onClick={createOrder(item)}>create order table № {item}</MenuItem>
+						)}
+					</div>
 				)}
-			</Menu>
+				</Box>
+			</ColorMenu>
 		</>
 	);
 }

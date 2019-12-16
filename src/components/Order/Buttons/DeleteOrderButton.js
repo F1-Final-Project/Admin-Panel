@@ -1,20 +1,19 @@
-import React from 'react';
-import Button from '@material-ui/core/Button/index';
-import * as orderActions from '../../../store/actions/orders';
-import { useDispatch } from 'react-redux';
-
+import React from 'react'
+import Button from '@material-ui/core/Button/index'
+import * as orderActions from '../../../store/actions/orders'
+import { useDispatch } from 'react-redux'
+import useStyles from './style'
 
 export default function DeleteOrderButton(props) {
 	const dispatch = useDispatch();
+	const classes = useStyles();
 
-	const handleClick=()=>{
-		orderActions.deleteOrder(props.order)(dispatch)
-	}
+	const deleteOrder=()=>{
+		props.closeModal();
+		orderActions.deleteOrder(props.order)(dispatch);
+	};
+
 	return (
-		<>
-			<Button variant="outlined" onClick={handleClick}>
-				DELETE ORDER
-			</Button>
-		</>
+			<Button className={classes.button} variant="outlined" onClick={deleteOrder}>DELETE ORDER</Button>
 	);
 }

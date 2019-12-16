@@ -54,11 +54,19 @@ export function updateOrder(payload, id){
 		})
 	};
 }
-export function activeOrder(id){
+export function activeOrder(order){
 	return function (dispatch) {
 		dispatch({
 			type: ORDER.ORDER_ACTIVE,
-			data: id,
+			data: order,
+		});
+	};
+}
+export function openOrder(payload){
+	return function (dispatch) {
+		dispatch({
+			type: ORDER.ORDER_OPEN,
+			data: payload,
 		});
 	};
 }
