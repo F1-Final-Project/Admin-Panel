@@ -2,15 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as orderIngredientAction from '../../store/actions/orderIngredient'
 import * as orderCategoriesAction from '../../store/actions/orderCategories'
-
 import Card from '../common/Card'
 import * as ingredientAction from '../../store/actions/ingredient'
-import { useStyles } from './OrderIngredientsCSS'
-import Divider from '@material-ui/core/Divider'
-import * as ReactDOM from 'react-dom'
+import { useStyles, CssDivider, CssTabs, CssTab } from './OrderIngredientsCSS'
 
 
-export default (callback, deps) => {
+export default () => {
 
 	const orderIngredients = useSelector(state => state.orderIngredient)
 	const orderCategoriesItem = useSelector(state => state.orderCategories)
@@ -24,6 +21,7 @@ export default (callback, deps) => {
 
 
 	const dispatch = useDispatch()
+
 
 	useEffect(() => {
 		dispatch(orderIngredientAction.getAllOrderIngredienst())
@@ -87,23 +85,53 @@ export default (callback, deps) => {
 		}
 	}, [rowGap, rowHeight, cardHeight])
 
+
+	const [value, setValue] = useState(0)
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue)
+	}
+
 	return (
 		<div>
+			<CssTabs
+				value={value}
+				onChange={handleChange}
+				textColor="primary"
+				aria-label="scrollable prevent tabs example"
+				centered
+			>
+				<CssTab label="Order"/>
+				<CssTab label="Archive"/>
+			</CssTabs>
+			<CssDivider/>
 			<div className={classes.gridOrder} ref={gridRef}>
 				{
 					loaded ?
 						products.map((itemCard) => {
-							return <Card products={itemCard}
-													 key={itemCard._id}
-													 orderCategories={orderCategories}
-													 handleDeleteItem={handleDeleteItem}
-													 handlerUpdateItem={handlerUpdateItem}
-													 handlerUpdateItemStoke={handlerUpdateItemStoke}
-													 loadedCategories={loadedCategories}
-													 cardRef={cardRef}
-													 setRowHeight={setRowHeight}
-													 setHardHeight={setHardHeight}
-							/>
+							return itemCard.editingOrder || itemCard.pendingOrder ? (
+									<Card products={itemCard}
+												key={itemCard._id}
+												orderCategories={orderCategories}
+												handleDeleteItem={handleDeleteItem}
+												handlerUpdateItem={handlerUpdateItem}
+												handlerUpdateItemStoke={handlerUpdateItemStoke}
+												loadedCategories={loadedCategories}
+												cardRef={cardRef}
+												setRowHeight={setRowHeight}
+												setHardHeight={setHardHeight}
+									/>)
+								: (<Card products={itemCard}
+												 key={itemCard._id}
+												 orderCategories={orderCategories}
+												 handleDeleteItem={handleDeleteItem}
+												 handlerUpdateItem={handlerUpdateItem}
+												 handlerUpdateItemStoke={handlerUpdateItemStoke}
+												 loadedCategories={loadedCategories}
+												 cardRef={cardRef}
+												 setRowHeight={setRowHeight}
+												 setHardHeight={setHardHeight}
+								/>)
 
 						})
 

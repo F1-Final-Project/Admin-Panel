@@ -177,7 +177,7 @@ export default function MediaCard(props) {
 									onChange={e => setSecondary(e.target.checked)}
 									value="secondary"
 									disabled={!!state.pendingOrder}
-									color={'#fafafa'}
+									color={'#000'}
 									className={classes.CardCheckbox}
 									// onClick={() => setRowHeight(parseInt(window.getComputedStyle(node).getPropertyValue('grid-auto-rows')))}
 								/>
