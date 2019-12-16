@@ -13,8 +13,7 @@ export default combineReducers({
 	ingredient,
 	orderIngredient,
 	orderCategories,
-	dishes
-	ingredient,
+	dishes,
 	categories,
 	dish,
 	order,
