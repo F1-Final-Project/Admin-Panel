@@ -10,6 +10,7 @@ import Menu from '../components/Menu'
 import Layout from '../components/Layout'
 import Login from '../components/Login'
 import AdminPage from '../components/admin/AdminPage'
+import Statistic from '../components/Statistic'
 
 import PrivateRoute from './PrivateRoute'
 import HiddenAfterAuthRoute from './HiddenAfterAuth'
@@ -43,10 +44,16 @@ export const Router = () => {
                             component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
                         />
 
+                        <Route
+                            exact
+                            path="/statistic"
+                            component={props => <Statistic {...props} />}
+                        />
+
                         <Route exact
                                name="foodWarehouse"
                                path="/foodWarehouse/:productId"
-                               component={<Modal/>}/>
+                               component={props => <Modal {...props}/>}/>
 
                         <Route
                           exact
@@ -54,7 +61,7 @@ export const Router = () => {
                           component={props => <Layout {...props}><Menu {...props}/></Layout>}
                         />
 
-                        <Route path="*" component={NotFound}/>
+                        {/*<Route path="*" component={NotFound}/>*/}
                     </Switch>
                 </div>
             </main>
