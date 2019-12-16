@@ -18,7 +18,4 @@ export default class IngredientAPI extends Base {
 		return super.put(`ingredients/${id}`, data).then(res => res.data)
 	}
 
-	getIngredientById(id) {
-		return super.get(`ingredients/${id}`, id).then(res => res.data)
-	}
 }

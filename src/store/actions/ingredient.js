@@ -49,6 +49,8 @@ export function addIngredient(data) {
 	}
 }
 
+
+
 export function updateIngredientById(productId, newAmount) {
 
 	return function(dispatch) {
@@ -60,8 +62,10 @@ export function updateIngredientById(productId, newAmount) {
 			.then(res => dispatch({
 					type: INGREDIENT.UPDATE_INGREDIENT,
 					data: res,
-				}),
+				})
 			)
+
+
 	}
 }
 

@@ -4,6 +4,9 @@ import {Route, Switch} from 'react-router-dom'
 import NotFound from '../components/NotFound'
 
 import FoodWareHouse from '../components/FoodWarehouse'
+import OrderIngredient from '../components/OrderIngredients'
+import Dish from '../components/Dishes'
+import AdminLayout from '../components/AdminLayout'
 import Modal from '../components/common/Modal'
 import Menu from '../components/Menu'
 import Kitchen from '../components/Kitchen'
@@ -16,6 +19,16 @@ import PrivateRoute from './PrivateRoute'
 import HiddenAfterAuthRoute from './HiddenAfterAuth'
 
 export const Router = () => {
+	return (
+		<React.Fragment>
+			<Header/>
+			<main className="content">
+				<div className="container">
+					<Switch>
+						<Route exact path="/"
+									 component={props => <Layout {...props} />}/>
+
+						<PrivateRoute
     return (
         <React.Fragment>
             <main className="content">
@@ -31,8 +44,23 @@ export const Router = () => {
                             path="/admin"
                             component={props => <AdminPage {...props} />}
                         />
+						<Route
+							exact
+							path="/foodWarehouse"
+							component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
+						/>
 
-                        <HiddenAfterAuthRoute
+						<Route exact
+									 path="/order-ingredients"
+									 component={props => <Layout {...props}><OrderIngredient {...props}/></Layout>}/>
+
+						<Route exact
+									 path="/edit-dishes"
+									 component={props => <Layout {...props}><Dish {...props}/></Layout>}/>
+						<Route exact
+									 path="/admin-panel"
+									 component={props => <AdminLayout {...props}/>}/>
+    <HiddenAfterAuthRoute
                             exact
                             path="/login"
                             component={props => <Login {...props} />}
@@ -62,9 +90,11 @@ export const Router = () => {
                         />
 
                         <Route path="*" component={NotFound}/>
-                    </Switch>
-                </div>
-            </main>
-        </React.Fragment>
-    )
-}
+
+						{/*<Route path="*" component={NotFound}/>*/}
+					</Switch>
+				</div>
+			</main>
+			<Footer/>
+		</React.Fragment>
+	
