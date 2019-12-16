@@ -1,5 +1,5 @@
-import Button from '@material-ui/core/Button/index'
 import React from 'react'
+import {useStyles, ColorButton} from './style'
 
 export default function ShowAllTablesButton(props) {
 
@@ -8,6 +8,6 @@ export default function ShowAllTablesButton(props) {
 	};
 
 	return(
-			<Button onClick={showTables} >tables</Button>
+			<ColorButton onClick={showTables} >tables</ColorButton>
 	)
 }

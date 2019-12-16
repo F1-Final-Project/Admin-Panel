@@ -1,9 +1,8 @@
 import React from 'react'
 import Button from '@material-ui/core/Button/index'
-import Menu from '@material-ui/core/Menu/index'
 import MenuItem from '@material-ui/core/MenuItem/index'
 import { useSelector } from 'react-redux'
-import {useStyles, ColorMenu} from './style'
+import {useStyles, ColorMenu, ColorButton} from './style'
 import Box from '@material-ui/core/Box'
 
 export default function CreateNewOrderButton(props) {
@@ -31,9 +30,9 @@ export default function CreateNewOrderButton(props) {
 
 	return (
 		<>
-			<Button aria-controls="simple-menu" aria-haspopup="true" color="inherit" onClick={openTables}>
+			<ColorButton aria-controls="simple-menu" aria-haspopup="true" onClick={openTables}>
 				new order
-			</Button>
+			</ColorButton>
 			<ColorMenu
 				id="simple-menu"
 				anchorEl={anchorEl}

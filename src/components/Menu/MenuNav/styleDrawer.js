@@ -1,9 +1,11 @@
-import {makeStyles} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import withStyles from '@material-ui/core/styles/withStyles'
+import Drawer from '@material-ui/core/Drawer/index'
+import ListItem from '@material-ui/core/ListItem/index'
 
 const drawerWidth = 200;
 
-export default makeStyles(theme => ({
-
+export const useStyles = makeStyles(theme => ({
 	drawer: {
 		width: drawerWidth,
 		flexShrink: 0,
@@ -34,5 +36,21 @@ export default makeStyles(theme => ({
 		padding: theme.spacing(0, 1),
 		...theme.mixins.toolbar,
 	},
+}));
 
-}))
+export const ColorDrawer = withStyles({
+	paper: {
+		backgroundColor: '#212121',
+		backgroundImage: 'repeating-linear-gradient(-45deg, #232324, #232324 2px, transparent 2px, transparent 5px)',
+	},
+})(Drawer);
+
+export const ColorListItem = withStyles({
+	root: {
+		color: '#82796d',
+		'&:hover': {
+			color: '#E9C294',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
+		},
+	},
+})(ListItem)

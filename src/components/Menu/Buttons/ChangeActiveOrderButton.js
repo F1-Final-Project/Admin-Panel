@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem/index'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import Box from '@material-ui/core/Box'
-import {useStyles, ColorMenu} from './style'
+import {useStyles, ColorMenu, ColorButton} from './style'
 
 export default function ChangeActiveOrderButton(){
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,11 +50,11 @@ export default function ChangeActiveOrderButton(){
 		<>
 			{orders.length>0?(
 				<>
-					<Button aria-label="show orders" color="inherit" aria-haspopup="true" onClick={handleClick}>
+					<ColorButton aria-label="show orders" aria-haspopup="true" onClick={handleClick}>
 						<Badge badgeContent={orders.length} color='default'>
 							orders
 						</Badge>
-					</Button>
+					</ColorButton>
 					{ (orders.filter(item=> item.completed)).length>0?
 						(<Snackbar
 							anchorOrigin={{

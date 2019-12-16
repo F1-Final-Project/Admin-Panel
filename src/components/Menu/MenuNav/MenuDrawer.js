@@ -9,7 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon/index'
 import ListItemText from '@material-ui/core/ListItemText/index'
 import Drawer from '@material-ui/core/Drawer/index'
 import React from 'react'
-import useStyles from './styleDrawer'
+import {useStyles, ColorDrawer, ColorListItem} from './styleDrawer'
 import { useTheme } from '@material-ui/core/styles/index';
 
 export default function MenuDrawer(props) {
@@ -19,7 +19,7 @@ export default function MenuDrawer(props) {
   const {categories, open, handleDrawerClose, getDishes}=props;
 
   return(
-    <Drawer
+    <ColorDrawer
       variant="permanent"
       className={clsx(classes.drawer, {
         [classes.drawerOpen]: open,
@@ -40,13 +40,13 @@ export default function MenuDrawer(props) {
       </div>
       <Divider />
       <List>
-        {categories.map((item) => (
-          <ListItem button key={item._id} onClick={()=>{getDishes(item)}}>
+        {categories.map((item, index) => (
+          <ColorListItem button key={item._id} onClick={()=>{getDishes(item)}}>
             <ListItemIcon><img src={item.icon}></img></ListItemIcon>
             <ListItemText primary={item.title} />
-          </ListItem>
+          </ColorListItem>
         ))}
       </List>
-    </Drawer>
+    </ColorDrawer>
   );
 }

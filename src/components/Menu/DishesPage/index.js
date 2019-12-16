@@ -73,7 +73,6 @@ export default function Index(props) {
 			<Grid container className={classes.wrap} justify="center">
 				{category.map((item)=>
 					<Dish key={item._id} item={item} dishes={dishes} addDishToOrder={addDishToOrder}/>
-
 				)}
 			</Grid>
 			<Snackbar style={{marginTop: coordinates.y, marginLeft: coordinates.x}}

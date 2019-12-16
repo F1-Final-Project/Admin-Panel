@@ -8,9 +8,13 @@ export default makeStyles(theme => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
-	snackbar: {
-		marginTop: 25,
+	snackbar:{
+		marginTop: 25
 	},
+	snackbarContent:{
+		backgroundColor:'#82796d',
+		color: '#212121',
+	}
 }))
 
 

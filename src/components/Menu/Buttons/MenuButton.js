@@ -1,15 +1,6 @@
 import Typography from '@material-ui/core/Typography'
 import React from 'react'
-import { makeStyles } from '@material-ui/core'
-
-const useStyles = makeStyles(theme => ({
-	span:{
-		cursor: 'pointer'
-	},
-	title: {
-		flexGrow: 1,
-	},
-}));
+import {useStyles} from './style'
 
 export default function MenuButton(props) {
 	const classes = useStyles();
@@ -21,8 +12,8 @@ export default function MenuButton(props) {
 	};
 
 	return(
-		<Typography onClick={showMenu} variant="h6" noWrap className={classes.title}>
-						<span  className={classes.span}>MENU</span>
+		<Typography onClick={showMenu} variant="h6" noWrap className={classes.titleMenu}>
+						<span  className={classes.spanMenu}>MENU</span>
 		</Typography>
 	)
 }

@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Menu from '@material-ui/core/Menu'
+import Button from '@material-ui/core/Button'
 import React from 'react'
 
 export const useStyles = makeStyles(theme => ({
@@ -31,7 +32,18 @@ export const useStyles = makeStyles(theme => ({
 	snackbarContent:{
 		backgroundColor:'#82796d',
 		color: '#212121',
-	}
+	},
+	spanMenu:{
+		cursor: 'pointer',
+		color:'#82796d',
+		'&:hover': {
+			color: '#E9C294',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
+		},
+	},
+	titleMenu: {
+		flexGrow: 1,
+	},
 }));
 
 export const ColorMenu = withStyles(theme => ({
@@ -40,3 +52,12 @@ export const ColorMenu = withStyles(theme => ({
 	}
 }))(Menu);
 
+export const ColorButton = withStyles(theme => ({
+	root:{
+		color:'#82796d',
+		'&:hover': {
+			color: '#E9C294',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
+		},
+	}
+}))(Button);

@@ -11,6 +11,7 @@ import * as orderActions from '../../store/actions/orders'
 import MenuAppBar from './MenuNav/MenuAppBar'
 import Snackbar from '@material-ui/core/Snackbar'
 import useStyles from './style'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 export default function Menu() {
 	const classes = useStyles();
@@ -82,14 +83,18 @@ export default function Menu() {
 		</div>)
 			: null}
 			<Order/>
-			<Snackbar className={classes.snackbar}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={openSnackbar}
-								message={<span id="message-id">New order table # {table} was created</span>}
+			<Snackbar
+			anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			className={classes.snackbar}
+			open={openSnackbar}>
+			<SnackbarContent
+				className={classes.snackbarContent}
+				message={<span id="message-id">New order table # {table} was created</span>}
 			/>
+		</Snackbar>
 			</>
 	);
 }
