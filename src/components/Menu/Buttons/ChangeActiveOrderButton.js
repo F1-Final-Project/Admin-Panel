@@ -4,14 +4,16 @@ import React, { useEffect } from 'react'
 import * as orderActions from '../../../store/actions/orders'
 import { useDispatch, useSelector } from 'react-redux'
 import MenuItem from '@material-ui/core/MenuItem/index'
-import Menu from '@material-ui/core/Menu/index'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
+import Box from '@material-ui/core/Box'
+import {useStyles, ColorMenu} from './style'
 
 export default function ChangeActiveOrderButton(){
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [open, setOpen] = React.useState(false);
 	const [table, setTable] = React.useState(false);
+	const classes=useStyles();
 
 	const {orders} = useSelector(state =>
 		({orders: state.order.orders})
@@ -49,7 +51,7 @@ export default function ChangeActiveOrderButton(){
 			{orders.length>0?(
 				<>
 					<Button aria-label="show orders" color="inherit" aria-haspopup="true" onClick={handleClick}>
-						<Badge badgeContent={orders.length} color="primary">
+						<Badge badgeContent={orders.length} color='default'>
 							orders
 						</Badge>
 					</Button>
@@ -63,30 +65,36 @@ export default function ChangeActiveOrderButton(){
 							open={true}
 						>
 							<SnackbarContent
-								style={{backgroundColor: 'green'}}
+								className={classes.snackbarContent}
 								message={<span id="message-id">You have completed orders</span>}
 							/>
 						</Snackbar>): null}
-						<Snackbar style={{marginTop: 25}}
+						<Snackbar
 							anchorOrigin={{
 								vertical: 'top',
 								horizontal: 'right',
 							}}
-							open={open}
+							className={classes.snackbar}
+							open={open}>
+						<SnackbarContent
+							className={classes.snackbarContent}
 							message={<span id="message-id">You switched to  order table # {table}</span>}
-						/>
-						<Menu
+							/>
+						</Snackbar>
+						<ColorMenu
 							anchorEl={anchorEl}
 							keepMounted
 							open={Boolean(anchorEl)}
 							onClose={handleClose}
-						>
+							>
+						<Box border={1} borderColor='#7a6c5b' borderRadius={3} className={classes.menu}>
 							{orders.map((item)=>
-								<MenuItem  key={item._id} onClick={(()=>{handleClose(); changeOrder(item)})}  style={{overflowY: "visible"}}>
+								<MenuItem   key={item._id} onClick={(()=>{handleClose(); changeOrder(item)})}  className={classes.menuItem} >
 									go to order table №  {item.table}
 								</MenuItem>
 							)}
-						</Menu>
+						</Box>
+						</ColorMenu>
 					</>)
 				: null}
 		</>

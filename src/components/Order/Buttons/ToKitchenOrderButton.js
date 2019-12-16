@@ -2,10 +2,12 @@ import React from 'react'
 import Button from '@material-ui/core/Button/index'
 import * as orderActions from '../../../store/actions/orders'
 import { useDispatch } from 'react-redux'
+import useStyles from './style'
 
 export default function ToKitchenOrderButton(props) {
 	const dispatch = useDispatch();
 	const {order, closeModal}=props;
+	const classes = useStyles();
 
 	const toKitchenOrder=()=> {
 		if (order.orderItems && order.orderItems.length > 0) {
@@ -28,6 +30,6 @@ export default function ToKitchenOrderButton(props) {
 	};
 
 	return (
-			<Button variant="outlined" color="primary" onClick={toKitchenOrder}>TO KITCHEN</Button>
+			<Button className={classes.button} variant="outlined" onClick={toKitchenOrder}>TO KITCHEN</Button>
 	);
 }

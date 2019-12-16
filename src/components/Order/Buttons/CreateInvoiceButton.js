@@ -6,9 +6,12 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import * as orderActions from '../../../store/actions/orders'
+import useStyles from './style'
+import Box from '@material-ui/core/Box'
 
 export default function CreateInvoiceButton(props) {
 	const dispatch = useDispatch();
+	const classes = useStyles();
 
 	const [open, setOpen] = React.useState(false);
 
@@ -36,20 +39,22 @@ export default function CreateInvoiceButton(props) {
 
 	return (
 		<>
-			<Button variant="contained" onClick={openDialog}>create invoice</Button>
+			<Button className={classes.button} variant="outlined" onClick={openDialog}>create invoice</Button>
 			<Dialog
 				open={open}
 				onClose={closeDialog}
 			>
-				<DialogTitle>Choose payment method</DialogTitle>
-				<DialogActions>
-					<Button onClick={createInvoice} color="primary">
+				<Box border={1} borderColor='#7a6c5b' borderRadius={3} className={classes.dialog}>
+				<DialogTitle >Choose payment method</DialogTitle>
+				<DialogActions >
+					<Button className={classes.button} variant="outlined" onClick={createInvoice}>
 						cash
 					</Button>
-					<Button onClick={createInvoice} color="primary" autoFocus>
+					<Button className={classes.button} variant="outlined" onClick={createInvoice}>
 						card
 					</Button>
 				</DialogActions>
+			</Box>
 			</Dialog>
 		</>
 	);

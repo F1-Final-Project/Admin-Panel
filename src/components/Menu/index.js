@@ -1,29 +1,16 @@
 import React, { useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles/index'
 import CssBaseline from '@material-ui/core/CssBaseline/index'
 import { useDispatch, useSelector } from 'react-redux'
 import * as categoryActions from '../../store/actions/categories'
 import * as dishActions from '../../store/actions/dish'
 import DishesPage from './DishesPage'
-import MenuDrawer from './MenuDrawer'
-import AllOrders from '../Order/AllOrders'
+import MenuDrawer from './MenuNav/MenuDrawer'
+import Tables from './Tables'
 import Order from '../Order'
 import * as orderActions from '../../store/actions/orders'
-import MenuAppBar from './MenuAppBar'
+import MenuAppBar from './MenuNav/MenuAppBar'
 import Snackbar from '@material-ui/core/Snackbar'
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-	},
-	content: {
-		flexGrow: 1,
-		padding: theme.spacing(3),
-	},
-	snackbar: {
-		marginTop: 25,
-	},
-}));
+import useStyles from './style'
 
 export default function Menu() {
 	const classes = useStyles();
@@ -90,8 +77,7 @@ export default function Menu() {
 				createNewOrder={createNewOrder}/>
 			<MenuDrawer categories={categories} open={open} handleDrawerClose={handleDrawerClose}  getDishes={getDishes}/>
 			<main className={classes.content}>
-				<div className={classes.toolbar} />
-				{view==='dishes'?(<DishesPage category={category}/>):<AllOrders createNewOrder={createNewOrder}/>}
+				{view==='dishes'?(<DishesPage category={category}/>):<Tables createNewOrder={createNewOrder}/>}
 			</main>
 		</div>)
 			: null}

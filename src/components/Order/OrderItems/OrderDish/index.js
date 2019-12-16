@@ -1,29 +1,14 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import DeleteItemOrderButton from './Buttons/DeleteItemOrderButton'
-import UpdateItemOrderButton from './Buttons/UpdateItemOrderButton'
-import { makeStyles } from '@material-ui/core/styles'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		width: '100%',
-	},
-	heading: {
-		fontSize: theme.typography.pxToRem(20),
-		flexBasis: '33.33%',
-		flexShrink: 0,
-	},
-	secondaryHeading: {
-		fontSize: theme.typography.pxToRem(15),
-		color: theme.palette.text.secondary,
-	},
-}));
+import Typography from '@material-ui/core/Typography/index'
+import Grid from '@material-ui/core/Grid/index'
+import FormControlLabel from '@material-ui/core/FormControlLabel/index'
+import DeleteItemOrderButton from '../../Buttons/DeleteItemOrderButton'
+import UpdateItemOrderButton from '../../Buttons/UpdateItemOrderButton'
+import {useStyles, ColorCheckbox} from './style'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel/index'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/index'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/index'
+import Box from '@material-ui/core/Box'
 
 export default function OrderDish(props) {
 	const {item, index, order, updateOrderItemChange, expanded, handleChange}=props;
@@ -57,7 +42,8 @@ export default function OrderDish(props) {
 	};
 
 	return (
-		<ExpansionPanel expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+		<ExpansionPanel className={classes.panel} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+			<Box border={1} borderColor='#7a6c5b' borderRadius={5}>
 			<ExpansionPanelSummary
 				aria-controls={`panel${index}bh-content`}
 				id={`panel${index}bh-header`}
@@ -68,6 +54,7 @@ export default function OrderDish(props) {
 					<DeleteItemOrderButton order={order} item={item}/>
 				</Grid>
 			</ExpansionPanelSummary>
+			</Box>
 			<ExpansionPanelDetails>
 				<Grid container justify="space-between">
 					<Typography component={'span'}>
@@ -75,10 +62,10 @@ export default function OrderDish(props) {
 							<div key={ingredient._id}>
 								<FormControlLabel
 									control={
-										<Checkbox
+										<ColorCheckbox
 											defaultChecked
 											onChange={updateItemIngredients(ingredient)}
-											color="primary"
+											color={'true'}
 										/>
 									}
 									label={ingredient.title}
@@ -91,9 +78,9 @@ export default function OrderDish(props) {
 							<div key={ingredient._id}>
 								<FormControlLabel
 									control={
-										<Checkbox
+										<ColorCheckbox
 											onChange={updateItemIngredients(ingredient)}
-											color="primary"
+											color={'true'}
 										/>
 									}
 									label={ingredient.title}

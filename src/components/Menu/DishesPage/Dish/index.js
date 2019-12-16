@@ -1,25 +1,11 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-
-const useStyles = makeStyles({
-	card: {
-		width: 245,
-		margin: 10,
-	},
-	media: {
-		height: 200,
-	},
-	typography:{
-		paddingTop:40,
-		paddingLeft: 30,
-	},
-});
+import useStyles from './style'
+import Card from '@material-ui/core/Card/index'
+import CardActionArea from '@material-ui/core/CardActionArea/index'
+import CardContent from '@material-ui/core/CardContent/index'
+import CardMedia from '@material-ui/core/CardMedia/index'
+import Typography from '@material-ui/core/Typography/index'
+import Grid from '@material-ui/core/Grid/index'
 
 export default function Dish(props) {
 	const {item, dishes, addDishToOrder}=props;

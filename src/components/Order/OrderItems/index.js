@@ -1,22 +1,13 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import OrderItem from './OrderDish'
-import * as orderActions from '../../store/actions/orders'
-import { makeStyles } from '@material-ui/core/styles'
+import * as orderActions from '../../../store/actions/orders'
+import useStyles from './style'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		width: '100%',
-	},
-	wrap: {
-		width: '60%',
-		marginLeft: '5%',
-	}
-}));
-
-export default function OrderItems(props) {
+export default function Index(props) {
 	const { order, status } = props;
 	const dispatch = useDispatch();
 	const classes = useStyles();
@@ -59,10 +50,12 @@ export default function OrderItems(props) {
 			<>
 				{status === 'new order' ? (
 					<div className={classes.root}>
+
 						{(order.orderItems).map((item, index) =>
 							<OrderItem item={item} expanded={expanded} handleChange={handleChange} key={index} index={index}
 												 order={order} updateOrderItemChange={updateOrderItemChange}/>
 						)}
+
 					</div>
 				) : (
 					<div>
@@ -74,17 +67,18 @@ export default function OrderItems(props) {
 						)}
 						{order.newOrderItems?(
 							<>
-							{order.newOrderItems.length>0 ? (
-							<div className={classes.root}>
-								<h2>NEW DISHES</h2>
-								{(order.newOrderItems).map((item, index) =>
-									<OrderItem item={item} expanded={expanded} handleChange={handleChange} key={index} index={index}
-														 order={order} updateOrderItemChange={updateOrderItemChange}/>
-								)}
-							</div>
+								{order.newOrderItems.length>0 ? (
+									<div className={classes.root}>
+										<h2>NEW DISHES</h2>
+
+										{(order.newOrderItems).map((item, index) =>
+											<OrderItem item={item} expanded={expanded} handleChange={handleChange} key={index} index={index}
+																 order={order} updateOrderItemChange={updateOrderItemChange}/>
+										)}
+									</div>
 								):null}
-								</>
-							):null}
+							</>
+						):null}
 					</div>
 				)}
 			</>

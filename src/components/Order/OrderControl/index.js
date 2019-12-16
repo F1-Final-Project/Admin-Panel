@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import ToKitchenOrderButton from './Buttons/ToKitchenOrderButton'
-import DeleteOrderButton from './Buttons/DeleteOrderButton'
-import CreateInvoiceButton from './Buttons/CreateInvoiceButton'
+import ToKitchenOrderButton from '../Buttons/ToKitchenOrderButton'
+import DeleteOrderButton from '../Buttons/DeleteOrderButton'
+import CreateInvoiceButton from '../Buttons/CreateInvoiceButton'
 
-export default function OrderControl(props){
+export default function Index(props){
 	const {order, closeModal, status} =props;
 
 	return(

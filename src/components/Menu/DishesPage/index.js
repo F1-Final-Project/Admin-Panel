@@ -1,18 +1,12 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import useStyles from './style'
+import Grid from '@material-ui/core/Grid/index'
 import { useDispatch, useSelector } from 'react-redux'
-import * as orderActions from '../../store/actions/orders'
-import Snackbar from '@material-ui/core/Snackbar'
+import * as orderActions from '../../../store/actions/orders'
+import Snackbar from '@material-ui/core/Snackbar/index'
 import Dish from './Dish'
 
-const useStyles = makeStyles({
-	wrap:{
-		paddingTop: 60,
-	},
-});
-
-export default function DishesPage(props) {
+export default function Index(props) {
 	const {category} = props;
 	const classes = useStyles();
 	const dispatch = useDispatch();
