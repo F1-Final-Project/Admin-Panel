@@ -8,15 +8,13 @@ import {
 } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Grow from '@material-ui/core/Grow';
-
+import {useStyles} from './style'
 import LoginForm from './LoginForm'
 import Copyright from '../common/Copyright'
 import AuthAPI from '../../services/AuthService'
 
-import useStyle from './style'
-
 export default (props) => {
-    const classes = useStyle()
+    const classes = useStyles()
 
     const [submitted, setStateSubmitted] = useState(false);
     const [formData, setStateFormData] = useState({'email': '', 'password': ''});
