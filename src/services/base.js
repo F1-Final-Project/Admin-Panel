@@ -5,7 +5,7 @@ export default class Base {
 		this.url = 'http://localhost:3002';  //'https://f1-server-api.herokuapp.com'
 	}
 	getUserInfo() {
-		return JSON.parse(sessionStorage.getItem('token'))
+		return sessionStorage.getItem('token');
 	}
 
 	getAuthHeader() {
