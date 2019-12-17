@@ -1,6 +1,11 @@
-import Base from './base';
 
-export default class CategoriesApi extends Base {
+import Base from './base'
+
+export default class CategoryMenus extends Base {
+
+	getAllCategories() {
+		return super.get(`categoryMenus`).then(res => res.data)
+	}
 	getCategories() {
 		return super.get(`categoryMenus`).then(res => res.data);
 	}

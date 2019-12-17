@@ -1,0 +1,7 @@
+export const APIKEY = 'AIzaSyDFTW69xyMLP3MqvIpDGJyTRO4V0F_OxBg'
+export const AUTHDOMAIN = 'admin-pane-f1.firebaseapp.com'
+export const DATABASEURL = 'https://admin-pane-f1.firebaseio.com'
+export const PROJECTID = 'admin-pane-f1'
+export const STOREGEBUCKET = 'admin-pane-f1.appspot.com'
+export const MESSAGINGSENDERID = '358924836770'
+export const APPID = '1:358924836770:web:4cc16972594167eb9a1cfb'
