@@ -27,7 +27,6 @@ export default (props) => {
         setStateFormData({...formData, ...{[name]: value}});
     }
 
-
     const onSubmit = event => {
         event.preventDefault()
 
@@ -37,7 +36,13 @@ export default (props) => {
             .then(res => {
                 if (res.status === 200) {
                     setChecked(false);
-                    setTimeout(() => {window.location.href = '/admin'}, 2000)
+                    if(res.data.permission === 'admin'){
+                        setTimeout(() => {window.location.href = '/admin-panel'}, 2000)
+                    }else if(res.data.permission === 'cook'){
+                        setTimeout(() => {window.location.href = '/kitchen'}, 2000)
+                    }else {
+                        setTimeout(() => {window.location.href = '/menu'}, 2000)
+                    }
                 } else {
                     setStateSubmitted(false)
                     setStateFormData(prevState => {

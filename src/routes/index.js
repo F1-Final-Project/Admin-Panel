@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 
 import NotFound from '../components/NotFound'
 
@@ -13,82 +13,64 @@ import Kitchen from '../components/Kitchen'
 
 import Layout from '../components/Layout'
 import Login from '../components/Login'
-import AdminPage from '../components/admin/AdminPage'
 
-import PrivateRoute from './PrivateRoute'
 import HiddenAfterAuthRoute from './HiddenAfterAuth'
+import AdminRoute from "./AdminRoute";
+import CookRoute from "./CookRoute";
+import WaiterRoute from "./WaiterRoute";
+import RedirectRoute from "./RedirectRoute";
 
 export const Router = () => {
-	return (<React.Fragment>
-			{/*<Header/>*/}
-			<main className="content">
-				<div className="container">
-					<Switch>
-						<Route exact path="/"
-									 component={props => <Layout {...props} />}/>
-
-						<PrivateRoute
-							exact
-							path="/"
-							component={props => <Layout {...props} />}
-						/>
-						<PrivateRoute
-							exact
-							path="/admin"
-							component={props => <AdminPage {...props} />}
-						/>
-						<Route
-							exact
-							path="/foodWarehouse"
-							component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
-						/>
-
-						<Route exact
-									 path="/order-ingredients"
-									 component={props => <Layout {...props}><OrderIngredient {...props}/></Layout>}/>
-
-						<Route exact
-									 path="/edit-dishes"
-									 component={props => <Layout {...props}><Dish {...props}/></Layout>}/>
-						<Route exact
-									 path="/admin-panel"
-									 component={props => <AdminLayout {...props}/>}/>
-						<HiddenAfterAuthRoute
-							exact
-							path="/login"
-							component={props => <Login {...props} />}
-						/>
-
-						<Route
-							exact
-							path="/foodWarehouse"
-							component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
-						/>
-
-						<Route exact
-									 name="foodWarehouse"
-									 path="/foodWarehouse/:productId"
-									 component={<Modal/>}/>
-
-						<Route
-							exact
-							path="/menu"
-							component={props => <Layout {...props}><Menu {...props}/></Layout>}
-						/>
-
-						<Route
-							exact
-							path="/kitchen"
-							component={props => <Layout {...props}><Kitchen {...props}/></Layout>}
-						/>
-
-						<Route path="*" component={NotFound}/>
-
-						{/*<Route path="*" component={NotFound}/>*/}
-					</Switch>
-				</div>
-			</main>
-			{/*<Footer/>*/}
-		</React.Fragment>
-	)
+    return (
+        <React.Fragment>
+            <main className="content">
+                <div className="container">
+                    <Switch>
+                        <HiddenAfterAuthRoute
+                            exact
+                            path="/login"
+                            component={props => <Login {...props} />}
+                        />
+                        <AdminRoute
+                            exact
+                            path="/order-ingredients"
+                            component={props => <Layout {...props}><OrderIngredient {...props}/></Layout>}
+                        />
+                        <AdminRoute
+                            exact
+                            path="/edit-dishes"
+                            component={props => <Layout {...props}><Dish {...props}/></Layout>}
+                        />
+                        <AdminRoute
+                            exact
+                            path="/admin-panel"
+                            component={props => <AdminLayout {...props}/>}
+                        />
+                        <AdminRoute
+                            exact
+                            path="/foodWarehouse"
+                            component={props => <Layout {...props}><FoodWareHouse {...props}/></Layout>}
+                        />
+                        <AdminRoute
+                            exact
+                            name="foodWarehouse"
+                            path="/foodWarehouse/:productId"
+                            component={<Modal/>}
+                        />
+                        <WaiterRoute
+                            exact
+                            path="/menu"
+                            component={props => <Layout {...props}><Menu {...props}/></Layout>}
+                        />
+                        <CookRoute
+                            exact
+                            path="/kitchen"
+                            component={props => <Layout {...props}><Kitchen {...props}/></Layout>}
+                        />
+                        <RedirectRoute path="*" component={NotFound}/>
+                    </Switch>
+                </div>
+            </main>
+        </React.Fragment>
+    )
 }
