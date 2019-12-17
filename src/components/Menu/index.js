@@ -90,11 +90,11 @@ export default function Menu() {
 			}}
 			className={classes.snackbar}
 			open={openSnackbar}>
-			<SnackbarContent
-				className={classes.snackbarContent}
-				message={<span id="message-id">New order table # {table} was created</span>}
-			/>
-		</Snackbar>
+				<SnackbarContent
+					className={classes.snackbarContent}
+					message={<span id="message-id">New order table # {table} was created</span>}
+				/>
+			</Snackbar>
 			</>
 	);
 }

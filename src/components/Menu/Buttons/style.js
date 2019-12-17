@@ -38,7 +38,6 @@ export const useStyles = makeStyles(theme => ({
 		color:'#82796d',
 		'&:hover': {
 			color: '#E9C294',
-			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
 		},
 	},
 	titleMenu: {
@@ -57,7 +56,6 @@ export const ColorButton = withStyles(theme => ({
 		color:'#82796d',
 		'&:hover': {
 			color: '#E9C294',
-			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
 		},
 	}
 }))(Button);

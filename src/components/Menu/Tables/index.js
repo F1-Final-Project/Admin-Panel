@@ -17,7 +17,7 @@ export default function Index(props) {
 	);
 	const classes = useStyles();
 	const dispatch= useDispatch();
-	const tables=[1,2,3,4,5,6,7,8];
+	const tables=[1,2,3,4,5,6,7,8,9,10];
 
 	const showOrder=(order)=>{
 		orderActions.openOrder({open: true, order: order})(dispatch);

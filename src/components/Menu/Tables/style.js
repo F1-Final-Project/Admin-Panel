@@ -23,12 +23,23 @@ export const useStyles = makeStyles(theme => ({
 }));
 
 export const ColorButton = withStyles(theme => ({
+	label: {
+		color: '#E9C294',
+		borderWidth: '1',
+		borderColor: '#7a6c5b',
+	},
+	root:{
+		borderColor:'#82796d',
+		'&:hover': {
+			color: '#212121',
+			backgroundColor: '#E9C294',
+			boxShadow: '8px 8px 8px 6px rgba(0,0,0,0.3)',
+			'& .MuiButton-label': {
+				color: '#212121',
+			}
+		}
+	},
 
-label: {
-	color: '#E9C294',
-	borderWidth: '1',
-	borderColor: '#7a6c5b',
-},
 }))(Button);
 
 export const Table = withStyles(theme => ({

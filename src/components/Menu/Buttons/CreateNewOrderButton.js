@@ -9,7 +9,7 @@ export default function CreateNewOrderButton(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const classes=useStyles();
 
-	const tables=[1,2,3,4,5,6,7,8];
+	const tables=[1,2,3,4,5,6,7,8,9,10];
 
 	const {orders} = useSelector(state =>
 		({orders: state.order.orders})
