@@ -60,7 +60,7 @@ export default function Menu() {
 				table: table,
 				orderItems: [],
 				newOrderItems: [],
-				// staff:{},
+				staff: sessionStorage.getItem('id'),
 			}
 		)(dispatch);
 	};

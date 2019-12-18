@@ -37,7 +37,7 @@ export default function OrderDish(props) {
 			additionalIngredients: item.additionalIngredients,
 			price: item.price,
 			weight: item.weight,
-		}
+		};
 		updateOrderItemChange(newItem);
 	};
 

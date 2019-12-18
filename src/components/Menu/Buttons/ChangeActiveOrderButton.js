@@ -58,10 +58,9 @@ export default function ChangeActiveOrderButton(){
 					{ (orders.filter(item=> item.completed)).length>0?
 						(<Snackbar
 							anchorOrigin={{
-								vertical: 'top',
+								vertical: 'bottom',
 								horizontal: 'right',
 							}}
-							style={{marginTop: 70}}
 							open={true}
 						>
 							<SnackbarContent

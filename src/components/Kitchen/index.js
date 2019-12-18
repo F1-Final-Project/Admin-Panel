@@ -19,6 +19,9 @@ export default function KitchenPage() {
 		({ orders: state.order.orders})
 	);
 
+	const showDate=(date)=>{
+		return ` ${new Date(date).getHours()} : ${new Date(date).getMinutes()} , ${new Date(date).getDate()}.${new Date(date).getMonth()+1}.${new Date(date).getFullYear()}`
+	}
 	const onKitchen=orders.filter(item=>
 		item.onKitchen===true&&item.completed===false
 	);
@@ -33,7 +36,7 @@ export default function KitchenPage() {
 						table # {order.table}
 					</Typography>
 					<Typography className={classes.content} variant="body2" component="p">
-						onKitcnen from: {order.updated_at||order.created_at}
+						onKitcnen from: {showDate(order.updated_at||order.created_at)}
 					</Typography>
 					<div className={classes.pos} color="textSecondary">
 						 {order.orderItems.map(dish=>
