@@ -1,5 +1,5 @@
 import React from 'react'
-import {useStyles, ColorButton} from './style'
+import { ColorButton} from './style'
 
 export default function ShowAllTablesButton(props) {
 

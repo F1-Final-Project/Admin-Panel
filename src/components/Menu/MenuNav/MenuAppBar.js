@@ -9,14 +9,12 @@ import ChangeActiveOrderButton from '../Buttons/ChangeActiveOrderButton'
 import ActiveOrderButton from '../Buttons/ActiveOrderButton'
 import CreateNewOrderButton from '../Buttons/CreateNewOrderButton'
 import ShowAllTablesButton from '../Buttons/ShowAllTablesButton'
-import { makeStyles, useTheme } from '@material-ui/core/styles/index';
 import useStyles from './styleAppBar'
 
 export default function MenuAppBar(props) {
 	const classes = useStyles();
 
 	return (
-
 		<AppBar
 			position="fixed"
 			className={`${classes.app} ${clsx(classes.appBar, {
@@ -42,7 +40,6 @@ export default function MenuAppBar(props) {
 				<ActiveOrderButton/>
 				<ChangeActiveOrderButton/>
 			</Toolbar>
-
 		</AppBar>
 	);
 }

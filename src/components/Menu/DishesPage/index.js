@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as orderActions from '../../../store/actions/orders'
 import Snackbar from '@material-ui/core/Snackbar/index'
 import Dish from './Dish'
+import * as alertActions from "../../../store/actions/alert";
 
 export default function Index(props) {
 	const {category} = props;
@@ -32,7 +33,7 @@ export default function Index(props) {
 				additionalIngredients: dish.additionalIngredients,
 				price: dish.price,
 				weight: dish.weight,
-			}
+			};
 
 			order.orderPrice= +(order.orderPrice)+ +(dish.price);
 
@@ -46,11 +47,11 @@ export default function Index(props) {
 					(order.newOrderItems).push(newItem);
 				} else {order.newOrderItems = [newItem];}
 			}
-			else{alert('Order already completed')}
+			else{alertActions.openAlert({open: true, message: 'Order already completed'})(dispatch)}
 
 			if(!order.completed) {
 				orderActions.updateOrder({
-					// staff: thisOrder.staff,
+					staff: order.staff,
 					table: order.table,
 					orderPrice: order.orderPrice,
 					onKitchen: order.onKitchen,
@@ -60,12 +61,12 @@ export default function Index(props) {
 				}, order._id)(dispatch);
 
 				setTable(order.table);
-				setDishToOrder(dish.title)
+				setDishToOrder(dish.title);
 				setOpen(true);
-				setTimeout(() => setOpen(false), 2000)
+				setTimeout(() => setOpen(false), 2200)
 			}
 		}
-		else{alert('Choose the order')}
+		else{alertActions.openAlert({open: true, message: 'Choose the order'})(dispatch)}
 	};
 
 	return (

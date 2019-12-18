@@ -38,7 +38,7 @@ export default function MenuDrawer(props) {
       </div>
       <Divider />
       <List>
-        {categories.map((item, index) => (
+        {categories.map((item) => (
           <ColorListItem button key={item._id} onClick={()=>{getDishes(item)}}>
             <ListItemIcon>
               <img src={item.icon} alt='icon'/>

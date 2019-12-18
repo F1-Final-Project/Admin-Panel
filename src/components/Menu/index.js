@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as categoryActions from '../../store/actions/categories'
 import * as dishActions from '../../store/actions/dish'
 import DishesPage from './DishesPage'
+import Alert from '../common/Alert'
 import MenuDrawer from './MenuNav/MenuDrawer'
 import Tables from './Tables'
 import Order from '../Order'
@@ -50,7 +51,7 @@ export default function Menu() {
 	const createNewOrder=(table)=>{
 		setTable(table);
 		setOpenSnackbar(true);
-		setTimeout(()=>setOpenSnackbar(false), 1800);
+		setTimeout(()=>setOpenSnackbar(false), 2200);
 
 		orderActions.addOrder(
 			{
@@ -95,6 +96,7 @@ export default function Menu() {
 					message={<span id="message-id">New order table # {table} was created</span>}
 				/>
 			</Snackbar>
+			<Alert/>
 			</>
 	);
 }

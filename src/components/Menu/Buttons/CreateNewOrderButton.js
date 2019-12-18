@@ -1,13 +1,14 @@
 import React from 'react'
-import Button from '@material-ui/core/Button/index'
 import MenuItem from '@material-ui/core/MenuItem/index'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import {useStyles, ColorMenu, ColorButton} from './style'
 import Box from '@material-ui/core/Box'
+import * as alertActions from "../../../store/actions/alert";
 
 export default function CreateNewOrderButton(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const classes=useStyles();
+	const dispatch=useDispatch();
 
 	const tables=[1,2,3,4,5,6,7,8,9,10];
 
@@ -21,6 +22,10 @@ export default function CreateNewOrderButton(props) {
 
 	const closeMenu=()=>{
 		setAnchorEl(null);
+	};
+
+	const showAlert=()=>{
+		alertActions.openAlert({open: true, message: 'this table is taken'})(dispatch)
 	};
 
 	const createOrder =(item)=> (event) => {
@@ -44,7 +49,7 @@ export default function CreateNewOrderButton(props) {
 				{tables.map(item=>
 					<div key={item}>
 						{(orders.filter((order) => order.table === item).length>0) ?(
-					<MenuItem className={classes.menuTaken} onClick={()=> alert('this table is taken')}>create order table № {item}</MenuItem>
+					<MenuItem className={classes.menuTaken} onClick={showAlert}>create order table № {item}</MenuItem>
 						):(
 							<MenuItem className={classes.menuNew} onClick={createOrder(item)}>create order table № {item}</MenuItem>
 						)}

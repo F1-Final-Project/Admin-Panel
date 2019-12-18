@@ -1,5 +1,4 @@
 import Badge from '@material-ui/core/Badge/Badge'
-import Button from '@material-ui/core/Button/index'
 import React, { useEffect } from 'react'
 import * as orderActions from '../../../store/actions/orders'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,7 +42,7 @@ export default function ChangeActiveOrderButton(){
 		orderActions.activeOrder(order)(dispatch);
 		setTable(order.table);
 		setOpen(true);
-		setTimeout(()=>setOpen(false), 1800);
+		setTimeout(()=>setOpen(false), 2200);
 	}
 
 	return(

@@ -1,8 +1,7 @@
-import Button from '@material-ui/core/Button/index'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as orderActions from '../../../store/actions/orders'
-import {useStyles, ColorButton} from './style'
+import {ColorButton} from './style'
 
 export default function ActiveOrderButton() {
 	const dispatch= useDispatch();
@@ -17,7 +16,7 @@ export default function ActiveOrderButton() {
 
 	return(
 		<>{order?(
-			<ColorButton style={{border: 1, borderColor: 'green'}} onClick={openOrder} > table#{order.table} order </ColorButton>
+			<ColorButton onClick={openOrder} > table#{order.table} order </ColorButton>
 			): null}
 		</>
 	)
