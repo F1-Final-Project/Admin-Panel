@@ -51,7 +51,9 @@ export const CssTabs = withStyles({
 	},
 	indicator: {
 		backgroundColor: '#d0cdc7',
+		display: 'none'
 	},
+
 })(Tabs)
 
 export const CssTab = withStyles({
@@ -61,6 +63,7 @@ export const CssTab = withStyles({
 
 		'&.MuiTab-textColorPrimary.Mui-selected': {
 			color: '#E9C294',
+			backgroundColor: 'rgba(233, 194, 148, .1)',
 		},
 
 		'&:hover': {

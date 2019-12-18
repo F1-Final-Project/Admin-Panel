@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -36,6 +36,9 @@ export default function MediaCard(props) {
 		cardRef,
 		setHardHeight,
 		handleMoveToArchive,
+		handleChangeState,
+		orderCategoriesArchive,
+		orderCategoriesProgress
 	} = props
 
 	const initState = {
@@ -44,6 +47,7 @@ export default function MediaCard(props) {
 		pendingOrder: products.pendingOrder,
 		orderHasArrived: products.orderHasArrived,
 	}
+
 
 	const [state, dispatch] = useReducer(reducer, initState)
 
@@ -85,6 +89,8 @@ export default function MediaCard(props) {
 			orderHasArrived: false,
 		}
 		handlerUpdateItem(id, newData)
+
+		handleChangeState(id, newData)
 	}
 
 	/**
@@ -114,16 +120,19 @@ export default function MediaCard(props) {
 		}
 
 		handlerUpdateItem(id, newData)
+
+		handleChangeState(id, newData)
 	}
 
 	/**
 	 * @desc Функция для обновление количество элементов на склада и присвоение состояния( Архив ) REST API(UPDATE: /your-link/:itemId) запрос в базу данных обновление
 	 * @desc useReducer - dispatch обновления состояния на Архив
+	 * @param e
 	 * @param {string} id
 	 * @param {Object} data обьект с полями для обновление
 	 */
 
-	const handleArchiveOrderItem = (id, data) => {
+	const handleArchiveOrderItem = (e, id, data) => {
 
 		const newOrderCategories = orderCategories.filter(item => item.title === 'archive')
 
@@ -167,6 +176,9 @@ export default function MediaCard(props) {
 
 	}, [secondary])
 
+	const handleHiddenItem = () => (typeof products.orderCategory === 'object' ? products.orderCategory._id : products.orderCategory) !== orderCategoriesArchive && state.orderHasArrived
+	const handleHiddenText = () => (typeof products.orderCategory === 'object' ? products.orderCategory._id : products.orderCategory) !== orderCategoriesArchive
+
 
 	return (
 		<Context.Provider value={{
@@ -184,10 +196,9 @@ export default function MediaCard(props) {
 									disabled={!!state.pendingOrder}
 									color='primary'
 									className={classes.CardCheckbox}
-									// onClick={() => setRowHeight(parseInt(window.getComputedStyle(node).getPropertyValue('grid-auto-rows')))}
 								/>
 							}
-							label="Editing amount"
+							label={handleHiddenText() ? "Editing amount": "Looking amount"}
 						/>
 						{
 							state.editingOrder && (<svg className={classes.CardSvgEdit}
@@ -347,10 +358,10 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 						<DeleteIcon/>
 						<CardContent ref={cardRefHeight}>
 							<Typography gutterBottom variant="h5" component="h2">
-								Correct order list
+								{handleHiddenText() ? 'Correct order list' : 'Archive report'}
 							</Typography>
 							<Typography variant="body2" color="textSecondary" component="div">
-								<div className={classesTheme.demo}>
+								<div className={classesTheme.demo} >
 									<List>
 										{
 											state.products.length > 0 && state.products.map(itemList => {
@@ -358,6 +369,8 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 																				 classes={classes}
 																				 secondary={secondary}
 																				 key={itemList._id}
+																				 productsOrderCategory={products.orderCategory}
+																				 orderCategoriesProgress={orderCategoriesProgress}
 												/>
 											})
 										}
@@ -380,12 +393,13 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 																								onClick={() => handleEnterOrderItem(products._id, state.products)}>
 							Enter order
 						</ColorButton>}
-						{state.orderHasArrived && <ColorButton type='button'
-																									 size="small"                                                              //кнопка для отправки в архив
-																									 color="primary"
-																									 onClick={() => handleArchiveOrderItem(products._id, state.products)}>
-							Save order Archive
-						</ColorButton>}
+						{handleHiddenItem() && state.orderHasArrived ? (
+							<ColorButton type='button'
+													 size="small"                                                              //кнопка для отправки в архив
+													 color="primary"
+													 onClick={e => handleArchiveOrderItem(e, products._id, state.products)}>
+								Save order Archive
+							</ColorButton>) : null}
 						<ColorButton type='button'
 												 size="small"
 												 color="primary"
@@ -399,6 +413,7 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 		</Context.Provider>
 	)
 }
+
 
 MediaCard.propTypes = {
 	products: PropTypes.object,

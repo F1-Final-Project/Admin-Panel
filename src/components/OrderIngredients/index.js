@@ -30,21 +30,38 @@ export default () => {
 
 	const [newOrderProducts, setNewOrderProducts] = useState([])
 	const [newArchiveProducts, setNewArchiveProducts] = useState([])
+	const [orderCategoriesArchive, setOrderCategoriesArchive] = useState('')
+	const [orderCategoriesProgress, setOrderCategoriesProgress] = useState('')
 
 
 	useEffect(() => {
 		dispatch(orderIngredientAction.getAllOrderIngredienst())
 		dispatch(orderCategoriesAction.getAllOrderCategories())
-	}, [dispatch])
+	}, [newOrderProducts, newArchiveProducts])
 
 	useMemo(
 		() => {
+
+			if (orderCategoriesArchive.length === 0 && orderCategoriesProgress.length === 0) {
+				setOrderCategoriesArchive(orderCategories.map(item => {
+					if (item.title === 'archive') {
+						return item._id
+					}
+				}).join(''))
+				setOrderCategoriesProgress(orderCategories.map(item => {
+					if (item.title === 'inProgress') {
+						return item._id
+					}
+				}).join(''))
+
+			}
+
 			if (newOrderProducts.length === 0 && newArchiveProducts.length === 0) {
-				setNewOrderProducts(products.filter(i => i.editingOrder || i.pendingOrder))
-				setNewArchiveProducts(products.filter(i => i.orderHasArrived))
+				setNewOrderProducts(products.filter(i => i.orderCategory == orderCategoriesProgress))
+				setNewArchiveProducts(products.filter(i => i.orderCategory == orderCategoriesArchive))
 			}
 		},
-		[products],
+		[orderCategories, products],
 	)
 
 
@@ -128,13 +145,24 @@ export default () => {
 		setNewOrderProducts(filterItem)
 
 		const newItem = newOrderProducts.map(i => {
-			if (i._id === id) {
+			if (i._id === id && data.orderCategory._id === orderCategoriesArchive) {
 				return { ...i, ...data }
 			}
 		}).filter(item => item !== undefined)
 
-		setNewArchiveProducts([...newArchiveProducts, ...newItem])
 
+		setNewArchiveProducts([...newArchiveProducts, ...newItem])
+	}
+
+	const handleChangeState = (id, data) => {
+		const filterItem = newOrderProducts.map(i => {
+			if (i._id === id) {
+				return { ...i, ...data }
+			}
+			return i
+		}).filter(i => i !== undefined)
+
+		setNewOrderProducts(filterItem)
 	}
 
 	return (
@@ -155,7 +183,7 @@ export default () => {
 			<TabPanel value={value} index={0}>
 				<div className={classes.gridOrder} ref={gridRef}>
 					{
-						loaded ?
+						loaded && newOrderProducts ?
 							newOrderProducts.map((itemCard) => {
 								return (
 									<Card products={itemCard}
@@ -169,6 +197,9 @@ export default () => {
 												setRowHeight={setRowHeight}
 												setHardHeight={setHardHeight}
 												handleMoveToArchive={handleMoveToArchive}
+												handleChangeState={handleChangeState}
+												orderCategoriesArchive={orderCategoriesArchive}
+												orderCategoriesProgress={orderCategoriesProgress}
 									/>)
 
 							})
@@ -180,7 +211,7 @@ export default () => {
 			<TabPanel value={value} index={1}>
 				<div className={classes.gridOrder} ref={gridRef}>
 					{
-						loaded ?
+						loaded && newArchiveProducts ?
 							newArchiveProducts.map((itemCard) => {
 								return (
 									<Card products={itemCard}
@@ -193,6 +224,9 @@ export default () => {
 												cardRef={cardRef}
 												setRowHeight={setRowHeight}
 												setHardHeight={setHardHeight}
+												orderCategoriesArchive={orderCategoriesArchive}
+												orderCategoriesProgress={orderCategoriesProgress}
+
 									/>)
 							})
 
