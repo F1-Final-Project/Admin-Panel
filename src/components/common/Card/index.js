@@ -35,7 +35,7 @@ export default function MediaCard(props) {
 		handlerUpdateItemStoke,
 		cardRef,
 		setHardHeight,
-		handleMoveToArchive
+		handleMoveToArchive,
 	} = props
 
 	const initState = {
@@ -365,28 +365,29 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 								</div>
 							</Typography>
 						</CardContent>
-					</CardActionArea >
+					</CardActionArea>
 					<CssDivider variant="middle"/>
 					<CardActions>
-						{state.editingOrder && <ColorButton
-							size="small"                                                                  //кнопка для редактирования заказа
-							color="primary"
-							onClick={() => handleUpdateDataItem(products._id, state.products)}>
+						{state.editingOrder && <ColorButton type='button'
+																								size="small"                                                                  //кнопка для редактирования заказа
+																								color="primary"
+																								onClick={() => handleUpdateDataItem(products._id, state.products)}>
 							Send order list
 						</ColorButton>}
-						{state.pendingOrder && <ColorButton
-							size="small"                                                                  //кнопка для принятия заказа
-							color="primary"
-							onClick={() => handleEnterOrderItem(products._id, state.products)}>
+						{state.pendingOrder && <ColorButton type='button'
+																								size="small"                                                                  //кнопка для принятия заказа
+																								color="primary"
+																								onClick={() => handleEnterOrderItem(products._id, state.products)}>
 							Enter order
 						</ColorButton>}
-						{state.orderHasArrived && <ColorButton
-							size="small"                                                              //кнопка для отправки в архив
-							color="primary"
-							onClick={() => handleArchiveOrderItem(products._id, state.products)}>
+						{state.orderHasArrived && <ColorButton type='button'
+																									 size="small"                                                              //кнопка для отправки в архив
+																									 color="primary"
+																									 onClick={() => handleArchiveOrderItem(products._id, state.products)}>
 							Save order Archive
 						</ColorButton>}
-						<ColorButton size="small"
+						<ColorButton type='button'
+												 size="small"
 												 color="primary"
 												 onClick={() => handleRemoveItem(products._id)}
 												 disabled={!!state.pendingOrder}>

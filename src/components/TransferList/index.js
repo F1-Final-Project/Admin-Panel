@@ -171,8 +171,8 @@ export default function TransferList(props) {
 
 	const customListRight = items => {
 
-		return <Paper className={classes.tablePaperEffect}>
-			<Paper component="form" className={classes.listSearch}>
+		return <Paper className={classes.tablePaperEffect} component="div">
+			<Paper component="form" className={classes.listSearch} component="div">
 				<InputBase
 					className={classes.listInputBase}
 					placeholder="Search"
@@ -193,7 +193,7 @@ export default function TransferList(props) {
 							<ListItemIcon>
 								<Checkbox
 									checked={checked.indexOf(value) !== -1}
-									color="#fafafa"
+									color="primary"
 									tabIndex={-1}
 									disableRipple
 									inputProps={{ 'aria-labelledby': labelId }}
