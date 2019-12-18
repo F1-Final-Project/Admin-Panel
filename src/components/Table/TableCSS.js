@@ -11,7 +11,7 @@ export const useStyles = makeStyles(theme => ({
 	},
 	tablePaperEffect: {
 		marginTop: theme.spacing(3),
-		width: '95%',
+		width: '90vw',
 		height: '100%',
 		overflowX: 'auto',
 		marginBottom: theme.spacing(5),

@@ -1,10 +1,18 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as orderIngredientAction from '../../store/actions/orderIngredient'
 import * as orderCategoriesAction from '../../store/actions/orderCategories'
 import Card from '../common/Card'
 import * as ingredientAction from '../../store/actions/ingredient'
-import { useStyles, CssDivider, CssTabs, CssTab } from './OrderIngredientsCSS'
+import {
+	useStyles,
+	CssDivider,
+	CssTabs,
+	CssTab,
+} from './OrderIngredientsCSS'
+import TabPanel from '../common/TabPanel'
+import Typography from '@material-ui/core/Typography'
+import Progress from '../common/ProgressCircul'
 
 
 export default () => {
@@ -18,16 +26,27 @@ export default () => {
 	const [cardHeight, setHardHeight] = useState(0)
 
 	const classes = useStyles()
-
-
 	const dispatch = useDispatch()
+
+	const [newOrderProducts, setNewOrderProducts] = useState([])
+	const [newArchiveProducts, setNewArchiveProducts] = useState([])
 
 
 	useEffect(() => {
 		dispatch(orderIngredientAction.getAllOrderIngredienst())
 		dispatch(orderCategoriesAction.getAllOrderCategories())
-
 	}, [dispatch])
+
+	useMemo(
+		() => {
+			if (newOrderProducts.length === 0 && newArchiveProducts.length === 0) {
+				setNewOrderProducts(products.filter(i => i.editingOrder || i.pendingOrder))
+				setNewArchiveProducts(products.filter(i => i.orderHasArrived))
+			}
+		},
+		[products],
+	)
+
 
 	/**
 	 * @desc Функция для запроса в базу данных удаления элемента REST API(Delete: /your-link/:ItemId)
@@ -36,6 +55,11 @@ export default () => {
 
 	const handleDeleteItem = id => {
 		dispatch(orderIngredientAction.deleteOrderIngredientById(id))
+
+		const deleteItemOrder = newOrderProducts.filter(i => i._id !== id)
+		setNewOrderProducts(deleteItemOrder)
+		const deleteItemArchive = newArchiveProducts.filter(i => i._id !== id)
+		setNewArchiveProducts(deleteItemArchive)
 	}
 
 	/**
@@ -92,6 +116,27 @@ export default () => {
 		setValue(newValue)
 	}
 
+	function handlePropsTabs(index) {
+		return {
+			id: `scrollable-force-tab-${index}`,
+			'aria-controls': `scrollable-force-tabpanel-${index}`,
+		}
+	}
+
+	const handleMoveToArchive = (id, data) => {
+		const filterItem = newOrderProducts.filter(i => i._id !== id)
+		setNewOrderProducts(filterItem)
+
+		const newItem = newOrderProducts.map(i => {
+			if (i._id === id) {
+				return { ...i, ...data }
+			}
+		}).filter(item => item !== undefined)
+
+		setNewArchiveProducts([...newArchiveProducts, ...newItem])
+
+	}
+
 	return (
 		<div>
 			<CssTabs
@@ -101,15 +146,43 @@ export default () => {
 				aria-label="scrollable prevent tabs example"
 				centered
 			>
-				<CssTab label="Order"/>
-				<CssTab label="Archive"/>
+				<CssTab label="Order" {...handlePropsTabs(0)}/>
+				<CssTab label="Archive" {...handlePropsTabs(1)}/>
 			</CssTabs>
 			<CssDivider/>
-			<div className={classes.gridOrder} ref={gridRef}>
-				{
-					loaded ?
-						products.map((itemCard) => {
-							return itemCard.editingOrder || itemCard.pendingOrder ? (
+			<Typography className={classes.typography} gutterBottom variant="h4" component="div">Ordering ingredients in
+				stock</Typography>
+			<TabPanel value={value} index={0}>
+				<div className={classes.gridOrder} ref={gridRef}>
+					{
+						loaded ?
+							newOrderProducts.map((itemCard) => {
+								return (
+									<Card products={itemCard}
+												key={itemCard._id}
+												orderCategories={orderCategories}
+												handleDeleteItem={handleDeleteItem}
+												handlerUpdateItem={handlerUpdateItem}
+												handlerUpdateItemStoke={handlerUpdateItemStoke}
+												loadedCategories={loadedCategories}
+												cardRef={cardRef}
+												setRowHeight={setRowHeight}
+												setHardHeight={setHardHeight}
+												handleMoveToArchive={handleMoveToArchive}
+									/>)
+
+							})
+
+							: <Progress/>
+					}
+				</div>
+			</TabPanel>
+			<TabPanel value={value} index={1}>
+				<div className={classes.gridOrder} ref={gridRef}>
+					{
+						loaded ?
+							newArchiveProducts.map((itemCard) => {
+								return (
 									<Card products={itemCard}
 												key={itemCard._id}
 												orderCategories={orderCategories}
@@ -121,23 +194,14 @@ export default () => {
 												setRowHeight={setRowHeight}
 												setHardHeight={setHardHeight}
 									/>)
-								: (<Card products={itemCard}
-												 key={itemCard._id}
-												 orderCategories={orderCategories}
-												 handleDeleteItem={handleDeleteItem}
-												 handlerUpdateItem={handlerUpdateItem}
-												 handlerUpdateItemStoke={handlerUpdateItemStoke}
-												 loadedCategories={loadedCategories}
-												 cardRef={cardRef}
-												 setRowHeight={setRowHeight}
-												 setHardHeight={setHardHeight}
-								/>)
+							})
 
-						})
+							: <Progress/>
+					}
+				</div>
+			</TabPanel>
 
-						: <div>Loading...</div>
-				}
-			</div>
+
 		</div>
 	)
 

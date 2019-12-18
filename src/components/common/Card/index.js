@@ -35,7 +35,9 @@ export default function MediaCard(props) {
 		handlerUpdateItemStoke,
 		cardRef,
 		setHardHeight,
+		handleMoveToArchive
 	} = props
+
 	const initState = {
 		products: products.order,
 		editingOrder: products.editingOrder,
@@ -136,6 +138,9 @@ export default function MediaCard(props) {
 		handlerUpdateItem(id, newData)
 
 		handlerUpdateItemStoke(newData.order)
+
+		handleMoveToArchive(id, newData)
+
 	}
 
 	/**
@@ -157,6 +162,7 @@ export default function MediaCard(props) {
 				setHardHeight(nodeHeight)
 			}
 		}
+
 		changeHeight()
 
 	}, [secondary])
@@ -166,7 +172,6 @@ export default function MediaCard(props) {
 		<Context.Provider value={{
 			dispatch, state,
 		}}>
-
 			<CssCard className={classes.cardContainer} className={'item'} ref={cardRef}>
 				<div className={'content'}>
 					<FormGroup row className={classes.cardHeader}>
@@ -177,7 +182,7 @@ export default function MediaCard(props) {
 									onChange={e => setSecondary(e.target.checked)}
 									value="secondary"
 									disabled={!!state.pendingOrder}
-									color={'#000'}
+									color='primary'
 									className={classes.CardCheckbox}
 									// onClick={() => setRowHeight(parseInt(window.getComputedStyle(node).getPropertyValue('grid-auto-rows')))}
 								/>
@@ -338,13 +343,13 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 						}
 					</FormGroup>
 					<CssDivider variant="middle"/>
-					<CardActionArea>
+					<CardActionArea component="div">
 						<DeleteIcon/>
 						<CardContent ref={cardRefHeight}>
 							<Typography gutterBottom variant="h5" component="h2">
 								Correct order list
 							</Typography>
-							<Typography variant="body2" color="textSecondary" component="p">
+							<Typography variant="body2" color="textSecondary" component="div">
 								<div className={classesTheme.demo}>
 									<List>
 										{
@@ -360,7 +365,7 @@ c4.101,4.101,10.749,4.101,14.85,0l72.681-72.681l8.942,8.942L131.151,270.807z"/>
 								</div>
 							</Typography>
 						</CardContent>
-					</CardActionArea>
+					</CardActionArea >
 					<CssDivider variant="middle"/>
 					<CardActions>
 						{state.editingOrder && <ColorButton

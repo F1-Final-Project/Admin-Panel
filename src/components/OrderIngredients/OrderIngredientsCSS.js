@@ -3,6 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Divider from '@material-ui/core/Divider'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 export const useStyles = makeStyles(theme => ({
 	root: {
@@ -27,6 +28,11 @@ export const useStyles = makeStyles(theme => ({
 		gridAutoRows: '20px',
 
 	},
+	typography: {
+		margin: '0 auto',
+		color: '#82796d',
+		width: '31vw',
+	},
 
 }))
 
@@ -50,14 +56,17 @@ export const CssTabs = withStyles({
 
 export const CssTab = withStyles({
 	root: {
-			border: '1px solid #E9C294',
-			color: '#d0cdc7',
+		border: '1px solid #E9C294',
+		color: '#d0cdc7',
 
 		'&.MuiTab-textColorPrimary.Mui-selected': {
 			color: '#E9C294',
 		},
 
 		'&:hover': {
+			color: '#E9C294',
+		},
+		'&.MuiTab-wrapper': {
 			color: '#E9C294',
 		},
 	},

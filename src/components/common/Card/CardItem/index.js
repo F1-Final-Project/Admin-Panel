@@ -2,9 +2,7 @@ import React, { useContext } from 'react'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
-import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import TextField from '@material-ui/core/TextField'
 import { Context } from '../../../../context/tableContext'
 import PropTypes from 'prop-types'
 import {CardIconButton,CssTextField } from '../CardCss'
@@ -49,8 +47,9 @@ export default function MediaCard(props) {
 	}
 
 	return (
-		<ListItem>
+		<ListItem component="div">
 			<ListItemText
+				component="div"
 				primary={itemList.title}
 				secondary={!state.pendingOrder && secondary ?														//при состоянии (В заказе) блокируются действия с карточкой
 					<CssTextField
@@ -66,10 +65,11 @@ export default function MediaCard(props) {
 						name='restInStock'
 						value={itemList.restInStock}
 						secondary={secondary ? 'Secondary text' : null}
+						component="div"
 					/>
 					: null}
 			/>
-			<ListItemSecondaryAction>
+			<ListItemSecondaryAction component="div">
 				<CardIconButton edge="end" aria-label="delete" onClick={handleRemoveItem} disabled={!!state.pendingOrder}>
 					<DeleteIcon/>
 				</CardIconButton>

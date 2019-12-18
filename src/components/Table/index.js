@@ -7,7 +7,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Checkbox from '@material-ui/core/Checkbox'
 
@@ -17,8 +16,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Modal from '../common/Modal'
 import { Context } from '../../context/tableContext'
 import reducer from './localTableReducer'
-
-import Button from '@material-ui/core/Button'
 
 import * as sorted from '../../lib/sorted'
 import * as columnName from '../../lib/columnTableName'

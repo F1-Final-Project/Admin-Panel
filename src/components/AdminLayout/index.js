@@ -1,89 +1,100 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
-import {useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import HomeIcon from '@material-ui/icons/Home'
-import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
-import TableChartIcon from '@material-ui/icons/TableChart';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu'
+import TableChartIcon from '@material-ui/icons/TableChart'
+import EqualizerIcon from '@material-ui/icons/Equalizer'
+import ListAltIcon from '@material-ui/icons/ListAlt'
 
 import FoodWareHouse from '../FoodWarehouse'
 import Dishes from '../Dishes'
 import OrderIngredients from '../OrderIngredients'
-import reducer from './localAdminReduser'
-import {useStyles, TableIconButton} from './AdminLayoutCSS'
-
+import { useStyles, TableIconButton, CssTab, CssTabs } from './AdminLayoutCSS'
+import TabPanel from '../common/TabPanel'
+import useTheme from '@material-ui/core/styles/useTheme'
+import { CssDivider } from '../OrderIngredients/OrderIngredientsCSS'
 
 
 export default function MiniDrawer() {
 	const classes = useStyles()
-	const theme = useTheme()
 	const [open, setOpen] = useState(false)
+	const theme = useTheme()
 
-
-	const initState = {
-		main: false,
-		menu: false,
-		foodWareHouse: true,
-		statistics: false,
-		orderIngredients: false,
+	const grey = {
+		'--color': '#d0cdc7',
 	}
 
-	const [state, dispatch] = useReducer(reducer, initState)
+	const defaultColor = {
+		'--color': '#212121',
+	}
 
+	const [color, setColor] = React.useState(defaultColor)
 
 	const handleDrawerOpen = () => {
 		setOpen(true)
+		setColor(grey)
 	}
 
 	const handleDrawerClose = () => {
 		setOpen(false)
+		setColor(defaultColor)
 	}
 
+	const [value, setValue] = useState(0)
 
-	const handleOpenCategories = (e, categories) => {
-		dispatch({
-			type: `open${categories}`,
-			payload: true,
+	const handleChange = (event, newValue) => {
+		setValue(newValue)
+	}
 
-		})
+	function handlePropsTabs(index) {
+		return {
+			id: `vertical-tab-${index}`,
+			'aria-controls': `vertical-tabpanel-${index}`,
+		}
 	}
 
 
 	const menuItem = () => {
 		return [{ Main: 'Главная' },
-			{ Menu: 'Меню' },
-			{ FoodWareHouse: 'Учет товара' },
+			{ Menu: 'Редактирования блюд' },
+			{ FoodWareHouse: 'Склад товара' },
 			{ Statistics: 'Статистика' },
 			{ OrderIngredients: 'Заказ ингредиентов' }].map((text, index) => {
 			return Object.entries(text).map(i => {
 				return (
-					<ListItem button key={text} onClick={e => handleOpenCategories(e, i[0])}>
-						<ListItemIcon>
-							{index === 0 && <HomeIcon className={classes.adminIcon}/>}
-							{index === 1 && <RestaurantMenuIcon className={classes.adminIcon}/>}
-							{index === 2 && <TableChartIcon className={classes.adminIcon}/>}
-							{index === 3 && <EqualizerIcon className={classes.adminIcon}/>}
-							{index === 4 && <ListAltIcon className={classes.adminIcon}/>}
-						</ListItemIcon>
-
-						<ListItemText primary={i[1]}/>
-					</ListItem>
+					<CssTab key={text}
+									{...handlePropsTabs(index)}
+									label={i[1]}
+									icon={TabIcon(index)}
+									style={color}
+					/>
 				)
 			})
 		})
-
 	}
+
+	const TabIcon = index => {
+		switch (index) {
+			case 0:
+				return <HomeIcon className={classes.adminIcon}/>
+			case 1 :
+				return <RestaurantMenuIcon className={classes.adminIcon}/>
+			case 2 :
+				return <TableChartIcon className={classes.adminIcon}/>
+			case 3 :
+				return <EqualizerIcon className={classes.adminIcon}/>
+			case 4 :
+				return <ListAltIcon className={classes.adminIcon}/>
+			default:
+				break
+		}
+	}
+
 
 	return (
 		<div className={classes.rootAdminPanel}>
@@ -122,18 +133,35 @@ export default function MiniDrawer() {
 							</TableIconButton>)
 					}
 				</div>
-				<Divider/>
-				<List>
-					{menuItem()}
-				</List>
-			</Drawer>
-			<main className={classes.content}>
+				<CssDivider/>
 
-				{state.foodWareHouse && <FoodWareHouse/>}
-				{state.menu && <Dishes/>}
-				{state.orderIngredients && <OrderIngredients/>}
-			</main>
+				<CssTabs
+					orientation="vertical"
+					variant="scrollable"
+					value={value}
+					onChange={handleChange}
+					aria-label="Vertical tabs example"
+					className={classes.tabs}
+				>
+					{menuItem()}
+				</CssTabs>
+			</Drawer>
+				<main className={classes.content}>
+
+					<TabPanel value={value} index={1}>
+						<Dishes/>
+					</TabPanel>
+
+					<TabPanel value={value} index={2}>
+
+						<FoodWareHouse/>
+					</TabPanel>
+					<TabPanel value={value} index={4}>
+						<OrderIngredients/>
+					</TabPanel>
+				</main>
 		</div>
+
 	)
 }
 
