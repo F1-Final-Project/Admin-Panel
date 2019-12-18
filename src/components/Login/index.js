@@ -13,16 +13,16 @@ import {useStyles} from './style'
 import LoginForm from './LoginForm'
 import Copyright from '../common/Copyright'
 import AuthAPI from '../../services/AuthService'
-import * as errorActions from "../../store/actions/error";
 import Error from '../common/Error'
 
 export default (props) => {
     const classes = useStyles()
-    const dispatch=useDispatch()
 
     const [submitted, setStateSubmitted] = useState(false);
     const [formData, setStateFormData] = useState({'email': '', 'password': ''});
     const [checked, setChecked] = React.useState(true);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState(false);
 
     const handleInputChange = event => {
         const {value, name} = event.target;
@@ -50,7 +50,8 @@ export default (props) => {
                     setStateFormData(prevState => {
                         return {...prevState, ...{password: ''}}
                     });
-                    errorActions.openError({open:true, message: res.data.error})(dispatch);
+                    setMessage(res.data.error);
+                    setOpen(true);
                 }
             })
     }
@@ -83,7 +84,7 @@ export default (props) => {
                 </Box>
             </Container>
         </Grow>
-        <Error/>
+            <Error open={open} setOpen={setOpen} message={message}/>
         </>
     )
 }

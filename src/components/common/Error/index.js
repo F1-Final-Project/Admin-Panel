@@ -1,23 +1,17 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
 import CloseIcon from '@material-ui/icons/Close';
-import * as errorActions from '../../../store/actions/error'
 import useStyles from './style'
 import ErrorIcon from '@material-ui/icons/Error';
 import IconButton from "@material-ui/core/IconButton";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import Snackbar from "@material-ui/core/Snackbar";
 
-export default function Alert() {
-    const {message, open} = useSelector(state =>
-        ({message: state.error.error.message,
-            open: state.error.error.open})
-    );
-    const dispatch = useDispatch();
+export default function Alert(props) {
+    const {message, open, setOpen} =props;
     const classes = useStyles();
 
     const closeMessage = () => {
-        errorActions.openError({open:false, message: null})(dispatch);
+        setOpen(false);
     };
 
     return (
