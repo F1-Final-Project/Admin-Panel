@@ -7,8 +7,10 @@ import * as orderCategoriesAction from '../../store/actions/orderCategories'
 import useTest from '../../customHooks/useIngredientInStoke'
 import PushAPI from '../../services/PushNotificationAPI'
 import PropTypes from 'prop-types'
+import Progress from '../common/ProgressCircul'
 
-export default function FoodWareHouse ()  {
+
+export default function FoodWareHouse() {
 
 	const ingredients = useSelector(state => state.ingredient)
 	const { products, loaded } = ingredients
@@ -16,6 +18,7 @@ export default function FoodWareHouse ()  {
 	const { orderCategories, loadedCategories } = orderCategoriesItem
 	const numIngredientInStoke = useTest(products)
 	const [openCheckBox, setOpenCheckBox] = useState(true)
+
 
 	const dispatch = useDispatch()
 
@@ -92,7 +95,7 @@ export default function FoodWareHouse ()  {
 										orderCategories={orderCategories}
 										loadedCategories={loadedCategories}
 										openCheckBoxList={openCheckBox}
-				/> : <div>...LOAD</div>}
+				/> : <Progress/>}
 		</React.Fragment>
 	)
 
@@ -105,5 +108,5 @@ FoodWareHouse.propTypes = {
 	loadedCategories: PropTypes.bool,
 	numIngredientInStoke: PropTypes.number,
 	orderCategoriesItem: PropTypes.object,
-	ingredients: PropTypes.object
+	ingredients: PropTypes.object,
 }

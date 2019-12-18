@@ -17,7 +17,7 @@ export default function(state, action) {
 					products: action.payload,
 					editingOrder: action.editingOrder,
 					pendingOrder: action.pendingOrder,
-					orderHasArrived: action.orderHasArrived
+					orderHasArrived: action.orderHasArrived,
 				},
 			}
 		case 'onChangeInput':

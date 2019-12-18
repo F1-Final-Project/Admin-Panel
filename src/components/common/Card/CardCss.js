@@ -24,7 +24,9 @@ export const useStyles = makeStyles(theme => ({
 	CardCheckbox: {
 		marginTop: '2px',
 		marginLeft: '12px',
-		color: '#edd185',
+		'&.MuiCheckbox-colorPrimary':{
+			color: '#edd185',
+		}
 	},
 	CardSvgEdit: {
 		width: '25px',

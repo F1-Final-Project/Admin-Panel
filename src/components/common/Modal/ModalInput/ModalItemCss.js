@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import Select from '@material-ui/core/Select'
+import InputBase from '@material-ui/core/InputBase'
 
 
 export const useStyles = makeStyles(theme => ({
@@ -13,7 +14,7 @@ export const useStyles = makeStyles(theme => ({
 		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
 		width: 200,
-		margin: '0 auto'
+		margin: '0 auto',
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -22,7 +23,7 @@ export const useStyles = makeStyles(theme => ({
 	modalPaper: {
 		marginBottom: 10,
 		backgroundColor: '#212121',
-		boxShadow: '0 0 0 '
+		boxShadow: '0 0 0 ',
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -33,6 +34,11 @@ export const useStyles = makeStyles(theme => ({
 	dialogTitle: {
 		color: '#E9C294',
 	},
+	selectModal: {
+		'&.MuiFormLabel-root':{
+			backgroundColor: '#000'
+		}
+	}
 
 }))
 
@@ -53,5 +59,16 @@ export const CssTextField = withStyles({
 		},
 	},
 })(TextField)
+
+export const CssSelect = withStyles({
+	select: {
+		color: '#E9C294',
+	},
+	selectMenu: {
+			color: '#E9C294',
+	},
+})(Select)
+
+
 
 

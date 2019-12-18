@@ -46,7 +46,9 @@ export const useStyles = makeStyles(theme => ({
 		color: '#E9C294',
 	},
 	listCheckbox: {
-		color: '#edd185',
+		'&.MuiCheckbox-colorPrimary':{
+			color: '#edd185',
+		}
 	},
 	listDeleteBtn: {
 		marginRight: '15px',

@@ -7,7 +7,6 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Checkbox from '@material-ui/core/Checkbox'
 
@@ -17,8 +16,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Modal from '../common/Modal'
 import { Context } from '../../context/tableContext'
 import reducer from './localTableReducer'
-
-import Button from '@material-ui/core/Button'
 
 import * as sorted from '../../lib/sorted'
 import * as columnName from '../../lib/columnTableName'
@@ -317,8 +314,8 @@ export default function TableCreated(props) {
 																							align={column.align}
 																							className={classes.tableCell}>
 															<ul>
-																{value.map(i => {
-																	return <li>{i.title}</li>
+																{value.map((i, index) => {
+																	return <li key={index}>{i.title}</li>
 
 																})}
 															</ul>
@@ -365,14 +362,14 @@ export default function TableCreated(props) {
 						<Modal data={state}>
 							<ModalInput data={state} nameOFModal={'Correct ingredient'} open={{ openEditModal: true }}/>
 							<DialogActions>
-								<ColorButton autoFocus onClick={() => dispatch({
+								<ColorButton type='button' autoFocus onClick={() => dispatch({
 									type: 'closeModal',
 									payload: initState.product,
 									openEditModal: false,
 								})}>
 									Закрыть
 								</ColorButton>
-								<ColorButton onClick={() => handlerUpdateNRequest(_id, state.product)}>
+								<ColorButton  type='button' onClick={() => handlerUpdateNRequest(_id, state.product)}>
 									Сохранить изменения
 								</ColorButton>
 							</DialogActions>
@@ -389,14 +386,14 @@ export default function TableCreated(props) {
 									Вы уверены?
 								</DialogContentText>
 								<DialogActions>
-									<ColorButton autoFocus onClick={() => dispatch({
+									<ColorButton type='button' autoFocus onClick={() => dispatch({
 										type: 'closeModal',
 										payload: initState.product,
 										openEditModal: false,
 									})}>
 										Закрыть
 									</ColorButton>
-									<ColorButton onClick={() => handleDeleteItemNRequest(_id)}>
+									<ColorButton type='button' onClick={() => handleDeleteItemNRequest(_id)}>
 										Удалить
 									</ColorButton>
 								</DialogActions>
@@ -407,14 +404,14 @@ export default function TableCreated(props) {
 							<Modal data={state}>
 								<ModalInput nameOFModal={'Create ingredient'} open={{ openCreateModal: true }}/>
 								<DialogActions>
-									<ColorButton autoFocus onClick={() => dispatch({
+									<ColorButton type='button'  autoFocus onClick={() => dispatch({
 										type: 'closeModal',
 										payload: initState.product,
 										openCreateModal: false,
 									})}>
 										Закрыть
 									</ColorButton>
-									<ColorButton onClick={() => handleCreatItemNRequest(state.product)}>
+									<ColorButton type='button' onClick={() => handleCreatItemNRequest(state.product)}>
 										Сохранить изменения
 									</ColorButton>
 								</DialogActions>
