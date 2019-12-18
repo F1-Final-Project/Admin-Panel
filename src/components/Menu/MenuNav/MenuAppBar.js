@@ -9,6 +9,7 @@ import ChangeActiveOrderButton from '../Buttons/ChangeActiveOrderButton'
 import ActiveOrderButton from '../Buttons/ActiveOrderButton'
 import CreateNewOrderButton from '../Buttons/CreateNewOrderButton'
 import ShowAllTablesButton from '../Buttons/ShowAllTablesButton'
+import Logout from '../../common/Logout'
 import useStyles from './styleAppBar'
 
 export default function MenuAppBar(props) {
@@ -39,6 +40,7 @@ export default function MenuAppBar(props) {
 				<CreateNewOrderButton createNewOrder={props.createNewOrder}/>
 				<ActiveOrderButton/>
 				<ChangeActiveOrderButton/>
+				<Logout/>
 			</Toolbar>
 		</AppBar>
 	);

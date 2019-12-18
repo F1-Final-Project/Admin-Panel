@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button/index'
 import * as orderActions from '../../../store/actions/orders'
 import { useDispatch } from 'react-redux'
 import useStyles from './style'
+import * as alertActions from "../../../store/actions/alert";
 
 export default function ToKitchenOrderButton(props) {
 	const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export default function ToKitchenOrderButton(props) {
 				order.newOrderItems = [];
 			}
 			orderActions.updateOrder({
-				// staff: order.staff,
+				staff: order.staff,
 				table: order.table,
 				orderItems: order.orderItems,
 				newOrderItems: [],
@@ -26,7 +27,7 @@ export default function ToKitchenOrderButton(props) {
 				onKitchen: true,
 				completed: false,
 			}, order._id)(dispatch)
-		} else {alert('there are no dishes in the order')}
+		} else {alertActions.openAlert({open: true, message: 'there are no dishes in the order'})(dispatch)}
 	};
 
 	return (

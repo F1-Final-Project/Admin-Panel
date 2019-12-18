@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ToKitchenOrderButton from '../Buttons/ToKitchenOrderButton'
 import DeleteOrderButton from '../Buttons/DeleteOrderButton'
 import CreateInvoiceButton from '../Buttons/CreateInvoiceButton'

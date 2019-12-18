@@ -29,7 +29,7 @@ export default function CreateInvoiceButton(props) {
 		const data={
 			invoiceItems: props.order.orderItems,
 			invoicePrice: props.order.orderPrice,
-			// staff: props.order.staff,
+			staff: props.order.staff,
 			paymentMethod: event.target.innerText,
 		};
 

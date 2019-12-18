@@ -27,7 +27,7 @@ export default function DeleteItemOrderButton(props) {
 		order.orderPrice= +(order.orderPrice)- +(item.price);
 
 		orderActions.updateOrder({
-			// staff: order.staff,
+			staff: order.staff,
 			table: order.table,
 			newOrderItems: order.newOrderItems,
 			orderItems: order.orderItems,

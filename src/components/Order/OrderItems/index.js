@@ -5,7 +5,6 @@ import * as orderActions from '../../../store/actions/orders'
 import useStyles from './style'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 
 export default function Index(props) {
 	const { order, status } = props;
@@ -21,21 +20,19 @@ export default function Index(props) {
 		if(!order.newOrderItems||order.newOrderItems&&!order.newOrderItems.length>0)
 		{order.orderItems = order.orderItems.map(item => {
 			if (item.title === dish.title) {
-
 				return dish
 			}
 			return item
 		})
 		}else {order.newOrderItems = order.newOrderItems.map(item => {
 			if (item.title === dish.title) {
-
 				return dish
 			}
 			return item
 		})}
 
 		orderActions.updateOrder({
-			// staff: order.staff,
+			staff: order.staff,
 			table: order.table,
 			orderPrice: order.orderPrice,
 			onKitchen: order.onKitchen,
