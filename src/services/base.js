@@ -2,10 +2,11 @@ import axios from 'axios'
 
 export default class Base {
 	constructor() {
-		this.url = 'http://localhost:3002' //'https://f1-server-api.herokuapp.com'
+		this.url = 'https://f1-server-api.herokuapp.com';  //'https://f1-server-api.herokuapp.com'
+		// this.url = 'http://localhost:3002';  //'https://f1-server-api.herokuapp.com'
 	}
 	getUserInfo() {
-		return JSON.parse(sessionStorage.getItem('token'))
+		return sessionStorage.getItem('token');
 	}
 
 	getAuthHeader() {
@@ -23,11 +24,11 @@ export default class Base {
 	}
 
 	post(url, data) {
-		return axios.post(this.getUrl(url), {...data, ...this.getAuthHeader()})
+		return axios.post(this.getUrl(url), data, this.getAuthHeader())
 	}
 
 	put(url, data) {
-		return axios.put(this.getUrl(url), {...data, ...this.getAuthHeader()})
+		return axios.put(this.getUrl(url), data, this.getAuthHeader())
 	}
 
 	delete(url) {

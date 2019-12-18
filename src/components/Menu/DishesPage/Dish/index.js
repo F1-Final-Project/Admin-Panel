@@ -18,7 +18,7 @@ export default function Dish(props) {
 				<Typography className={classes.typography} key={item._id} gutterBottom variant="h4" component="h4">{item.title}</Typography>
 				<Grid container justify="center">
 					{(dishes.filter((i) => i.category._id===item._id)).map((dish) =>
-						<Box  className={classes.box} border={1} borderColor='#7a6c5b' borderRadius={4}>
+						<Box  key={dish._id} className={classes.box} border={1} borderColor='#7a6c5b' borderRadius={4}>
 							<Card key={dish._id} className={classes.card}>
 								<CardActionArea onClick={(event)=>{addDishToOrder(dish,event)}}>
 									<CardMedia

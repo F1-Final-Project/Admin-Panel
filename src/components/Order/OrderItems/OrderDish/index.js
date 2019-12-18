@@ -65,7 +65,7 @@ export default function OrderDish(props) {
 										<ColorCheckbox
 											defaultChecked
 											onChange={updateItemIngredients(ingredient)}
-											color={'true'}
+											color='default'
 										/>
 									}
 									label={ingredient.title}
@@ -80,7 +80,7 @@ export default function OrderDish(props) {
 									control={
 										<ColorCheckbox
 											onChange={updateItemIngredients(ingredient)}
-											color={'true'}
+											color='default'
 										/>
 									}
 									label={ingredient.title}

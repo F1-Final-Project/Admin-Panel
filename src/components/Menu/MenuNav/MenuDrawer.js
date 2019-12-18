@@ -4,10 +4,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import clsx from 'clsx'
 import Divider from '@material-ui/core/Divider/index'
 import List from '@material-ui/core/List/index'
-import ListItem from '@material-ui/core/ListItem/index'
 import ListItemIcon from '@material-ui/core/ListItemIcon/index'
 import ListItemText from '@material-ui/core/ListItemText/index'
-import Drawer from '@material-ui/core/Drawer/index'
 import React from 'react'
 import {useStyles, ColorDrawer, ColorListItem} from './styleDrawer'
 import { useTheme } from '@material-ui/core/styles/index';
@@ -42,7 +40,9 @@ export default function MenuDrawer(props) {
       <List>
         {categories.map((item, index) => (
           <ColorListItem button key={item._id} onClick={()=>{getDishes(item)}}>
-            <ListItemIcon><img src={item.icon}></img></ListItemIcon>
+            <ListItemIcon>
+              <img src={item.icon} alt='icon'/>
+            </ListItemIcon>
             <ListItemText primary={item.title} />
           </ColorListItem>
         ))}

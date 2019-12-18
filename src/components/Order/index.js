@@ -36,7 +36,7 @@ export default function Order() {
 				<Dialog
 					open={open}
 					onClose={closeModal}
-					fullWidth='true'
+					fullWidth={true}
 					maxWidth='md'
 				><Box className={classes.box} border={1} borderColor='#7a6c5b' borderRadius={3} >
 					<DialogContent >

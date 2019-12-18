@@ -62,7 +62,7 @@ export default function Index(props) {
 				setTable(order.table);
 				setDishToOrder(dish.title)
 				setOpen(true);
-				setTimeout(() => setOpen(false), 1800)
+				setTimeout(() => setOpen(false), 2000)
 			}
 		}
 		else{alert('Choose the order')}
