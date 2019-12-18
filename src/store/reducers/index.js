@@ -9,6 +9,7 @@ import dish from './dish'
 import order from './order'
 import invoice from './invoice'
 import alert from './alert'
+import error from './error'
 
 export default combineReducers({
 	ingredient,
@@ -20,4 +21,5 @@ export default combineReducers({
 	order,
 	invoice,
 	alert,
+	error,
 })

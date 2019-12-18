@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {
     Avatar,
     CssBaseline,
@@ -12,9 +13,12 @@ import {useStyles} from './style'
 import LoginForm from './LoginForm'
 import Copyright from '../common/Copyright'
 import AuthAPI from '../../services/AuthService'
+import * as errorActions from "../../store/actions/error";
+import Error from '../common/Error'
 
 export default (props) => {
     const classes = useStyles()
+    const dispatch=useDispatch()
 
     const [submitted, setStateSubmitted] = useState(false);
     const [formData, setStateFormData] = useState({'email': '', 'password': ''});
@@ -46,12 +50,13 @@ export default (props) => {
                     setStateFormData(prevState => {
                         return {...prevState, ...{password: ''}}
                     });
-                    alert(res.data.error)
+                    errorActions.openError({open:true, message: res.data.error})(dispatch);
                 }
             })
     }
 
     return (
+        <>
         <Grow
             in={checked}
             className={classes.grow}
@@ -78,5 +83,7 @@ export default (props) => {
                 </Box>
             </Container>
         </Grow>
+        <Error/>
+        </>
     )
 }

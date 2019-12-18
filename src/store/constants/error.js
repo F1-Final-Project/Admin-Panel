@@ -1,0 +1,1 @@
+export const ERROR_OPEN = 'error_open';
