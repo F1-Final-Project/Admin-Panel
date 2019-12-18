@@ -93,6 +93,7 @@ export default function TableCreated(props) {
 
 	const handleDeleteItemNRequest = id => {
 
+
 		handleDeleteItem(id)
 
 		dispatch({

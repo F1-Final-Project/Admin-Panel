@@ -5,7 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { Context } from '../../../../context/tableContext'
 import PropTypes from 'prop-types'
-import {CardIconButton,CssTextField } from '../CardCss'
+import { CardIconButton, CssTextField } from '../CardCss'
 
 export default function MediaCard(props) {
 
@@ -13,6 +13,8 @@ export default function MediaCard(props) {
 		itemList,
 		classes,
 		secondary,
+		productsOrderCategory,
+		orderCategoriesProgress,
 	} = props
 
 	const { dispatch, state } = useContext(Context)
@@ -46,6 +48,9 @@ export default function MediaCard(props) {
 		})
 	}
 
+	const handleHiddenItem = () => (typeof productsOrderCategory === 'object' ? productsOrderCategory._id : productsOrderCategory) !== orderCategoriesProgress
+
+
 	return (
 		<ListItem component="div">
 			<ListItemText
@@ -65,14 +70,14 @@ export default function MediaCard(props) {
 						name='restInStock'
 						value={itemList.restInStock}
 						secondary={secondary ? 'Secondary text' : null}
-						component="div"
+						disabled={handleHiddenItem()}
 					/>
 					: null}
 			/>
 			<ListItemSecondaryAction component="div">
-				<CardIconButton edge="end" aria-label="delete" onClick={handleRemoveItem} disabled={!!state.pendingOrder}>
+				{!handleHiddenItem() && <CardIconButton edge="end" aria-label="delete" onClick={handleRemoveItem} disabled={!!state.pendingOrder}>
 					<DeleteIcon/>
-				</CardIconButton>
+				</CardIconButton>}
 			</ListItemSecondaryAction>
 		</ListItem>
 
