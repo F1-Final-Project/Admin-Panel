@@ -6,6 +6,7 @@ import * as ingredientAction from '../../store/actions/ingredient'
 import * as sorted from '../../lib/sorted'
 import CategoriesAPI from '../../services/CategoriesAPI'
 import PropTypes from 'prop-types'
+import Progress from '../common/ProgressCircul'
 
 
 export default function Dishes() {
@@ -71,7 +72,7 @@ export default function Dishes() {
 							 handlerCreateItem={handlerCreateItem}
 							 productsIngredient={ingredients.products}
 							 dataCategories={dataCategories}
-				/> : <div>...LOAD</div>}
+				/> : <Progress />}
 		</React.Fragment>
 	)
 

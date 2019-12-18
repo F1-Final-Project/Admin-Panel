@@ -1,6 +1,8 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
 
 const drawerWidth = 240
 
@@ -52,7 +54,7 @@ export const useStyles = makeStyles(theme => ({
 		}),
 		backgroundColor: '#212121',
 		color: '#d0cdc7',
-		height: '100%'
+		height: '100%',
 	},
 	drawerClose: {
 		transition: theme.transitions.create('width', {
@@ -66,7 +68,7 @@ export const useStyles = makeStyles(theme => ({
 		},
 		backgroundColor: '#212121',
 		color: '#d0cdc7',
-		height: '100%'
+		height: '100%',
 	},
 	toolbar: {
 		display: 'flex',
@@ -81,7 +83,17 @@ export const useStyles = makeStyles(theme => ({
 	adminIcon: {
 		color: '#E9C294',
 		fontSize: '40px',
-	}
+	},
+	root: {
+		flexGrow: 1,
+		backgroundColor: theme.palette.background.paper,
+		display: 'flex',
+		height: 224,
+	},
+	tabs: {
+		borderRight: `1px solid ${theme.palette.divider}`,
+	},
+
 }))
 
 
@@ -90,8 +102,29 @@ export const TableIconButton = withStyles(theme => ({
 		color: '#E9C294',
 		'&:hover': {
 			color: '#d0cdc7',
-			backgroundColor:'rgba(138, 134, 135, .4)',
-			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)'
+			backgroundColor: 'rgba(138, 134, 135, .4)',
+			boxShadow: '7px 7px 5px 0px rgba(0,0,0,0.3)',
 		},
 	},
-}))(IconButton);
+}))(IconButton)
+
+export const CssTab = withStyles( {
+	root:{
+		color:'var(--color)'
+	},
+	wrapper: {
+		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	}
+})(Tab)
+
+export const CssTabs = withStyles({
+	indicator: {
+		backgroundColor: '#E9C294',
+	},
+})(Tabs)
+
+
+
+

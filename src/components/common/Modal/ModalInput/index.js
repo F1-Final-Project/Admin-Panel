@@ -8,8 +8,7 @@ import TransferList from '../../../TransferList'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import { useStyles, CssTextField } from './ModalItemCss'
+import { useStyles, CssTextField, CssSelect } from './ModalItemCss'
 import PropTypes from 'prop-types'
 
 export default function ModalItem(props) {
@@ -112,12 +111,13 @@ export default function ModalItem(props) {
 						<>
 							<FormControl className={classes.textField} key={key}>
 								<InputLabel id="demo-simple-select-label">Age</InputLabel>
-								<Select
+								<CssSelect
 									labelId="demo-simple-select-label"
 									name={categories.name}
 									value={categories.value}
 									id={categories.id}
 									onChange={handleChangeSelect}
+									className={classes.selectModal}
 								>{
 									state.dataCategoriesItem.map(i => {
 										return <MenuItem value={i.title}
@@ -126,7 +126,7 @@ export default function ModalItem(props) {
 																		 name={key}>{i.title}</MenuItem>
 									})
 								}
-								</Select>
+								</CssSelect>
 							</FormControl>
 						</>)
 			}
@@ -155,5 +155,5 @@ export default function ModalItem(props) {
 
 ModalItem.propTypes = {
 	nameOFModal: PropTypes.string,
-	open: PropTypes.bool,
+	open: PropTypes.object,
 }

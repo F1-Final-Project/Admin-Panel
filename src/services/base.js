@@ -18,7 +18,9 @@ export default class Base {
 	}
 
 	get(url) {
+		console.log('saxsaxsx', this.getAuthHeader())
 		return axios.get(this.getUrl(url), this.getAuthHeader());
+
 	}
 
 	post(url, data) {
