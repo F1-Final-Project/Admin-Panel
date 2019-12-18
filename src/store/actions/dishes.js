@@ -35,8 +35,6 @@ export function deleteDishById(id) {
 }
 
 export function addDish(sortedData, data) {
-	console.log('wqsqwsqws', sortedData)
-
 	return dispatch => {
 		dispatch({
 			type: DISH.DISH_REQUEST_SENT,
@@ -45,7 +43,6 @@ export function addDish(sortedData, data) {
 			.addDish(sortedData)
 			.then(res => {
 				const newData = {...res, ...data}
-				console.log('wqsqwsqws---->', res)
 				return dispatch({
 					type: DISH.ADD_DISH,
 					data: newData,
