@@ -24,6 +24,12 @@ import THead from './TableHead'
 import Toolbar from './ToolBar'
 import { useStyles, ColorButton, TableIconButton } from './TableCSS'
 import PropTypes from 'prop-types'
+import {
+	CSSTransition,
+	TransitionGroup,
+} from 'react-transition-group'
+import './style.css'
+import uuid from 'uuid'
 
 export default function TableCreated(props) {
 	const classes = useStyles()
@@ -253,89 +259,90 @@ export default function TableCreated(props) {
 						<THead products={products} classes={classes}/>
 						<TableBody>
 							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {   						// Разделение на страницы таблицы
+
 									const isItemSelected = isSelected(row.title)
 									const labelId = `enhanced-table-checkbox-${index}`
 									return (
-										<TableRow hover role="checkbox" tabIndex={-1} key={index} className={classes.tableCellHover}>
-											{state.openCheckBox && <TableCell padding="checkbox" key={index} className={classes.tableCell}>
-												<Checkbox
-													id={row._id}
-													inputProps={{ 'aria-labelledby': labelId, }}
-													color="#fafafa"
-													onChange={e => handleSelectItem(e, row)}
-													checked={isItemSelected}
-													onClick={event => handleClickCheckedItem(event, row.title)}
-													className={classes.tableCheckbox}
-												/>
-											</TableCell>}
-											{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
-												const value = row[column.id]                                              										  //sort(sorted.compare) - сортировка полей по алфавиту
-												if (column.id === 'button') {                                                             			//проверка полей для добавление кнопок в таблицу
-													return <TableCell key={column.id}
-																						align={column.align}
-																						className={classes.tableCell}>
-														<Tooltip title="Edit" aria-label="edit">
-															<TableIconButton aria-label="edit"
-																					className={classes.tableBtnColor}
-																					onClick={() => dispatch({
-																						type: 'editItem',
-																						payload: row,
-																						openEditModal: true,
-																					})}>
-																<EditIcon fontSize="small"/>
-															</TableIconButton>
-														</Tooltip>
-														<Tooltip title="Delete" aria-label="delete">
-															<TableIconButton aria-label="delete"
-																					className={classes.tableBtnColor}
-																					onClick={() => dispatch({
-																						type: 'deleteItem',
-																						payload: row,
-																						openDeleteModal: true,
-																					})}>
-																<DeleteIcon fontSize="small"/>
-															</TableIconButton>
-														</Tooltip>
-													</TableCell>
-												} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
-													return <TableCell key={column.id}
-																						align={column.align}                                                        //добовление класса если елемента не достаточно на складе
-																						className={itemEndsDanger(row.restInStock)}>
-														{value}
-													</TableCell>
-												} else {
-													if (column.format && typeof value === 'number') {																							//проверка если входящие данные числа
-														return <TableCell key={column.id}
-																							align={column.align}
-																							className={classes.tableCell}>
-															{column.format(value)}
-														</TableCell>
-													} else if (Array.isArray(value)) {																														//проверка если входящие данные массив
-														return <TableCell key={column.id}
-																							align={column.align}
-																							className={classes.tableCell}>
-															<ul>
-																{value.map((i, index) => {
-																	return <li key={index}>{i.title}</li>
+												<TableRow hover role="checkbox" tabIndex={-1} key={index} className={classes.tableCellHover}>
+													{state.openCheckBox && <TableCell padding="checkbox" key={index} className={classes.tableCell}>
+														<Checkbox
+															id={row._id}
+															inputProps={{ 'aria-labelledby': labelId }}
+															color="#fafafa"
+															onChange={e => handleSelectItem(e, row)}
+															checked={isItemSelected}
+															onClick={event => handleClickCheckedItem(event, row.title)}
+															className={classes.tableCheckbox}
+														/>
+													</TableCell>}
+													{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
+														const value = row[column.id]                                              										  //sort(sorted.compare) - сортировка полей по алфавиту
+														if (column.id === 'button') {                                                             			//проверка полей для добавление кнопок в таблицу
+															return <TableCell key={column.id}
+																								align={column.align}
+																								className={classes.tableCell}>
+																<Tooltip title="Edit" aria-label="edit">
+																	<TableIconButton aria-label="edit"
+																									 className={classes.tableBtnColor}
+																									 onClick={() => dispatch({
+																										 type: 'editItem',
+																										 payload: row,
+																										 openEditModal: true,
+																									 })}>
+																		<EditIcon fontSize="small"/>
+																	</TableIconButton>
+																</Tooltip>
+																<Tooltip title="Delete" aria-label="delete">
+																	<TableIconButton aria-label="delete"
+																									 className={classes.tableBtnColor}
+																									 onClick={() => dispatch({
+																										 type: 'deleteItem',
+																										 payload: row,
+																										 openDeleteModal: true,
+																									 })}>
+																		<DeleteIcon fontSize="small"/>
+																	</TableIconButton>
+																</Tooltip>
+															</TableCell>
+														} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
+															return <TableCell key={column.id}
+																								align={column.align}                                                        //добовление класса если елемента не достаточно на складе
+																								className={itemEndsDanger(row.restInStock)}>
+																{value}
+															</TableCell>
+														} else {
+															if (column.format && typeof value === 'number') {																							//проверка если входящие данные числа
+																return <TableCell key={column.id}
+																									align={column.align}
+																									className={classes.tableCell}>
+																	{column.format(value)}
+																</TableCell>
+															} else if (Array.isArray(value)) {																														//проверка если входящие данные массив
+																return <TableCell key={column.id}
+																									align={column.align}
+																									className={classes.tableCell}>
+																	<ul>
+																		{value.map((i, index) => {
+																			return <li key={index}>{i.title}</li>
 
-																})}
-															</ul>
-														</TableCell>
-													} else {
-														return <TableCell key={column.id}
-																							align={column.align}
-																							className={classes.tableCell}>
-															{
-																typeof value === 'object'
-																	? value && value.title ? value.title : ''
-																	: value
+																		})}
+																	</ul>
+																</TableCell>
+															} else {
+																return <TableCell key={column.id}
+																									align={column.align}
+																									className={classes.tableCell}>
+																	{
+																		typeof value === 'object'
+																			? value && value.title ? value.title : ''
+																			: value
+																	}
+																</TableCell>
 															}
-														</TableCell>
-													}
 
-												}
-											})}
-										</TableRow>
+														}
+													})}
+												</TableRow>
 									)
 								},
 							)}
@@ -359,7 +366,7 @@ export default function TableCreated(props) {
 					className={classes.tablePagination}
 				/>
 
-				<>{state.openEditModal ? (																																											//модальное окно для редактирования
+				<>{state.openEditModal ? (                                                                                      //модальное окно для редактирования
 						<Modal data={state}>
 							<ModalInput data={state} nameOFModal={'Correct ingredient'} open={{ openEditModal: true }}/>
 							<DialogActions>
@@ -370,7 +377,7 @@ export default function TableCreated(props) {
 								})}>
 									Закрыть
 								</ColorButton>
-								<ColorButton  type='button' onClick={() => handlerUpdateNRequest(_id, state.product)}>
+								<ColorButton type='button' onClick={() => handlerUpdateNRequest(_id, state.product)}>
 									Сохранить изменения
 								</ColorButton>
 							</DialogActions>
@@ -378,12 +385,12 @@ export default function TableCreated(props) {
 					: null
 				}
 
-					{state.openDeleteModal ? (                   																																	//модальное окно для удаления
+					{state.openDeleteModal ? (                                                                                    //модальное окно для удаления
 							<Modal data={state}>
-								<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+								<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title" className={classes.deleteTableModal}>
 									Удаление
 								</DialogTitle>
-								<DialogContentText>
+								<DialogContentText className={classes.deleteTableModal}>
 									Вы уверены?
 								</DialogContentText>
 								<DialogActions>
@@ -401,11 +408,11 @@ export default function TableCreated(props) {
 							</Modal>)
 						: null}
 
-					{state.openCreateModal ? (																																										//модальное окно для создания
+					{state.openCreateModal ? (                                                                                    //модальное окно для создания
 							<Modal data={state}>
 								<ModalInput nameOFModal={'Create ingredient'} open={{ openCreateModal: true }}/>
 								<DialogActions>
-									<ColorButton type='button'  autoFocus onClick={() => dispatch({
+									<ColorButton type='button' autoFocus onClick={() => dispatch({
 										type: 'closeModal',
 										payload: initState.product,
 										openCreateModal: false,

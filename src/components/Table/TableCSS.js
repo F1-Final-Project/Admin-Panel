@@ -81,6 +81,10 @@ export const useStyles = makeStyles(theme => ({
 		// border: '1px solid #E9C294',
 		border: '0',
 		color: '#d0cdc7',
+	},
+	deleteTableModal: {
+		color: '#E9C294',
+		textAlign: 'center'
 	}
 
 }))
