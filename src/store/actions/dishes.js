@@ -45,6 +45,7 @@ export function addDish(sortedData, data) {
 			.addDish(sortedData)
 			.then(res => {
 				const newData = {...res, ...data}
+				console.log('wqsqwsqws---->', res)
 				return dispatch({
 					type: DISH.ADD_DISH,
 					data: newData,
