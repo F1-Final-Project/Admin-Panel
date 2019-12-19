@@ -44,7 +44,17 @@ export const useStyles = makeStyles(theme => ({
 		width: drawerWidth,
 		flexShrink: 0,
 		whiteSpace: 'nowrap',
-
+		'& .MuiDrawer-paper': {
+			top: '65px',
+		},
+	},
+	drawerHidden: {
+		width: drawerWidth,
+		flexShrink: 0,
+		whiteSpace: 'nowrap',
+		'& .MuiDrawer-paper': {
+			top: '0',
+		},
 	},
 	drawerOpen: {
 		width: drawerWidth,
@@ -108,15 +118,15 @@ export const TableIconButton = withStyles(theme => ({
 	},
 }))(IconButton)
 
-export const CssTab = withStyles( {
-	root:{
-		color:'var(--color)'
+export const CssTab = withStyles({
+	root: {
+		color: 'var(--color)',
 	},
 	wrapper: {
 		alignItems: 'center',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-	}
+	},
 })(Tab)
 
 export const CssTabs = withStyles({

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import clsx from 'clsx'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Divider from '@material-ui/core/Divider'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import HomeIcon from '@material-ui/icons/Home'
@@ -18,12 +17,16 @@ import { useStyles, TableIconButton, CssTab, CssTabs } from './AdminLayoutCSS'
 import TabPanel from '../common/TabPanel'
 import useTheme from '@material-ui/core/styles/useTheme'
 import { CssDivider } from '../OrderIngredients/OrderIngredientsCSS'
+import Header from '../Header'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 	const theme = useTheme()
+
+	const { window } = props
 
 	const grey = {
 		'--color': '#d0cdc7',
@@ -95,57 +98,71 @@ export default function MiniDrawer() {
 		}
 	}
 
+	const trigger = useScrollTrigger({ target: window ? window() : undefined })
+
+	const [visible, setVisible] = useState(false)
+
+	const headerRef = useCallback(node => {
+
+		if (node !== null) {
+			const rowHeight = node.style.transform
+
+			setVisible(rowHeight === '' || rowHeight === 'none')
+		}
+	}, [trigger])
 
 	return (
-		<div className={classes.rootAdminPanel}>
-			<CssBaseline/>
-			<Drawer
-				variant="permanent"
-				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
-				})}
-				classes={{
-					paper: clsx({
+		<>
+			<Header headerRef={headerRef}/>
+			<div className={classes.rootAdminPanel}>
+				<CssBaseline/>
+				<Drawer
+					variant="permanent"
+					className={clsx(visible ? classes.drawer : classes.drawerHidden, {
 						[classes.drawerOpen]: open,
 						[classes.drawerClose]: !open,
-					}),
-				}}
-				open={open}
-			>
-				<div className={classes.toolbar}>
-					{open && 'Admin panel'}
-					{open ? (
-							<TableIconButton onClick={handleDrawerClose}>
-								{theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-							</TableIconButton>)
-						: (
-							<TableIconButton
-								color="inherit"
-								aria-label="open drawer"
-								onClick={handleDrawerOpen}
-								edge="start"
-								className={clsx(classes.menuButton, {
-									[classes.hide]: open,
-								})}
-							>
-								<ChevronRightIcon/>
-							</TableIconButton>)
-					}
-				</div>
-				<CssDivider/>
-
-				<CssTabs
-					orientation="vertical"
-					variant="scrollable"
-					value={value}
-					onChange={handleChange}
-					aria-label="Vertical tabs example"
-					className={classes.tabs}
+					})}
+					classes={{
+						paper: clsx({
+							[classes.drawerOpen]: open,
+							[classes.drawerClose]: !open,
+						}),
+					}}
+					open={open}
 				>
-					{menuItem()}
-				</CssTabs>
-			</Drawer>
+					<div className={classes.toolbar}>
+						{open && 'Admin panel'}
+						{open ? (
+								<TableIconButton onClick={handleDrawerClose}>
+									{theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+								</TableIconButton>)
+							: (
+								<TableIconButton
+									color="inherit"
+									aria-label="open drawer"
+									onClick={handleDrawerOpen}
+									edge="start"
+									className={clsx(classes.menuButton, {
+										[classes.hide]: open,
+									})}
+								>
+									<ChevronRightIcon/>
+								</TableIconButton>)
+						}
+					</div>
+					<CssDivider/>
+
+					<CssTabs
+						orientation="vertical"
+						variant="scrollable"
+						value={value}
+						onChange={handleChange}
+						aria-label="Vertical tabs example"
+						className={classes.tabs}
+					>
+						{menuItem()}
+					</CssTabs>
+				</Drawer>
 				<main className={classes.content}>
 
 					<TabPanel value={value} index={1}>
@@ -160,8 +177,8 @@ export default function MiniDrawer() {
 						<OrderIngredients/>
 					</TabPanel>
 				</main>
-		</div>
-
+			</div>
+		</>
 	)
 }
 

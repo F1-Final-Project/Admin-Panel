@@ -20,9 +20,12 @@ import CookRoute from "./CookRoute";
 import WaiterRoute from "./WaiterRoute";
 import RedirectRoute from "./RedirectRoute";
 
+import Header from '../components/Header'
+
 export const Router = () => {
     return (
         <React.Fragment>
+            {/*<Header/>*/}
             <main className="content">
                 <div className="container">
                     <Switch>
