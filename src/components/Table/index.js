@@ -200,7 +200,7 @@ export default function TableCreated(props) {
 	}
 
 	/**
-	 * @desc Функция для checked чекбоксо
+	 * @desc Функция для checked чекбоксов
 	 * @param {Object} currentElementInTable выбраный элемент
 	 */
 	const isSelected = currentElementInTable => state.checkBoxActive.indexOf(currentElementInTable) !== -1
@@ -259,7 +259,6 @@ export default function TableCreated(props) {
 						<THead products={products} classes={classes}/>
 						<TableBody>
 							{products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {   						// Разделение на страницы таблицы
-
 									const isItemSelected = isSelected(row.title)
 									const labelId = `enhanced-table-checkbox-${index}`
 									return (
@@ -283,7 +282,6 @@ export default function TableCreated(props) {
 																								className={classes.tableCell}>
 																<Tooltip title="Edit" aria-label="edit">
 																	<TableIconButton aria-label="edit"
-																									 className={classes.tableBtnColor}
 																									 onClick={() => dispatch({
 																										 type: 'editItem',
 																										 payload: row,
@@ -294,7 +292,6 @@ export default function TableCreated(props) {
 																</Tooltip>
 																<Tooltip title="Delete" aria-label="delete">
 																	<TableIconButton aria-label="delete"
-																									 className={classes.tableBtnColor}
 																									 onClick={() => dispatch({
 																										 type: 'deleteItem',
 																										 payload: row,

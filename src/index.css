@@ -4,6 +4,7 @@ body {
     background-image: repeating-linear-gradient(-45deg, #232324, #232324 2px, #212121 2px, #212121 5px);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-width: 400px;
 }
 
 code {

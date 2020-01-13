@@ -19,6 +19,7 @@ import AdminRoute from "./AdminRoute";
 import CookRoute from "./CookRoute";
 import WaiterRoute from "./WaiterRoute";
 import RedirectRoute from "./RedirectRoute";
+import RevenueSchedule from '../components/RevenueSchedule'
 
 import Header from '../components/Header'
 
@@ -69,6 +70,11 @@ export const Router = () => {
                             exact
                             path="/kitchen"
                             component={props => <Layout {...props}><Kitchen {...props}/></Layout>}
+                        />
+                        <AdminRoute
+                          exact
+                          path="/revenue-schedule"
+                          component={props => <Layout {...props}><RevenueSchedule/></Layout>}
                         />
                         <RedirectRoute path="*" component={NotFound}/>
                     </Switch>

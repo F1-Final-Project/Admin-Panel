@@ -72,6 +72,8 @@ export default function ModalItem(props) {
 	 * (Object - select для выбора одного элемента)
 	 */
 
+	console.log('ewdwededwdwed', Object.keys(state.product))
+
 	const handleInputItems = () => {
 		return Object.keys(state.product).map((key, index) => {
 
@@ -110,7 +112,7 @@ export default function ModalItem(props) {
 					: (
 						<>
 							<FormControl className={classes.textField} key={key}>
-								<InputLabel id="demo-simple-select-label">Age</InputLabel>
+								<InputLabel id="demo-simple-select-label">Categories</InputLabel>
 								<CssSelect
 									labelId="demo-simple-select-label"
 									name={categories.name}
