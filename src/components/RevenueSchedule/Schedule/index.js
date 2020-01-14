@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BarChart,
 	Bar,
@@ -8,16 +8,6 @@ import {
 	Tooltip,
 	Legend
 } from "recharts";
-
-const TABLE_LIST = [
-	{ name: "Page A", pv: 2400, },
-	{ name: "Page B", pv: 1398,  },
-	{ name: "Page C", pv: 9800,  },
-	{ name: "Page D", pv: 3908,  },
-	{ name: "Page E", pv: 4800, },
-	{ name: "Page F", pv: 3800, },
-	{ name: "Page G", pv: 4300,  }
-];
 
 export default function Chart(props) {
 
@@ -35,7 +25,7 @@ export default function Chart(props) {
 				<YAxis />
 				<Tooltip />
 				<Legend />
-				<Bar dataKey="daily-earning" fill="#E9C294" />
+				<Bar dataKey="Daily-earning" fill="#E9C294" />
 			</BarChart>
 		);
 }

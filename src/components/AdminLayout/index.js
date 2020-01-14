@@ -19,6 +19,7 @@ import useTheme from '@material-ui/core/styles/useTheme'
 import { CssDivider } from '../OrderIngredients/OrderIngredientsCSS'
 import Header from '../Header'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import RevenueSchedule from '../RevenueSchedule'
 
 
 export default function MiniDrawer(props) {
@@ -165,17 +166,22 @@ export default function MiniDrawer(props) {
 				</Drawer>
 				<main className={classes.content}>
 
+					<TabPanel value={value} index={0}>
+						<RevenueSchedule/>
+					</TabPanel>
+
 					<TabPanel value={value} index={1}>
 						<Dishes/>
 					</TabPanel>
 
 					<TabPanel value={value} index={2}>
-
 						<FoodWareHouse/>
 					</TabPanel>
+
 					<TabPanel value={value} index={4}>
 						<OrderIngredients/>
 					</TabPanel>
+
 				</main>
 			</div>
 		</>
