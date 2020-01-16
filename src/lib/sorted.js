@@ -1,5 +1,5 @@
 /**
- * @desc Функция для сортировки заголовков в таблице по алфавику
+ * @desc Функция для сортировки заголовков в таблице по алфавиту
  * @return {Number}
  */
 
@@ -20,11 +20,11 @@ export function compare(a, b) {
  */
 
 export const inputItems = (object) => {
-	let test = Object.entries(object[0])
+	let firstItem = Object.entries(object[0])
 		.map((key) => key,
 		)
 
-	const jjj = test.map(i => {
+	const sortedObjc = firstItem.map(i => {
 		if (i[0] !== '_id' && i[0] !== '__v' && i[0] !== undefined) {
 			if (Array.isArray(i[1])) {
 				return [i[0], []]
@@ -36,7 +36,7 @@ export const inputItems = (object) => {
 		}
 	}).filter(item => item !== undefined)
 
-	return jjj.reduce(function(acc, cur) {
+	return sortedObjc.reduce(function(acc, cur) {
 		acc[cur[0]] = cur[1]
 		return acc
 
@@ -53,10 +53,10 @@ export const inputItems = (object) => {
  */
 
 export const inputItemsDataId = (object) => {
-	let test = Object.entries(object)
+	let item = Object.entries(object)
 		.map((key) => key)
 
-	const jjj = test.map(i => {
+	const sortedItems = item.map(i => {
 		if (i[0] !== '_id' && i[0] !== '__v' && i[0] !== undefined) {
 			if (Array.isArray(i[1])) {
 				if (i[1]) {
@@ -78,8 +78,7 @@ export const inputItemsDataId = (object) => {
 
 	}).filter(item => item !== undefined)
 
-
-	return jjj.reduce(function(acc, cur) {
+	return sortedItems.reduce(function(acc, cur) {
 		acc[cur[0]] = cur[1]
 
 		return acc

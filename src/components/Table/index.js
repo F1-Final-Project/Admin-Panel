@@ -24,12 +24,7 @@ import THead from './TableHead'
 import Toolbar from './ToolBar'
 import { useStyles, ColorButton, TableIconButton } from './TableCSS'
 import PropTypes from 'prop-types'
-import {
-	CSSTransition,
-	TransitionGroup,
-} from 'react-transition-group'
 import './style.css'
-import uuid from 'uuid'
 
 export default function TableCreated(props) {
 	const classes = useStyles()
@@ -64,6 +59,7 @@ export default function TableCreated(props) {
 		search: { ingredients: '', additionalIngredients: '' },
 		dataCategoriesItem: dataCategories,
 	}
+
 
 
 	const [state, dispatch] = useReducer(reducer, initState)

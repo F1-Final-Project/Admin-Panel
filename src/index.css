@@ -30,6 +30,25 @@ code {
 .recharts-legend-item-text {
     color: #d0cdc7;
 }
+
+.recharts-surface{
+    width: 100%;
+
+}
+.correct-statistic {
+    margin-top: -88px;
+    margin-bottom: 50px;
+}
+
+.correct-dish {
+    margin-top: -44px;
+}
+
+
+.correct-bottom-revenue{
+    margin-bottom: 50px;
+}
+
 /* scrollbar */
 
 

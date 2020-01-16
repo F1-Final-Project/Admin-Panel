@@ -3,8 +3,7 @@
  * @param {Array} array
  * @return {Array} масив обьектов
  */
-
-export const clmns = (array) => {
+const clmns = (array) => {
 	let result = []
 	if (Array.isArray(array)) {
 		result = Object.keys(array[0])
@@ -17,6 +16,7 @@ export const clmns = (array) => {
 		result.push({ id: 'button', label: 'ACTION' })
 		return result
 	}
-	console.log('qweqeqw', result)
 	return result
 }
+
+exports.clmns = clmns

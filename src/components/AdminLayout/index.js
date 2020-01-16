@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -20,12 +20,25 @@ import { CssDivider } from '../OrderIngredients/OrderIngredientsCSS'
 import Header from '../Header'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import RevenueSchedule from '../RevenueSchedule'
+import CheckStatistics from '../CheckStatistics'
+import DishStatistics from '../DishStatistics'
+import { useDispatch, useSelector } from 'react-redux'
+import * as invoicesAction from '../../store/actions/invoices'
+import Filter from '../../lib/Filters'
 
 
 export default function MiniDrawer(props) {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 	const theme = useTheme()
+
+	const invoice = useSelector(state => state.invoice)
+	const { products, loaded } = invoice
+
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(invoicesAction.getInvoices())
+	}, [dispatch])
 
 	const { window } = props
 
@@ -112,6 +125,9 @@ export default function MiniDrawer(props) {
 		}
 	}, [trigger])
 
+
+	console.log('wedewdwedwed', Filter.sortedInvoiceDish(products, 'MMMM YYYY'))
+
 	return (
 		<>
 			<Header headerRef={headerRef}/>
@@ -167,7 +183,12 @@ export default function MiniDrawer(props) {
 				<main className={classes.content}>
 
 					<TabPanel value={value} index={0}>
-						<RevenueSchedule/>
+						<div className={classes.statisticsWrapper}>
+							<RevenueSchedule data={Filter.sortedRevenueSchedule(products, 'MMMM Do YYYY')} loaded={loaded}/>
+							<CheckStatistics data={Filter.sortedCheckMonth(products, 'MMMM YYYY')} loaded={loaded}/>
+							<DishStatistics data={Filter.sortedInvoiceDish(products, 'MMMM YYYY')} loaded={loaded}/>
+							<RevenueSchedule data={Filter.sortedRevenuePeople(products, 'MMMM Do YYYY')} loaded={loaded}/>
+						</div>
 					</TabPanel>
 
 					<TabPanel value={value} index={1}>
