@@ -62,7 +62,6 @@ export default function Dishes() {
 
 		const newData = await sorted.inputItemsDataId(data)
 
-
 		await dispatch(dishAction.addDish(newData, data))
 	}
 

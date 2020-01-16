@@ -72,8 +72,6 @@ export default function ModalItem(props) {
 	 * (Object - select для выбора одного элемента)
 	 */
 
-	console.log('ewdwededwdwed', Object.keys(state.product))
-
 	const handleInputItems = () => {
 		return Object.keys(state.product).map((key, index) => {
 
@@ -105,7 +103,7 @@ export default function ModalItem(props) {
 				&& itemValue !== null) {
 				return Array.isArray(itemValue) ? (
 						<Paper className={classes.modalPaper} key={key}>
-							<div key={index}>{key.toUpperCase()}</div>
+							<div key={index} className={classes.dialogTitle}>{key.toUpperCase()}</div>
 							<TransferList itemValue={itemValue} nameProperty={key}/>
 						</Paper>
 					)

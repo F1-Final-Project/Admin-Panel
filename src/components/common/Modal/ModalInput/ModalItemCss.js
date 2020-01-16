@@ -24,6 +24,7 @@ export const useStyles = makeStyles(theme => ({
 		marginBottom: 10,
 		backgroundColor: '#212121',
 		boxShadow: '0 0 0 ',
+
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
@@ -32,7 +33,7 @@ export const useStyles = makeStyles(theme => ({
 		//backgroundColor: '#000'
 	},
 	dialogTitle: {
-		color: '#E9C294',
+		color: '#d0cdc7'
 	},
 	selectModal: {
 		'&.MuiFormLabel-root':{
@@ -67,6 +68,7 @@ export const CssSelect = withStyles({
 	selectMenu: {
 			color: '#E9C294',
 	},
+
 })(Select)
 
 

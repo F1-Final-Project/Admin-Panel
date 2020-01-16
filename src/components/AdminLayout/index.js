@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -19,12 +19,27 @@ import useTheme from '@material-ui/core/styles/useTheme'
 import { CssDivider } from '../OrderIngredients/OrderIngredientsCSS'
 import Header from '../Header'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import RevenueSchedule from '../RevenueSchedule'
+import CheckStatistics from '../CheckStatistics'
+import DishStatistics from '../DishStatistics'
+import { useDispatch, useSelector } from 'react-redux'
+import * as invoicesAction from '../../store/actions/invoices'
+import Filter from '../../lib/Filters'
+import Typography from '@material-ui/core/Typography'
 
 
 export default function MiniDrawer(props) {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 	const theme = useTheme()
+
+	const invoice = useSelector(state => state.invoice)
+	const { products, loaded } = invoice
+
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(invoicesAction.getInvoices())
+	}, [dispatch])
 
 	const { window } = props
 
@@ -66,7 +81,6 @@ export default function MiniDrawer(props) {
 		return [{ Main: 'Главная' },
 			{ Menu: 'Редактирования блюд' },
 			{ FoodWareHouse: 'Склад товара' },
-			{ Statistics: 'Статистика' },
 			{ OrderIngredients: 'Заказ ингредиентов' }].map((text, index) => {
 			return Object.entries(text).map(i => {
 				return (
@@ -90,8 +104,6 @@ export default function MiniDrawer(props) {
 			case 2 :
 				return <TableChartIcon className={classes.adminIcon}/>
 			case 3 :
-				return <EqualizerIcon className={classes.adminIcon}/>
-			case 4 :
 				return <ListAltIcon className={classes.adminIcon}/>
 			default:
 				break
@@ -110,6 +122,9 @@ export default function MiniDrawer(props) {
 			setVisible(rowHeight === '' || rowHeight === 'none')
 		}
 	}, [trigger])
+
+
+	console.log('wedewdwedwed', Filter.sortedInvoiceDish(products, 'MMMM YYYY'))
 
 	return (
 		<>
@@ -165,17 +180,46 @@ export default function MiniDrawer(props) {
 				</Drawer>
 				<main className={classes.content}>
 
+					{loaded ? <TabPanel value={value} index={0}>
+						<Typography className={classes.typography} gutterBottom variant="h4" component="div">Restaurant
+							statistics</Typography>
+						<div className={classes.statisticsWrapper}>
+							<div>
+								<Typography className={classes.typography} gutterBottom variant="h4" component="div">Daily
+									earning</Typography>
+								<RevenueSchedule data={Filter.sortedRevenueSchedule(products, 'MMMM Do YYYY')} loaded={loaded}/>
+							</div>
+							<div>
+								<Typography className={classes.typography} gutterBottom variant="h4" component="div">Pay method</Typography>
+								<CheckStatistics data={Filter.sortedCheckMonth(products, 'MMMM YYYY')} loaded={loaded}/>
+							</div>
+							<div>
+								<Typography className={classes.typography} gutterBottom variant="h4" component="div">Best meal of the month</Typography>
+								<DishStatistics data={Filter.sortedInvoiceDish(products, 'MMMM YYYY')} loaded={loaded}/>
+							</div>
+							<div>
+								<Typography className={classes.typography} gutterBottom variant="h4" component="div">Daily peoples</Typography>
+								<RevenueSchedule data={Filter.sortedRevenuePeople(products, 'MMMM Do YYYY')} loaded={loaded}/>
+							</div>
+						</div>
+					</TabPanel> : null}
+
 					<TabPanel value={value} index={1}>
+						<Typography className={classes.typography} gutterBottom variant="h4" component="div">Dishes
+							editing</Typography>
 						<Dishes/>
 					</TabPanel>
 
 					<TabPanel value={value} index={2}>
-
+						<Typography className={classes.typography} gutterBottom variant="h4" component="div">Editing
+							ingredients</Typography>
 						<FoodWareHouse/>
 					</TabPanel>
-					<TabPanel value={value} index={4}>
+
+					<TabPanel value={value} index={3}>
 						<OrderIngredients/>
 					</TabPanel>
+
 				</main>
 			</div>
 		</>

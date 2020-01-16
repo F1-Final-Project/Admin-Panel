@@ -1,15 +1,13 @@
 import React from 'react'
-import Schedule from './Schedule'
+import DishRevenue from './DishRevenue'
 
-
-export default function RevenueSchedule(props) {
+export default function DishStatistics(props) {
 	const { data, loaded } = props
-
 
 	return (
 		<React.Fragment>
 			{loaded ?
-				<Schedule data={data}/>
+				<DishRevenue data={data}/>
 				: null}
 		</React.Fragment>
 	)

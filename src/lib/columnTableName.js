@@ -3,12 +3,11 @@
  * @param {Array} array
  * @return {Array} масив обьектов
  */
-
-export const clmns = (array) => {
+const clmns = (array) => {
 	let result = []
 	if (Array.isArray(array)) {
 		result = Object.keys(array[0])
-			.map(key => (key !== '_id' && key !== '__v' && key !== undefined && key !== 'additionalIngredients') ? {
+			.map(key => (key !== '_id' && key !== '__v' && key !== undefined && key !== 'additionalIngredients' && key !== 'img' ) ? {
 					id: key,
 					label: key.toUpperCase(),
 				} : '',
@@ -17,6 +16,7 @@ export const clmns = (array) => {
 		result.push({ id: 'button', label: 'ACTION' })
 		return result
 	}
-	console.log('qweqeqw', result)
 	return result
 }
+
+exports.clmns = clmns

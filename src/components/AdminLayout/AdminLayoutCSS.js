@@ -103,6 +103,18 @@ export const useStyles = makeStyles(theme => ({
 	tabs: {
 		borderRight: `1px solid ${theme.palette.divider}`,
 	},
+	statisticsWrapper: {
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexFlow: 'row wrap',
+		justifyContent: 'center',
+	},
+	typography:{
+		paddingBottom:40,
+		color:'#82796d',
+		textAlign: 'center'
+	},
 
 }))
 
