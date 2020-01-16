@@ -109,8 +109,12 @@ export const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexFlow: 'row wrap',
 		justifyContent: 'center',
-
-	}
+	},
+	typography:{
+		paddingBottom:40,
+		color:'#82796d',
+		textAlign: 'center'
+	},
 
 }))
 

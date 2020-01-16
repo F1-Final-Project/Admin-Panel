@@ -361,7 +361,7 @@ export default function TableCreated(props) {
 
 				<>{state.openEditModal ? (                                                                                      //модальное окно для редактирования
 						<Modal data={state}>
-							<ModalInput data={state} nameOFModal={'Correct ingredient'} open={{ openEditModal: true }}/>
+							<ModalInput data={state} nameOFModal={'Editing'} open={{ openEditModal: true }}/>
 							<DialogActions>
 								<ColorButton type='button' autoFocus onClick={() => dispatch({
 									type: 'closeModal',

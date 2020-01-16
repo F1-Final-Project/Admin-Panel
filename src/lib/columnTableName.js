@@ -7,7 +7,7 @@ const clmns = (array) => {
 	let result = []
 	if (Array.isArray(array)) {
 		result = Object.keys(array[0])
-			.map(key => (key !== '_id' && key !== '__v' && key !== undefined && key !== 'additionalIngredients') ? {
+			.map(key => (key !== '_id' && key !== '__v' && key !== undefined && key !== 'additionalIngredients' && key !== 'img' ) ? {
 					id: key,
 					label: key.toUpperCase(),
 				} : '',

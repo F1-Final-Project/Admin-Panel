@@ -1,6 +1,4 @@
 const columnTableName = require('./columnTableName')
-//import columnTableName from './columnTableName'
-
 
 const exampleArray = [
 	{

@@ -13,6 +13,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt'
 
 import MenuItem from '@material-ui/core/MenuItem'
 import { Link } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip'
 
 
 function HideOnScroll(props) {
@@ -49,17 +50,20 @@ export default function HideAppBar(props) {
 			<CssBaseline/>
 			<HideOnScroll {...props}>
 				<CssAppBar id="back-to-top-anchor" ref={headerRef}>
-					<Toolbar className={classes.headerToolBar} >
+					<Toolbar className={classes.headerToolBar}>
 						<div>
-							<Link className={classes.headerLink} to={'/menu'}><TableIconButton
-								aria-label="account of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								onClick={handleMenu}
-								color="inherit"
-							>
-								<ListAltIcon/>
-							</TableIconButton>
+							<Link className={classes.headerLink} to={'/menu'}>
+								<Tooltip title="Go to menu" aria-label="go to menu">
+									<TableIconButton
+										aria-label="account of current user"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
+										onClick={handleMenu}
+										color="inherit"
+									>
+										<ListAltIcon/>
+									</TableIconButton>
+								</Tooltip>
 							</Link>
 							<CssMenuAdmin
 								id="menu-appbar-admin-panel"
@@ -82,15 +86,18 @@ export default function HideAppBar(props) {
 									User</MenuItem></Link>
 							</CssMenuAdmin>
 						</div>
-						<Link className={classes.headerLink} to={'/kitchen'}><TableIconButton
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={handleMenu}
-							color="inherit"
-						>
-							<RestaurantMenuIcon/>
-						</TableIconButton>
+						<Link className={classes.headerLink} to={'/kitchen'}>
+							<Tooltip title="Go to cook" aria-label="go to cook">
+								<TableIconButton
+									aria-label="account of current user"
+									aria-controls="menu-appbar"
+									aria-haspopup="true"
+									onClick={handleMenu}
+									color="inherit"
+								>
+									<RestaurantMenuIcon/>
+								</TableIconButton>
+							</Tooltip>
 						</Link>
 						<TableIconButton
 							aria-label="account of current user"

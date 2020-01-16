@@ -11,18 +11,22 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
+
 ::-webkit-scrollbar-track {
-    background:#82796d;
+    background: #82796d;
 }
+
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #212121;
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
     background: #212121;
 }
@@ -31,10 +35,11 @@ code {
     color: #d0cdc7;
 }
 
-.recharts-surface{
+.recharts-surface {
     width: 100%;
 
 }
+
 .correct-statistic {
     margin-top: -88px;
     margin-bottom: 50px;
@@ -45,8 +50,19 @@ code {
 }
 
 
-.correct-bottom-revenue{
+.correct-bottom-revenue {
     margin-bottom: 50px;
+}
+
+.Mui-focused {
+    color: #d0cdc7 !important
+}
+
+.MuiInput-underline:after  {
+    border-bottom: 2px solid #E9C294 !important
+}
+.MuiFormLabel-root {
+color: #d0cdc7 !important
 }
 
 /* scrollbar */
