@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as invoicesAction from '../../store/actions/invoices'
 import Filter from '../../lib/Filters'
 import Typography from '@material-ui/core/Typography'
+import Progress from '../common/ProgressCircul'
 
 
 export default function MiniDrawer(props) {
@@ -202,7 +203,7 @@ export default function MiniDrawer(props) {
 								<RevenueSchedule data={Filter.sortedRevenuePeople(products, 'MMMM Do YYYY')} loaded={loaded}/>
 							</div>
 						</div>
-					</TabPanel> : null}
+					</TabPanel> : <Progress/>}
 
 					<TabPanel value={value} index={1}>
 						<Typography className={classes.typography} gutterBottom variant="h4" component="div">Dishes
