@@ -3,7 +3,7 @@
  * @return {Number}
  */
 
-export function compare(a, b) {
+function compare(a, b) {
 	if (a.id > b.id) {
 		return -1
 	}
@@ -13,13 +13,15 @@ export function compare(a, b) {
 	return 0
 }
 
+module.exports.compare = compare
+
 /**
  * @desc Функция для создания полей в модальном окне, количество полей зависит от количества элементов в объекте
  * @type {Object} object
  * @return {Object}
  */
 
-export const inputItems = (object) => {
+const inputItems = (object) => {
 	let firstItem = Object.entries(object[0])
 		.map((key) => key,
 		)
@@ -44,6 +46,7 @@ export const inputItems = (object) => {
 
 }
 
+module.exports.inputItems = inputItems
 
 /**
  * @desc Функция принимает объект и возвращает отсортированный элемент для Schema Mongoose,
@@ -52,7 +55,8 @@ export const inputItems = (object) => {
  * @return {Object}
  */
 
-export const inputItemsDataId = (object) => {
+
+const inputItemsDataId = (object) => {
 	let item = Object.entries(object)
 		.map((key) => key)
 
@@ -86,3 +90,5 @@ export const inputItemsDataId = (object) => {
 	}, {})
 
 }
+
+module.exports.inputItemsDataId = inputItemsDataId

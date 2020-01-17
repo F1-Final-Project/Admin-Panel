@@ -1,4 +1,4 @@
-const columnTableName = require('./columnTableName')
+const _columnTableName = require('./columnTableName')
 
 const exampleArray = [
 	{
@@ -15,7 +15,7 @@ const exampleArray = [
 
 test('Return new renamed array', () => {
 
-	expect(columnTableName.clmns(exampleArray)).toEqual(
+	expect(_columnTableName.clmns(exampleArray)).toEqual(
 		expect.arrayContaining([
 			expect.objectContaining({
 				id: 'name',

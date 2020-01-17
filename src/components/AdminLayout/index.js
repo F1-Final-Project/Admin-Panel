@@ -7,7 +7,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import HomeIcon from '@material-ui/icons/Home'
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu'
 import TableChartIcon from '@material-ui/icons/TableChart'
-import EqualizerIcon from '@material-ui/icons/Equalizer'
 import ListAltIcon from '@material-ui/icons/ListAlt'
 
 import FoodWareHouse from '../FoodWarehouse'
