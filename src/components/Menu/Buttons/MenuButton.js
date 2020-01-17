@@ -4,10 +4,9 @@ import {useStyles} from './style'
 
 export default function MenuButton(props) {
 	const classes = useStyles();
-	const {onMenuClick, setView}=props;
+	const {onMenuClick}=props;
 
 	const showMenu=()=>{
-		setView('dishes');
 		onMenuClick();
 	};
 

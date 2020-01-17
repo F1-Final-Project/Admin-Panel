@@ -41,7 +41,7 @@ export default function MenuDrawer(props) {
         {categories.map((item) => (
           <ColorListItem button key={item._id} onClick={()=>{getDishes(item)}}>
             <ListItemIcon>
-              <img src={item.icon} alt='icon'/>
+              <img className={classes.icon} src={item.icon} alt='icon'/>
             </ListItemIcon>
             <ListItemText primary={item.title} />
           </ColorListItem>

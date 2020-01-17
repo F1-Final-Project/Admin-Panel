@@ -82,7 +82,7 @@ export default function HideAppBar(props) {
 							>
 								<Link className={classes.headerLink} to={'/admin-panel'}><MenuItem
 									onClick={handleClose}>Account</MenuItem></Link>
-								<Link className={classes.headerLink} to={'/foodWareHouse'}><MenuItem onClick={handleClose}>Creat
+								<Link className={classes.headerLink} to={'/createUser'}><MenuItem onClick={handleClose}>Creat
 									User</MenuItem></Link>
 							</CssMenuAdmin>
 						</div>

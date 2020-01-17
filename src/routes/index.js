@@ -21,6 +21,7 @@ import WaiterRoute from "./WaiterRoute";
 import RedirectRoute from "./RedirectRoute";
 import RevenueSchedule from '../components/RevenueSchedule'
 import CheckStatistics from '../components/CheckStatistics'
+import CreateUser from '../components/admin/CreateUser'
 
 import Header from '../components/Header'
 
@@ -61,6 +62,11 @@ export const Router = () => {
                             name="foodWarehouse"
                             path="/foodWarehouse/:productId"
                             component={<Modal/>}
+                        />
+                        <AdminRoute
+                            exact
+                            path="/createUser"
+                            component={props => <Layout {...props}><CreateUser {...props}/></Layout>}
                         />
                         <WaiterRoute
                             exact

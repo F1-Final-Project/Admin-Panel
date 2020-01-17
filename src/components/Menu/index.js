@@ -15,18 +15,17 @@ import useStyles from './style'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 export default function Menu() {
-	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [category, setCategory] = React.useState(false);
-	const [view, setView] = React.useState('tables');
-	const [openSnackbar, setOpenSnackbar] = React.useState(false);
-	const [table, setTable] = React.useState(false);
-	const dispatch = useDispatch();
-
 	const {loaded, categories} = useSelector(state =>
 		({categories: state.categories.categories,
 			loaded: state.categories.loaded, })
 	);
+	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
+	const [category, setCategory] = React.useState(categories);
+	const [view, setView] = React.useState('tables');
+	const [openSnackbar, setOpenSnackbar] = React.useState(false);
+	const [table, setTable] = React.useState(false);
+	const dispatch = useDispatch();
 
 	useEffect(() => categoryActions.getCategories()(dispatch), []);
 	useEffect(() => dishActions.getDishes()(dispatch), []);
@@ -38,6 +37,7 @@ export default function Menu() {
 
 	const onMenuClick=()=>{
 		setCategory(categories);
+		setView('dishes');
 	};
 
 	const handleDrawerOpen = () => {
@@ -50,6 +50,7 @@ export default function Menu() {
 
 	const createNewOrder=(table)=>{
 		setTable(table);
+		onMenuClick();
 		setOpenSnackbar(true);
 		setTimeout(()=>setOpenSnackbar(false), 2200);
 
@@ -69,35 +70,35 @@ export default function Menu() {
 	return (
 		<>
 			{loaded?(
-		<div className={classes.root}>
-			<CssBaseline />
-			<MenuAppBar
-				open={open}
-				handleDrawerOpen={handleDrawerOpen}
-				setView={setView}
-				onMenuClick={onMenuClick}
-				createNewOrder={createNewOrder}/>
-			<MenuDrawer categories={categories} open={open} handleDrawerClose={handleDrawerClose}  getDishes={getDishes}/>
-			<main className={classes.content}>
-				{view==='dishes'?(<DishesPage category={category}/>):<Tables createNewOrder={createNewOrder}/>}
-			</main>
-		</div>)
-			: null}
+					<div className={classes.root}>
+						<CssBaseline />
+						<MenuAppBar
+							open={open}
+							handleDrawerOpen={handleDrawerOpen}
+							setView={setView}
+							onMenuClick={onMenuClick}
+							createNewOrder={createNewOrder}/>
+						<MenuDrawer categories={categories} open={open} handleDrawerClose={handleDrawerClose}  getDishes={getDishes}/>
+						<main className={classes.content}>
+							{view==='dishes'?(<DishesPage category={category}/>):<Tables createNewOrder={createNewOrder}/>}
+						</main>
+					</div>)
+				: null}
 			<Order/>
 			<Snackbar
-			anchorOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
-			className={classes.snackbar}
-			open={openSnackbar}>
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
+				}}
+				className={classes.snackbar}
+				open={openSnackbar}>
 				<SnackbarContent
 					className={classes.snackbarContent}
 					message={<span id="message-id">New order table # {table} was created</span>}
 				/>
 			</Snackbar>
 			<Alert/>
-			</>
+		</>
 	);
 }
 
