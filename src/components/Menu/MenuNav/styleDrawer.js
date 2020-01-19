@@ -39,6 +39,10 @@ export const useStyles = makeStyles(theme => ({
 			color: '#E9C294',
 		},
 	},
+	icon: {
+		width: 30,
+		heights: 30,
+	},
 }));
 
 export const ColorDrawer = withStyles({

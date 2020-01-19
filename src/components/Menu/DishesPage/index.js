@@ -71,18 +71,20 @@ export default function Index(props) {
 
 	return (
 		<>
-			<Grid container className={classes.wrap} justify="center">
-				{category.map((item)=>
-					<Dish key={item._id} item={item} dishes={dishes} addDishToOrder={addDishToOrder}/>
-				)}
-			</Grid>
+			{(category)?(
+				<Grid container className={classes.wrap} justify="center">
+					{category.map((item)=>
+						<Dish key={item._id} item={item} dishes={dishes} addDishToOrder={addDishToOrder}/>
+					)}
+				</Grid>
+			): null}
 			<Snackbar style={{marginTop: coordinates.y, marginLeft: coordinates.x}}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'left',
-								}}
-								open={open}
-								message={<span id="message-id">{dishToOrder} added to order table # {table}</span>}
+					  anchorOrigin={{
+						  vertical: 'top',
+						  horizontal: 'left',
+					  }}
+					  open={open}
+					  message={<span id="message-id">{dishToOrder} added to order table # {table}</span>}
 			/>
 		</>
 	);
