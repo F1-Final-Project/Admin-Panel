@@ -124,9 +124,6 @@ export default function MiniDrawer(props) {
 		}
 	}, [trigger])
 
-
-	console.log('wedewdwedwed', Filter.sortedInvoiceDish(products, 'MMMM YYYY'))
-
 	return (
 		<>
 			<Header headerRef={headerRef}/>

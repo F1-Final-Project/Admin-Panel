@@ -2,8 +2,7 @@ import axios from 'axios'
 
 export default class Base {
 	constructor() {
-		this.url = 'https://f1-server-api.herokuapp.com';  //'https://f1-server-api.herokuapp.com'
-		//this.url = 'http://localhost:3002';  //'https://f1-server-api.herokuapp.com'
+		this.url = 'https://f1-server-api.herokuapp.com';
 	}
 	getUserInfo() {
 		return sessionStorage.getItem('token');
@@ -18,9 +17,7 @@ export default class Base {
 	}
 
 	get(url) {
-		console.log('saxsaxsx', this.getAuthHeader())
 		return axios.get(this.getUrl(url), this.getAuthHeader());
-
 	}
 
 	post(url, data) {

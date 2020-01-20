@@ -15,8 +15,10 @@ import AdminButtons from "../Buttons/AdminButtons";
 
 export default function MenuAppBar(props) {
 	const classes = useStyles();
-	const width=window.screen.availWidth;
+	const [width, setWidth]=useState(window.screen.availWidth);
 	const permission=sessionStorage.getItem('permission');
+
+	window.addEventListener("resize", ()=> setWidth(window.screen.availWidth));
 
 	return (
 		<AppBar
