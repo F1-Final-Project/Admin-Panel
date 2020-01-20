@@ -34,5 +34,8 @@ export default makeStyles(theme => ({
 			color: '#7a6c5b',
 			marginBottom: 12,
 		},
+		text:{
+			color: '#7a6c5b',
+		}
 
 }))
