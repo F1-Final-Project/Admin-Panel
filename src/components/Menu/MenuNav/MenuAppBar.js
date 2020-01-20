@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import clsx from 'clsx'
 import AppBar from '@material-ui/core/AppBar/index'
 import Toolbar from '@material-ui/core/Toolbar/index'
@@ -11,9 +11,12 @@ import CreateNewOrderButton from '../Buttons/CreateNewOrderButton'
 import ShowAllTablesButton from '../Buttons/ShowAllTablesButton'
 import Logout from '../../common/Logout'
 import useStyles from './styleAppBar'
+import AdminButtons from "../Buttons/AdminButtons";
 
 export default function MenuAppBar(props) {
 	const classes = useStyles();
+	const width=window.screen.availWidth;
+	const permission=sessionStorage.getItem('permission');
 
 	return (
 		<AppBar
@@ -35,12 +38,23 @@ export default function MenuAppBar(props) {
 				>
 					<MenuIcon />
 				</IconButton>
-				<MenuButton setView={props.setView} onMenuClick={props.onMenuClick}/>
+				{width>446|| (permission === 'waiter'&& width>336)?
+					(<MenuButton setView={props.setView} onMenuClick={props.onMenuClick}/>)
+					: null}
 				<ShowAllTablesButton setView={props.setView}/>
 				<CreateNewOrderButton createNewOrder={props.createNewOrder}/>
-				<ActiveOrderButton/>
-				<ChangeActiveOrderButton/>
-				<Logout/>
+				{width>519|| (permission === 'waiter'&& width>410)?
+					(<ChangeActiveOrderButton/>)
+					: null}
+				{width>609|| (permission === 'waiter'&& width>492)?
+					(<ActiveOrderButton/>)
+					: null}
+				<div className={classes.headerToolBar}>
+					{permission === 'admin'?
+						(<AdminButtons/>)
+						:null}
+					<Logout/>
+				</div>
 			</Toolbar>
 		</AppBar>
 	);

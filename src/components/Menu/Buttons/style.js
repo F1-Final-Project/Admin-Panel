@@ -27,7 +27,11 @@ export const useStyles = makeStyles(theme => ({
 		},
 	},
 	snackbar:{
-		marginTop: 25
+		marginTop: 25,
+		width: 300,
+	},
+	completed:{
+		width: 300,
 	},
 	snackbarContent:{
 		backgroundColor:'#82796d',
@@ -42,6 +46,7 @@ export const useStyles = makeStyles(theme => ({
 	},
 	titleMenu: {
 		flexGrow: 1,
+		marginLeft: '3%'
 	},
 }));
 
