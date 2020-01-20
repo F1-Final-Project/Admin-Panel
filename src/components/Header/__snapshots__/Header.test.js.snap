@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Header should render correctly Travis CI 1`] = `
-<Fragment>
-  <div>
-    Header Test Travis CI 
-  </div>
-</Fragment>
-`;
