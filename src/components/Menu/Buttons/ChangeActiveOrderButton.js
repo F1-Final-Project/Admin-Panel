@@ -61,6 +61,7 @@ export default function ChangeActiveOrderButton(){
 								horizontal: 'right',
 							}}
 							open={true}
+							className={classes.completed}
 						>
 							<SnackbarContent
 								className={classes.snackbarContent}

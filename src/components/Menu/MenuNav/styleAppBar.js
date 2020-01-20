@@ -9,7 +9,11 @@ export default makeStyles(theme => ({
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
+
 		}),
+		'& .MuiToolbar-gutters': {
+			paddingRight: 0
+		}
 	},
 	appBarShift: {
 		marginLeft: drawerWidth,
@@ -25,11 +29,21 @@ export default makeStyles(theme => ({
 		color: '#E9C294',
 	},
 	menuButton: {
-		marginRight: 36,
+		marginRight: 0,
 	},
 	hide: {
 		display: 'none',
 	},
+	headerToolBar: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
 
+	},
+	headerLink: {
+		textDecoration: 'none',
+		color: '#E9C294'
+	},
 
 }))

@@ -6,6 +6,7 @@ import * as orderActions from '../../../store/actions/orders'
 import Snackbar from '@material-ui/core/Snackbar/index'
 import Dish from './Dish'
 import * as alertActions from "../../../store/actions/alert";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 export default function Index(props) {
 	const {category} = props;
@@ -84,8 +85,12 @@ export default function Index(props) {
 						  horizontal: 'left',
 					  }}
 					  open={open}
-					  message={<span id="message-id">{dishToOrder} added to order table # {table}</span>}
-			/>
+					  className={classes.snackbar}>
+				<SnackbarContent
+					className={classes.snackbarContent}
+					message={<span id="message-id">{dishToOrder} added to order table # {table}</span>}
+				/>
+			</Snackbar>
 		</>
 	);
 }
