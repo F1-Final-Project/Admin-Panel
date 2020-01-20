@@ -12,6 +12,7 @@ export default function Dish(props) {
 	const {item, dishes, addDishToOrder}=props;
 	const classes = useStyles();
 
+
 	return (
 		<>
 			<div>

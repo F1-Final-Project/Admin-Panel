@@ -25,6 +25,7 @@ import Toolbar from './ToolBar'
 import { useStyles, ColorButton, TableIconButton } from './TableCSS'
 import PropTypes from 'prop-types'
 import './style.css'
+import clsx from 'clsx'
 
 export default function TableCreated(props) {
 	const classes = useStyles()
@@ -51,7 +52,7 @@ export default function TableCreated(props) {
 		openCreateListModal: false,
 		openCheckBox: false,
 		selectItem: false,
-		product: sorted.inputItems(products),
+		product: sorted.inputItems(products) || [],
 		checkedProduct: [],
 		checkBoxActive: [],
 		transferListItem: productsIngredient,
@@ -60,9 +61,8 @@ export default function TableCreated(props) {
 		dataCategoriesItem: dataCategories,
 	}
 
-
-
 	const [state, dispatch] = useReducer(reducer, initState)
+
 	const { _id = '' } = state.product
 
 
@@ -258,84 +258,86 @@ export default function TableCreated(props) {
 									const isItemSelected = isSelected(row.title)
 									const labelId = `enhanced-table-checkbox-${index}`
 									return (
-												<TableRow hover role="checkbox" tabIndex={-1} key={index} className={classes.tableCellHover}>
-													{state.openCheckBox && <TableCell padding="checkbox" key={index} className={classes.tableCell}>
-														<Checkbox
-															id={row._id}
-															inputProps={{ 'aria-labelledby': labelId }}
-															color="#fafafa"
-															onChange={e => handleSelectItem(e, row)}
-															checked={isItemSelected}
-															onClick={event => handleClickCheckedItem(event, row.title)}
-															className={classes.tableCheckbox}
-														/>
-													</TableCell>}
-													{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
-														const value = row[column.id]                                              										  //sort(sorted.compare) - сортировка полей по алфавиту
-														if (column.id === 'button') {                                                             			//проверка полей для добавление кнопок в таблицу
-															return <TableCell key={column.id}
-																								align={column.align}
-																								className={classes.tableCell}>
-																<Tooltip title="Edit" aria-label="edit">
-																	<TableIconButton aria-label="edit"
-																									 onClick={() => dispatch({
-																										 type: 'editItem',
-																										 payload: row,
-																										 openEditModal: true,
-																									 })}>
-																		<EditIcon fontSize="small"/>
-																	</TableIconButton>
-																</Tooltip>
-																<Tooltip title="Delete" aria-label="delete">
-																	<TableIconButton aria-label="delete"
-																									 onClick={() => dispatch({
-																										 type: 'deleteItem',
-																										 payload: row,
-																										 openDeleteModal: true,
-																									 })}>
-																		<DeleteIcon fontSize="small"/>
-																	</TableIconButton>
-																</Tooltip>
-															</TableCell>
-														} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
-															return <TableCell key={column.id}
-																								align={column.align}                                                        //добовление класса если елемента не достаточно на складе
-																								className={itemEndsDanger(row.restInStock)}>
-																{value}
-															</TableCell>
-														} else {
-															if (column.format && typeof value === 'number') {																							//проверка если входящие данные числа
-																return <TableCell key={column.id}
-																									align={column.align}
-																									className={classes.tableCell}>
-																	{column.format(value)}
-																</TableCell>
-															} else if (Array.isArray(value)) {																														//проверка если входящие данные массив
-																return <TableCell key={column.id}
-																									align={column.align}
-																									className={classes.tableCell}>
-																	<ul>
-																		{value.map((i, index) => {
-																			return <li key={index}>{i.title}</li>
+										<TableRow hover role="checkbox" tabIndex={-1} key={index} className={classes.tableCellHover}>
+											{state.openCheckBox && <TableCell padding="checkbox" key={index} className={clsx(classes.tableCell, 'enzyme--table-checkbox')}>
+												<Checkbox
+													id={row._id}
+													inputProps={{ 'aria-labelledby': labelId }}
+													color="#fafafa"
+													onChange={e => handleSelectItem(e, row)}
+													checked={isItemSelected}
+													onClick={event => handleClickCheckedItem(event, row.title)}
+													className={clsx(classes.tableCheckbox,'enzyme--table-checked')}
+												/>
+											</TableCell>}
+											{columnName.clmns(products).sort(sorted.compare).map(column => {   											// columnName.clmns(products)-сортировка полей для оглавления в таблице
+												const value = row[column.id]                                              										  //sort(sorted.compare) - сортировка полей по алфавиту
+												if (column.id === 'button') {                                                             			//проверка полей для добавление кнопок в таблицу
+													return <TableCell key={column.id}
+																						align={column.align}
+																						className={classes.tableCell}>
+														<Tooltip title="Edit" aria-label="edit">
+															<TableIconButton aria-label="edit"
+																							 className="enzyme--edit-modal"
+																							 onClick={() => dispatch({
+																								 type: 'editItem',
+																								 payload: row,
+																								 openEditModal: true,
+																							 })}>
+																<EditIcon fontSize="small"/>
+															</TableIconButton>
+														</Tooltip>
+														<Tooltip title="Delete" aria-label="delete">
+															<TableIconButton aria-label="delete"
+																							 className="enzyme--delete-modal"
+																							 onClick={() => dispatch({
+																								 type: 'deleteItem',
+																								 payload: row,
+																								 openDeleteModal: true,
+																							 })}>
+																<DeleteIcon fontSize="small"/>
+															</TableIconButton>
+														</Tooltip>
+													</TableCell>
+												} else if (column.id === 'restInStock') {																												//проверка поля на количество на складе ингредиентов
+													return <TableCell key={column.id}
+																						align={column.align}                                                        //добовление класса если елемента не достаточно на складе
+																						className={itemEndsDanger(row.restInStock)}>
+														{value}
+													</TableCell>
+												} else {
+													if (column.format && typeof value === 'number') {																							//проверка если входящие данные числа
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
+															{column.format(value)}
+														</TableCell>
+													} else if (Array.isArray(value)) {																														//проверка если входящие данные массив
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
+															<ul>
+																{value.map((i, index) => {
+																	return <li key={index}>{i.title}</li>
 
-																		})}
-																	</ul>
-																</TableCell>
-															} else {
-																return <TableCell key={column.id}
-																									align={column.align}
-																									className={classes.tableCell}>
-																	{
-																		typeof value === 'object'
-																			? value && value.title ? value.title : ''
-																			: value
-																	}
-																</TableCell>
+																})}
+															</ul>
+														</TableCell>
+													} else {
+														return <TableCell key={column.id}
+																							align={column.align}
+																							className={classes.tableCell}>
+															{
+																typeof value === 'object'
+																	? value && value.title ? value.title : ''
+																	: value
 															}
+														</TableCell>
+													}
 
-														}
-													})}
-												</TableRow>
+												}
+											})}
+										</TableRow>
 									)
 								},
 							)}

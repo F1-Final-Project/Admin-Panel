@@ -26,7 +26,6 @@ const messaging = firebase.messaging()
 
 messaging.setBackgroundMessageHandler(payload => {
 	const title = payload.notification.title
-	console.log('payload', payload.notification.icon)
 	const options = {
 		body: payload.notification.body,
 		icon: payload.notification.icon,
@@ -73,8 +72,6 @@ self.addEventListener('notificationclose', event => {
 
 self.addEventListener('push', ev => {
 	const data = ev.data.json()
-
-	console.log('Got push', data)
 
 	self.registration.showNotification(data.notification.title, {
 		body: data.notification.body,

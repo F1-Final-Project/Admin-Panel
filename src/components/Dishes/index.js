@@ -36,7 +36,6 @@ export default function Dishes() {
 
 	const handleDeleteItem = id => {
 
-		console.log('ewdweded', id)
 
 		dispatch(dishAction.deleteDishById(id))
 	}

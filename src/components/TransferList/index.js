@@ -181,8 +181,8 @@ export default function TransferList(props) {
 					name={nameProperty}
 					onChange={e => handelSearchChange(e)}
 				/>
-				<TableIconButton type="text" className={classes.listIconButton} aria-label="search">
-					<SearchIcon className={classes.listSearchIcon}/>
+				<TableIconButton type="text" className={classes.listIconButton} aria-label="search" onClick={e => e.preventDefault()}>
+					<SearchIcon className={classes.listSearchIcon} />
 				</TableIconButton>
 			</Paper>
 			<List dense component="div" role="list">

@@ -26,6 +26,8 @@ export default function FoodWareHouse() {
 		dispatch(ingredientAction.getAllIngredienst())
 		dispatch(orderCategoriesAction.getAllOrderCategories())
 
+		console.log('wqdwdqwdqwd', dispatch(ingredientAction.getAllIngredienst()))
+
 	}, [dispatch])
 
 	/**

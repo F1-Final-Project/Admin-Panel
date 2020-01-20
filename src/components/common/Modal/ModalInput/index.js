@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import { useStyles, CssTextField, CssSelect } from './ModalItemCss'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 export default function ModalItem(props) {
 	const classes = useStyles()
@@ -110,14 +111,14 @@ export default function ModalItem(props) {
 					: (
 						<>
 							<FormControl className={classes.textField} key={key}>
-								<InputLabel id="demo-simple-select-label">Categories</InputLabel>
+								<InputLabel id="demo-simple-select-label" className='select-label'>Categories</InputLabel>
 								<CssSelect
 									labelId="demo-simple-select-label"
 									name={categories.name}
 									value={categories.value}
 									id={categories.id}
 									onChange={handleChangeSelect}
-									className={classes.selectModal}
+									className={clsx(classes.selectModal, 'select-baseline')}
 								>{
 									state.dataCategoriesItem.map(i => {
 										return <MenuItem value={i.title}

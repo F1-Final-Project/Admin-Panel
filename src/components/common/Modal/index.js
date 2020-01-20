@@ -25,7 +25,7 @@ export default function AlertDialog(props) {
 	} = props.data
 
 	return (
-		<div>
+		<div >
 			<Dialog
 				open={openEditModal
 				|| openDeleteModal
@@ -33,6 +33,7 @@ export default function AlertDialog(props) {
 				|| openCreateListModal}                                																													//состояния для открытия модального окна
 				PaperComponent={PaperComponent}
 				aria-labelledby="draggable-dialog-title"
+				className='enzyme--modal-open'
 			>
 				{
 					props.children        																																												//принимает элементы для отображения

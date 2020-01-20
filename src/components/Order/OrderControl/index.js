@@ -6,6 +6,7 @@ import CreateInvoiceButton from '../Buttons/CreateInvoiceButton'
 export default function Index(props){
 	const {order, closeModal, status} =props;
 
+
 	return(
 		<>
 			{status==='new order'?(

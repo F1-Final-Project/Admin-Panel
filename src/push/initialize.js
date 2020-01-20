@@ -18,11 +18,10 @@ export function initializePush() {
 	messaging
 		.requestPermission()
 		.then(async function f() {
-			console.log('Have Permission')
+
 			return await messaging.getToken()
 		})
 		.then(async function(token) {
-			console.log('FCM Token:', token)
 
 			if (token) {
 				await sendTokenToLocalStorage(token)

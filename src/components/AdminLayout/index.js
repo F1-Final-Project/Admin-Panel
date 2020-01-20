@@ -123,6 +123,7 @@ export default function MiniDrawer(props) {
 		}
 	}, [trigger])
 
+
 	return (
 		<>
 			<Header headerRef={headerRef}/>

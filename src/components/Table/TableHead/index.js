@@ -8,12 +8,17 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import * as columnName from '../../../lib/columnTableName'
 import { Context } from '../../../context/tableContext'
 import * as sorted from '../../../lib/sorted'
+import { useStyles } from '../TableCSS'
 
 
 export default (props) => {
-	const { products, classes } = props
+	const classes = useStyles();
+
+	const { products } = props
 
 	const { state } = useContext(Context)
+
+
 
 	return (
 		<TableHead>

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import clsx from 'clsx'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
@@ -22,6 +21,7 @@ export default function ToolBarTable(props) {
 		products,
 		openCheckBoxList,
 	} = props
+
 	const { dispatch, state } = useContext(Context)
 
 	return (
@@ -43,7 +43,7 @@ export default function ToolBarTable(props) {
 			(state.openCheckBox ? (
 					<Tooltip title="Close selected">
 						<TableIconButton aria-label="close selected"
-												className={classes.toolBarBtn}
+												className={clsx(classes.toolBarBtn, 'enzyme--close-table__checkbox')}
 												onClick={() => dispatch({
 													type: 'checkedProduct',
 													payload: [],
@@ -55,7 +55,7 @@ export default function ToolBarTable(props) {
 					</Tooltip>)
 				: (<Tooltip title="Select item">
 					<TableIconButton aria-label="select item"
-											className={classes.toolBarBtn}
+											className={clsx(classes.toolBarBtn, 'enzyme--open-table__checkbox')}
 											onClick={() => dispatch({
 						type: 'checkedProduct',
 						openCheckBox: true,
@@ -70,14 +70,14 @@ export default function ToolBarTable(props) {
 				<Tooltip title="Create order sheet">
 					<TableIconButton aria-label="create order sheet"
 											className={classes.toolBarBtn}
-											onClick={() => creatOrderItem(state.checkedProduct)}>
+											onClick={() => creatOrderItem(state .checkedProduct)}>
 						<AssignmentTurnedInIcon/>
 					</TableIconButton>
 				</Tooltip>
 			) : (
 				<Tooltip title="Create new item">
 					<TableIconButton aria-label="Create new item"
-											className={classes.toolBarBtn}
+											className={clsx(classes.toolBarBtn, 'enzyme--creat-modal')}
 											onClick={() => dispatch({
 						type: 'openCreateModal',
 						payload: sorted.inputItems(products),

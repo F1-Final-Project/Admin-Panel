@@ -22,27 +22,31 @@ module.exports.compare = compare
  */
 
 const inputItems = (object) => {
-	let firstItem = Object.entries(object[0])
-		.map((key) => key,
-		)
+	if (object) {
 
-	const sortedObjc = firstItem.map(i => {
-		if (i[0] !== '_id' && i[0] !== '__v' && i[0] !== undefined) {
-			if (Array.isArray(i[1])) {
-				return [i[0], []]
-			} else if (typeof i[1] === 'object') {
-				return [i[0], {}]
-			} else {
-				return [i[0], '']
+		let firstItem = Object.entries(object[0])
+			.map((key) => key,
+			)
+
+
+		const sortedObjc = firstItem.map(i => {
+			if (i[0] !== '_id' && i[0] !== '__v' && i[0] !== undefined) {
+				if (Array.isArray(i[1])) {
+					return [i[0], []]
+				} else if (typeof i[1] === 'object') {
+					return [i[0], {}]
+				} else {
+					return [i[0], '']
+				}
 			}
-		}
-	}).filter(item => item !== undefined)
+		}).filter(item => item !== undefined)
 
-	return sortedObjc.reduce(function(acc, cur) {
-		acc[cur[0]] = cur[1]
-		return acc
+		return sortedObjc.reduce(function(acc, cur) {
+			acc[cur[0]] = cur[1]
+			return acc
 
-	}, {})
+		}, {})
+	}
 
 }
 

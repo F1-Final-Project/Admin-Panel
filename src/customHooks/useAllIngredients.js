@@ -12,5 +12,4 @@ export default () => {
 		dispatch(ingredientAction.getAllIngredienst())
 	}, [dispatch])
 
-	console.log('ededed', ingredients)
 }
