@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/icons": "^4.5.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "copy-webpack-plugin": "^5.0.5",
     "db-schemas": "git+https://github.com/F1-Final-Project/DB_Services",
     "expect": "^24.9.0",
@@ -55,7 +55,7 @@
   "devDependencies": {
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "clsx": "^1.0.4",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
